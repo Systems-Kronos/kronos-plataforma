@@ -47,7 +47,7 @@ const prioridades = [
     },
 ]
 
-export function CardTarefas({ titulo, descricao, setor, vencimento, prioridade, status, fotoResponsavel, nomeResponsavel }) {
+export default function CardTarefas({ titulo, descricao, setor, vencimento, prioridade, status, fotoResponsavel, nomeResponsavel }) {
     const [expandido, setExpandido] = useState(false);
     const prioridadeData = prioridades.find(p => p.nivel === prioridade);
 
