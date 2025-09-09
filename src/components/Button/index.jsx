@@ -1,6 +1,6 @@
 import "./style.css";
 
-export default function Button({ text, onClick = undefined, variant }) {
+export default function Button({ texto, onClick, variant }) {
     return (
         <button
             className={`btn ${variant} ${onClick ? "clicavel" : "nao-clicavel"}`}
@@ -8,7 +8,7 @@ export default function Button({ text, onClick = undefined, variant }) {
             onClick={onClick}
             disabled={!onClick}
         >
-            {text}
+            {texto}
         </button>
     );
 }
