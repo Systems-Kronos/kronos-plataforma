@@ -1,12 +1,4 @@
-.montserrat {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .card-tarefas {
-    margin: 10vw;
     padding: 1%;
     width: 20vw;
     border: 3px solid #ccc;
@@ -18,8 +10,6 @@
     cursor: pointer;
     transition: all 0.3s ease;
     overflow: hidden;
-
-    font-family: "Montserrat", sans-serif;
 }
 
 .card-tarefas .descricao {

@@ -72,7 +72,7 @@ export function CardTarefas({ titulo, descricao, setor, vencimento, prioridade, 
                     {prioridadeData?.svg}
                     <p>{prioridadeData?.nivel ?? prioridade}</p>
                 </div>
-                <Button text={status} variant={status === "Concluído" ? "primario" : "secundario"}/>
+                <Button texto={status} variant={status === "Concluído" ? "primario" : "secundario"}/>
             </div>
         </div>
     );

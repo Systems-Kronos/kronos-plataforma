@@ -12,23 +12,23 @@ export default function Header() {
             <h1 className="titulo" onClick={() => navigate("/")}>KRONOS</h1>
 
             <div className="navegation">
-                <Button text={"Análises"}
+                <Button texto={"Análises"}
                     variant={location.pathname === "/analises" ? "amarelo" : "secundario"}
                     onClick={() => navigate("/analises")}
                 />
-                <Button text={"Membros"}
+                <Button texto={"Membros"}
                     variant={location.pathname === "/membros-equipe" ? "amarelo" : "secundario"}
                     onClick={() => navigate("/membros-equipe")}
                 />
-                <Button text={"Reports"}
+                <Button texto={"Reports"}
                     variant={location.pathname === "/reports" ? "amarelo" : "secundario"}
                     onClick={() => navigate("/reports")}
                 />
-                <Button text={"Tarefas"}
+                <Button texto={"Tarefas"}
                     variant={location.pathname === "/tarefas" ? "amarelo" : "secundario"}
                     onClick={() => navigate("/tarefas")}
                 />
-                <Button text={"Criar Tarefas"}
+                <Button texto={"Criar Tarefas"}
                     variant={location.pathname === "/criar-tarefa" ? "lilas" : "primario"}
                     onClick={() => navigate("/criar-tarefa")}
                 />
