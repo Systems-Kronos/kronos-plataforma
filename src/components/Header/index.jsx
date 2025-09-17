@@ -1,11 +1,14 @@
 import "./style.css";
+import { useState } from "react";
 import Button from "../Button";
+import FormsCriarTarefa from "../FormsCriarTarefa";
 import { useNavigate, useLocation } from "react-router-dom";
 import fotoPerfilDefault from "../../assets/fotoPerfilDefault.png";
 
 export default function Header() {
     const navigate = useNavigate();
     const location = useLocation();
+    const [showPopup, setShowPopup] = useState(false);
 
     return (
         <div className="container">
@@ -30,11 +33,15 @@ export default function Header() {
                 />
                 <Button texto={"Criar Tarefas"}
                     variant={location.pathname === "/criar-tarefa" ? "lilas" : "primario"}
-                    onClick={() => navigate("/criar-tarefa")}
+                    onClick={() => setShowPopup(true)}
                 />
 
                 <img src={fotoPerfilDefault} alt="fotoPerfil" className="fotoPerfil" onClick={() => navigate("/perfil")}/>
             </div>
+
+            {showPopup && (
+                <FormsCriarTarefa onClose={() => setShowPopup(false)} />
+            )}
         </div>
     );
 }
