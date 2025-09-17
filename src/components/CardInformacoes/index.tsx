@@ -5,7 +5,7 @@ export default function CardInformacoes({titulo, icone, numero, descricao}) {
         <div className="card-informacoes">
             <div className="header-card-informacoes">
                 <h2>{titulo}</h2>
-                <img src={icone} alt="icon"/>
+                <div className="icone">{icone}</div>
             </div>
 
             <div className="body-card-informacoes">

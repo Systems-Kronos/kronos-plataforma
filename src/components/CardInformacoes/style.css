@@ -23,7 +23,7 @@
     width: 70%;
 }
 
-.header-card-informacoes img {
+.icone {
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -43,5 +43,5 @@
 
 .body-card-informacoes p {
     color: gray;
-    margin-top: -0.6vw;
+    margin-top: -0.4vw;
 }
