@@ -49,8 +49,7 @@
 }
 
 .input-text,
-.input-select,
-.input-date {
+.input-select {
   width: 100%;
   padding: 0.7rem 1rem;
   border: 2px solid #ccc;
@@ -68,13 +67,8 @@
     width: 100%;
 }
 
-.input-date {
-    width: 85%;
-}
-
 .input-text:focus,
-.input-select:focus,
-.input-date:focus {
+.input-select:focus {
   border-color: #370963;
 }
 
@@ -82,6 +76,21 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+
+.button {
+    cursor: pointer;
+    align-self: center;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    margin: 2rem 10px 0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+    background-color: #EADAF5;
+    color: #370963;
+    border: 3px solid #EADAF5;
 }
 
 .modal-footer {
