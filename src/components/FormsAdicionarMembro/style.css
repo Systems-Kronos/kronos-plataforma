@@ -49,8 +49,7 @@
 }
 
 .input-text,
-.input-select,
-textarea {
+.input-select {
   width: 100%;
   padding: 0.7rem 1rem;
   border: 2px solid #ccc;
@@ -69,8 +68,7 @@ textarea {
 }
 
 .input-text:focus,
-.input-select:focus,
-textarea:focus {
+.input-select:focus {
   border-color: #370963;
 }
 
