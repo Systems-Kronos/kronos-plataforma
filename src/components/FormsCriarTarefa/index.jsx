@@ -8,7 +8,7 @@ export default function FormsCriarTarefa({ onClose }) {
       <div className="modal-box">
         <div className="modal-header">
           <div>
-            <h2>Criar nova Tarefa</h2>
+            <h2>Criar nova tarefa</h2>
             <p>Preencha todas as informações para a criação da tarefa!</p>
           </div>
           <CancelIcon style={{ color: "#370963", cursor: "pointer" }} onClick={onClose}/>
