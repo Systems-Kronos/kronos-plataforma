@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../components/Button";
 import Buscar from "../../components/Buscar";
-import FormsEditarMembro from "../../components/FormsAdicionarMembro";
+import FormsAdicionarMembro from "../../components/FormsAdicionarMembro";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardUsuarios from "../../components/CardUsuarios"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -86,7 +86,7 @@ export default function Membros() {
       </div>
     
       {showPopup && (
-        <FormsEditarMembro onClose={() => setShowPopup(false)} />
+        <FormsAdicionarMembro onClose={() => setShowPopup(false)} />
       )}
     </div>
   );
