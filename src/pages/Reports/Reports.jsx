@@ -29,6 +29,7 @@ export default function Reports() {
       </div>
 
       <div className="reports-container">
+        {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
         <CardReports
           titulo="Relatório de Vendas"
           descricao="Resumo das vendas realizadas no último mês."
