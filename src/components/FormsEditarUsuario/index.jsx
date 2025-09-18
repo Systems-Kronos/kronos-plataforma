@@ -1,8 +1,11 @@
 import "./style.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
+import { useState } from "react";
 
 export default function FormsEditarMembro({ onClose }) {
+  const [ativo, setAtivo] = useState(true);
+
   return (
     <div className="forms-modal">
       <div className="modal-box">
@@ -38,7 +41,18 @@ export default function FormsEditarMembro({ onClose }) {
             <label htmlFor="email">E-mail</label>
             <input type="text" id="email" name="email" className="input-text" placeholder="Digite o e-mail empresarial"></input>
 
-            <button className="button">Ativo</button>
+            <button
+              type="button"
+              className={`button ${ativo ? "Ativo" : "Desligado"}`}
+              style={{
+                backgroundColor: ativo ? "#EADAF5" : "#fff",
+                border: ativo ? "3px solid #EADAF5" : "3px solid #c2c2c2",
+                color: "#370963"
+              }}
+              onClick={() => setAtivo(!ativo)}
+            >
+              {ativo ? "Ativo" : "Desligado"}
+            </button>
           </form>
         </div>
 
