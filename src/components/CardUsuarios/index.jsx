@@ -2,7 +2,7 @@ import "./style.css";
 import { useState } from "react";
 import Button from "../Button"
 import CardJustificativa from "../CardJustificativa";
-import CardEditarUsuarios from "../CardEditarUsuarios";
+import CardEditarUsuarios from "../FormsEditarUsuario";
 import ErrorIcon from '@mui/icons-material/Error';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
