@@ -1,0 +1,92 @@
+.box-container {
+    margin: 4vw;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    color: #370963;
+}
+
+.cards-container {
+    margin-top: 2vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vw;
+    justify-content: center;
+}
+
+.busca-container {
+    margin-top: 4vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buscar {
+    width: 70%;
+}
+
+.tarefas-container {
+    margin-top: 4vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4vw;
+    justify-content: center;
+}
+
+.tarefas-pendentes-container,
+.tarefas-andamento-container,
+.tarefas-concluidas-container {
+  flex: 1;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarefas-pendentes-body,
+.tarefas-andamento-body,
+.tarefas-concluidas-body {
+  margin-top: 1vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  flex: 1;
+  padding: 2rem 0;
+  border-radius: 12px;
+}
+
+.tarefas-pendentes-body {
+  background-color: #f5f5f5;
+}
+
+.tarefas-andamento-body {
+  background-color: #fff5e6;
+}
+
+.tarefas-concluidas-body {
+  background-color: #f0fff5;
+}
+
+.tarefas-container-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tarefas-container-header h2 {
+  font-size: 1.2rem;
+  color: #3d0066;
+  font-weight: bold;
+}
+
+.tarefas-container-body {
+  margin: 2vw 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
