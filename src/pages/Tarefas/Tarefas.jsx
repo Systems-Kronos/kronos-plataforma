@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./Tarefas.module.css";
 import { useNavigate } from "react-router-dom";
 import Buscar from "../../components/Buscar";
 import CardInformacoes from "../../components/CardInformacoes";
@@ -13,8 +13,8 @@ export default function Tarefas() {
   const navigate = useNavigate();
 
   return (
-    <div className="box-container">
-      <div className="header-container">
+    <div className={styles.boxContainer}>
+      <div className={styles.headerContainer}>
         <ArrowBackIosIcon
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
           onClick={() => navigate("/")}
@@ -22,7 +22,7 @@ export default function Tarefas() {
         <h1>Gerenciar Tarefas</h1>
       </div>
 
-      <div className="cards-container">
+      <div className={styles.cardsContainer}>
         <CardInformacoes
           titulo={"Tarefas Totais"}
           icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
@@ -49,17 +49,17 @@ export default function Tarefas() {
         />
       </div>
 
-      <div className="busca-container">
+      <div className={styles.buscaContainer}>
         <Buscar />
       </div>
 
-      <div className="tarefas-container">
-        <div className="tarefas-pendentes-container">
-          <div className="tarefas-container-header">
+      <div className={styles.tarefasContainer}>
+        <div className={styles.tarefasPendentesContainer}>
+          <div className={styles.tarefasContainerHeader}>
             <ErrorIcon style={{ color: "#848484ff", fontSize: 40 }} />
             <h2>Pendentes</h2>
           </div>
-          <div className="tarefas-pendentes-body">
+          <div className={styles.tarefasPendentesBody}>
             {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
             <CardTarefas
               titulo="Organizar reunião semanal"
@@ -84,12 +84,12 @@ export default function Tarefas() {
           </div>
         </div>
 
-        <div className="tarefas-andamento-container">
-          <div className="tarefas-container-header">
+        <div className={styles.tarefasAndamentoContainer}>
+          <div className={styles.tarefasContainerHeader}>
             <WatchLaterIcon style={{ color: "#E6B648", fontSize: 40 }} />
             <h2>Em Andamento</h2>
           </div>
-          <div className="tarefas-andamento-body">
+          <div className={styles.tarefasAndamentoBody}>
             {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
             <CardTarefas
               titulo="Testar novo ambiente de QA"
@@ -114,12 +114,12 @@ export default function Tarefas() {
           </div>
         </div>
 
-        <div className="tarefas-concluidas-container">
-          <div className="tarefas-container-header">
+        <div className={styles.tarefasConcluidasContainer}>
+          <div className={styles.tarefasContainerHeader}>
             <CheckCircleIcon style={{ color: "#08c105ff", fontSize: 40 }} />
             <h2>Concluídas</h2>
           </div>
-          <div className="tarefas-concluidas-body">
+          <div className={styles.tarefasConcluidasBody}>
             {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
             <CardTarefas
               titulo="Refatorar código legado"

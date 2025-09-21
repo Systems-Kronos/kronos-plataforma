@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./Membros.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../components/Button";
@@ -16,8 +16,8 @@ export default function Membros() {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
-    <div className="box-container">
-      <div className="header-container">
+    <div className={styles.boxContainer}>
+      <div className={styles.headerContainer}>
         <ArrowBackIosIcon
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
           onClick={() => navigate("/")}
@@ -25,7 +25,7 @@ export default function Membros() {
         <h1>Gerenciar Equipes</h1>
       </div>
 
-      <div className="cards-container">
+      <div className={styles.cardsContainer}>
         <CardInformacoes
           titulo={"Membros"}
           icone={
@@ -50,7 +50,7 @@ export default function Membros() {
         />
       </div>
 
-      <div className="busca-adicionar-container">
+      <div className={styles.buscaAdicionarContainer}>
         <Buscar />
         <Button
           texto={"Adicionar Membro"}
@@ -59,7 +59,7 @@ export default function Membros() {
         />
       </div>
 
-      <div className="users-container">
+      <div className={styles.usersContainer}>
         {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
         <CardUsuarios
           nomeUsuario="Alice Silva"

@@ -1,4 +1,4 @@
-import "./App.css";
+import styles from "./App.module.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home/Home";
@@ -7,7 +7,7 @@ import Membros from "./pages/Membros/Membros";
 import Reports from "./pages/Reports/Reports";
 import Tarefas from "./pages/Tarefas/Tarefas";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Header />
@@ -21,5 +21,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

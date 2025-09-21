@@ -1,12 +1,12 @@
-import "./style.css";
+import styles from "./FormsCriarTarefa.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
 
 export default function FormsCriarTarefa({ onClose }) {
   return (
-    <div className="forms-modal">
-      <div className="modal-box">
-        <div className="modal-header">
+    <div className={styles.formsModal}>
+      <div className={styles.modalBox}>
+        <div className={styles.modalHeader}>
           <div>
             <h2>Criar nova tarefa</h2>
             <p>Preencha todas as informações para a criação da tarefa!</p>
@@ -17,14 +17,14 @@ export default function FormsCriarTarefa({ onClose }) {
           />
         </div>
 
-        <div className="modal-body">
+        <div className={styles.modalBody}>
           <form>
             <label htmlFor="titulo">Título da Tarefa</label>
             <input
               type="text"
               id="titulo"
               name="titulo"
-              className="input-text"
+              className={styles.inputText}
               placeholder="Digite o título da tarefa"
             />
 
@@ -33,7 +33,7 @@ export default function FormsCriarTarefa({ onClose }) {
               type="text"
               id="descricao"
               name="descricao"
-              className="input-text"
+              className={styles.inputText}
               placeholder="Descreva os detalhes da tarefa"
             ></input>
 
@@ -41,15 +41,15 @@ export default function FormsCriarTarefa({ onClose }) {
             <select
               id="habilidades"
               name="habilidades"
-              className="input-select"
+              className={styles.inputSelect}
             >
               <option value="">Selecione</option>
             </select>
 
-            <div className="form-row">
+            <div className={styles.formRow}>
               <div>
                 <label htmlFor="setor">Setor</label>
-                <select id="setor" name="setor" className="input-select">
+                <select id="setor" name="setor" className={styles.inputSelect}>
                   <option value="">Selecione</option>
                 </select>
               </div>
@@ -59,27 +59,27 @@ export default function FormsCriarTarefa({ onClose }) {
                 <select
                   id="prioridade"
                   name="prioridade"
-                  className="input-select"
+                  className={styles.inputSelect}
                 >
                   <option value="">Selecione</option>
                 </select>
               </div>
             </div>
 
-            <div className="form-row">
+            <div className={styles.formRow}>
               <div>
                 <label htmlFor="data">Data de vencimento</label>
                 <input
                   type="date"
                   id="data"
                   name="data"
-                  className="input-date"
+                  className={styles.inputDate}
                 />
               </div>
 
               <div>
                 <label htmlFor="atribuir">Atribuir à</label>
-                <select id="atribuir" name="atribuir" className="input-select">
+                <select id="atribuir" name="atribuir" className={styles.inputSelect}>
                   <option value="">Selecione</option>
                 </select>
               </div>
@@ -87,7 +87,7 @@ export default function FormsCriarTarefa({ onClose }) {
           </form>
         </div>
 
-        <div className="modal-footer">
+        <div className={styles.modalFooter}>
           <Button texto="Cancelar" variant="secundario" onClick={onClose} />
           <Button
             texto="Criar"

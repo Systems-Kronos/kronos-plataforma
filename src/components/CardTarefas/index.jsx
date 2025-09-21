@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./CardTarefas.module.css";
 import { useState } from "react";
 import Button from "../Button";
 
@@ -104,17 +104,17 @@ export default function CardTarefas({
 
   return (
     <div
-      className={`card-tarefas ${expandido ? "expandido" : ""}`}
+      className={`${styles.cardTarefas} ${expandido ? styles.expandido : ""}`}
       onClick={() => setExpandido(!expandido)}
     >
-      <div className="responsavel">
+      <div className={styles.responsavel}>
         <img src={fotoResponsavel} alt="fotoResponsavel" />
         <h4>{nomeResponsavel}</h4>
       </div>
 
-      <div className="detalhes">
+      <div className={styles.detalhes}>
         <h4>{titulo}</h4>
-        <div className="descricao">
+        <div className={styles.descricao}>
           <p>{descricao}</p>
           <p>
             <strong>Setor:</strong> {setor}
@@ -125,8 +125,8 @@ export default function CardTarefas({
         </div>
       </div>
 
-      <div className="tags">
-        <div className="prioridade">
+      <div className={styles.tags}>
+        <div className={styles.prioridade}>
           {prioridadeData?.svg}
           <p>{prioridadeData?.nivel ?? prioridade}</p>
         </div>

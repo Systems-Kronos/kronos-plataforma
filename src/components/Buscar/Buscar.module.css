@@ -1,4 +1,4 @@
-.buscar-container {
+.buscarContainer {
   display: flex;
   align-items: center;
   border: 2px solid #ccc;
@@ -8,13 +8,13 @@
   background: #fff;
 }
 
-.buscar-icone {
+.buscarIcone {
   color: #aaa;
   margin-right: 8px;
   font-size: 20px;
 }
 
-.buscar-input {
+.buscarInput {
   border: none;
   outline: none;
   flex: 1;

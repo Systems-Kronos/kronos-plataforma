@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./CardReports.module.css";
 import { useState, useEffect } from "react";
 import Button from "../Button";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -26,9 +26,9 @@ export default function CardReports({
   }
 
   return (
-    <div className="card-reports">
-      <div className="card-header">
-        <div className="header-titulo">
+    <div className={styles.cardReports}>
+      <div className={styles.cardHeader}>
+        <div className={styles.headerTitulo}>
           {concluido ? (
             <CheckCircleIcon
               style={{ color: "#e6b648", marginRight: "0.5rem" }}
@@ -54,14 +54,14 @@ export default function CardReports({
         </div>
       </div>
 
-      <p className="descricao">{descricao}</p>
+      <p className={styles.descricao}>{descricao}</p>
 
-      <div className="card-footer">
-        <div className="responsavel">
+      <div className={styles.cardFooter}>
+        <div className={styles.responsavel}>
           <img src={fotoResponsavel} alt="fotoResponsavel" />
           <h4>{nomeResponsavel}</h4>
         </div>
-        <div className="data">
+        <div className={styles.data}>
           <CalendarMonthIcon color="grey" />
           <h4>{data}</h4>
         </div>

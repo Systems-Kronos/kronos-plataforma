@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./Header.module.css";
 import { useState } from "react";
 import Button from "../Button";
 import FormsCriarTarefa from "../FormsCriarTarefa";
@@ -11,12 +11,12 @@ export default function Header() {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
-    <div className="container">
-      <h1 className="titulo" onClick={() => navigate("/")}>
+    <div className={styles.container}>
+      <h1 className={styles.titulo} onClick={() => navigate("/")}>
         KRONOS
       </h1>
 
-      <div className="navegation">
+      <div className={styles.navegation}>
         <Button
           texto={"Análises"}
           variant={location.pathname === "/analises" ? "amarelo" : "secundario"}
@@ -48,7 +48,7 @@ export default function Header() {
         <img
           src={fotoPerfilDefault}
           alt="fotoPerfil"
-          className="fotoPerfil"
+          className={styles.fotoPerfil}
           onClick={() => navigate("/perfil")}
         />
       </div>

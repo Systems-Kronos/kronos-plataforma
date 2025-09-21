@@ -1,4 +1,4 @@
-.card-informacoes {
+.cardInformacoes {
   padding: 1%;
   width: 18vw;
   height: 20vh;
@@ -11,7 +11,7 @@
   color: #370963;
 }
 
-.header-card-informacoes {
+.headerCardInformacoes {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -19,7 +19,7 @@
   height: 50%;
 }
 
-.header-card-informacoes h1 {
+.headerCardInformacoes h1 {
   width: 70%;
 }
 
@@ -29,7 +29,7 @@
   border-radius: 50%;
 }
 
-.body-card-informacoes {
+.bodyCardInformacoes {
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
@@ -37,11 +37,11 @@
   height: 50%;
 }
 
-.body-card-informacoes h1 {
+.bodyCardInformacoes h1 {
   font-size: 300%;
 }
 
-.body-card-informacoes p {
+.bodyCardInformacoes p {
   color: gray;
   margin-top: -0.4vw;
 }

@@ -1,4 +1,4 @@
-.card-reports {
+.cardReports {
   padding: 1%;
   width: 65vw;
   border: 3px solid #ccc;
@@ -10,14 +10,14 @@
   flex-direction: column;
 }
 
-.card-header {
+.cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
-.header-titulo {
+.headerTitulo {
   display: flex;
   align-items: center;
   color: #370963;
@@ -25,10 +25,12 @@
 }
 
 .descricao {
+  text-align: left;
+  width: 100%;
   margin: 2% 0 3%;
 }
 
-.card-footer {
+.cardFooter {
   display: flex;
   align-items: center;
   width: 100%;

@@ -1,4 +1,4 @@
-.card-usuarios {
+.cardUsuarios {
   padding: 1%;
   width: 22vw;
   border: 3px solid #ccc;
@@ -9,18 +9,18 @@
   flex-direction: column;
 }
 
-.card-usuarios button {
+.cardUsuarios button {
   width: 100%;
   box-sizing: border-box;
 }
 
-.header-card-usuarios {
+.headerCardUsuarios {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.header-card-usuarios p {
+.headerCardUsuarios p {
   font-size: 0.8rem;
 }
 
@@ -82,7 +82,7 @@
   margin: 2% 0;
 }
 
-.popup-overlay {
+.popupOverlay {
   position: fixed;
   top: 0;
   left: 0;

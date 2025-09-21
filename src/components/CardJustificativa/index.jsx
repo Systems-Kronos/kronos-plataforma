@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./CardJustificativa.module.css";
 import Button from "../Button";
 import { useState, useEffect } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -22,20 +22,20 @@ export default function CardJustificativa({ descricao, data, anexo, id }) {
   };
 
   return (
-    <div className="card-justificativa">
-      <div className="header">
+    <div className={styles.cardJustificativa}>
+      <div className={styles.header}>
         <h2>Justificativa de falta!</h2>
         <CancelIcon style={{ color: "#370963" }} />
       </div>
 
-      <p className="descricao">{descricao}</p>
+      <p className={styles.descricao}>{descricao}</p>
 
-      <div className="detalhes">
-        <div className="data">
+      <div className={styles.detalhes}>
+        <div className={styles.data}>
           <CalendarMonthIcon color="grey" />
           <h4>{data}</h4>
         </div>
-        <div className="anexo">
+        <div className={styles.anexo}>
           <AttachFileIcon color="grey" />
           <h5>
             <a href="">{anexo} anexo(s)</a>
@@ -43,7 +43,7 @@ export default function CardJustificativa({ descricao, data, anexo, id }) {
         </div>
       </div>
 
-      <div className="footer">
+      <div className={styles.footer}>
         {status === "" && (
           <>
             <Button

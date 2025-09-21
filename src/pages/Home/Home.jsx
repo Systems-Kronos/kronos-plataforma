@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./Home.module.css";
 import CardInformacoes from "../../components/CardInformacoes";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -7,10 +7,10 @@ import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 
 export default function Home() {
   return (
-    <div className="box-container">
+    <div className={styles.boxContainer}>
       <h1>Dashboard do Gestor</h1>
 
-      <div className="cards-container">
+      <div className={styles.cardsContainer}>
         <CardInformacoes
           titulo={"Membros"}
           icone={

@@ -1,4 +1,4 @@
-import "./style.css";
+import styles from "./CardUsuarios.module.css";
 import { useState } from "react";
 import Button from "../Button";
 import CardJustificativa from "../CardJustificativa";
@@ -23,9 +23,9 @@ export default function CardUsuarios({
   const [openJustificativa, setOpenJustificativa] = useState(false);
 
   return (
-    <div className="card-usuarios">
-      <div className="header-card-usuarios">
-        <div className="responsavel">
+    <div className={styles.cardUsuarios}>
+      <div className={styles.headerCardUsuarios}>
+        <div className={styles.responsavel}>
           <img src={fotoUsuario} alt="fotoResponsavel" />
           <div>
             <h4>{nomeUsuario}</h4>
@@ -40,7 +40,7 @@ export default function CardUsuarios({
         )}
       </div>
 
-      <div className="contato">
+      <div className={styles.contato}>
         <div>
           <EmailIcon style={{ color: "#E6B648" }} />
           <p>{emailUsuario}</p>
@@ -51,9 +51,9 @@ export default function CardUsuarios({
         </div>
       </div>
 
-      <hr className="divisao" />
+      <hr className={styles.divisao} />
 
-      <div className="informacoes">
+      <div className={styles.informacoes}>
         <div>
           <p>Setor:</p>
           <p>{setorUsuario}</p>
@@ -79,12 +79,12 @@ export default function CardUsuarios({
       />
 
       {openEdicao && (
-        <div className="popup-overlay">
+        <div className={styles.popupOverlay}>
           <CardEditarUsuarios onClose={() => setOpenEdicao(false)} />
         </div>
       )}
       {openJustificativa && (
-        <div className="popup-overlay">
+        <div className={styles.popupOverlay}>
           <CardJustificativa onClose={() => setOpenJustificativa(false)} />
         </div>
       )}

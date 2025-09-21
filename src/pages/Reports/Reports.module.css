@@ -1,15 +1,15 @@
-.box-container {
+.boxContainer {
   margin: 4vw;
 }
 
-.header-container {
+.headerContainer {
   display: flex;
   align-items: center;
   gap: 1vw;
   color: #370963;
 }
 
-.cards-container {
+.cardsContainer {
   margin-top: 2vw;
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-.busca-adicionar-container {
+.buscaContainer {
   margin-top: 4vw;
   width: 100%;
   display: flex;
@@ -29,10 +29,10 @@
   width: 70%;
 }
 
-.users-container {
+.reportsContainer {
   margin-top: 4vw;
   display: flex;
   flex-wrap: wrap;
-  gap: 4vw;
+  gap: 2vw;
   justify-content: center;
 }

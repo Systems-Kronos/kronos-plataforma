@@ -1,4 +1,4 @@
-.card-tarefas {
+.cardTarefas {
   padding: 1rem;
   width: 20vw;
   border: 3px solid #ccc;
@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-.card-tarefas .descricao {
+.cardTarefas .descricao {
   max-height: 3rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -23,7 +23,7 @@
   -webkit-box-orient: vertical;
 }
 
-.card-tarefas.expandido .descricao {
+.cardTarefas.expandido .descricao {
   max-height: none;
   line-clamp: 2;
   -webkit-line-clamp: unset;
