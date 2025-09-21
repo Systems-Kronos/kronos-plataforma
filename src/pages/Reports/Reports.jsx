@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Buscar from "../../components/Buscar";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardReports from "../../components/CardReports";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 
 export default function Reports() {
   const navigate = useNavigate();
@@ -14,14 +14,32 @@ export default function Reports() {
   return (
     <div className="box-container">
       <div className="header-container">
-        <ArrowBackIosIcon style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }} onClick={() => navigate("/")} />
+        <ArrowBackIosIcon
+          style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
         <h1>Gerenciar Reports</h1>
       </div>
 
       <div className="cards-container">
-        <CardInformacoes titulo={"Reports Totais"} icone={<CircleOutlinedIcon style={{ color: "#E6B648" }}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Concluídos"} icone={<CheckCircleIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Pendentes"} icone={<ErrorIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
+        <CardInformacoes
+          titulo={"Reports Totais"}
+          icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Concluídos"}
+          icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Pendentes"}
+          icone={<ErrorIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
       </div>
 
       <div className="busca-container">
@@ -54,4 +72,4 @@ export default function Reports() {
       </div>
     </div>
   );
-};
+}

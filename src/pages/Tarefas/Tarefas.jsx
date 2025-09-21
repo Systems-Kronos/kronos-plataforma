@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Buscar from "../../components/Buscar";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardTarefas from "../../components/CardTarefas";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
+import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 
 export default function Tarefas() {
   const navigate = useNavigate();
@@ -15,15 +15,38 @@ export default function Tarefas() {
   return (
     <div className="box-container">
       <div className="header-container">
-        <ArrowBackIosIcon style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }} onClick={() => navigate("/")} />
+        <ArrowBackIosIcon
+          style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
         <h1>Gerenciar Tarefas</h1>
       </div>
 
       <div className="cards-container">
-        <CardInformacoes titulo={"Tarefas Totais"} icone={<CircleOutlinedIcon style={{ color: "#E6B648" }}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Tarefas Concluídas"} icone={<CheckCircleIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Tarefas Em Andamento"} icone={<WatchLaterIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Tarefas Pendentes"} icone={<ErrorIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
+        <CardInformacoes
+          titulo={"Tarefas Totais"}
+          icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Tarefas Concluídas"}
+          icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Tarefas Em Andamento"}
+          icone={<WatchLaterIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Tarefas Pendentes"}
+          icone={<ErrorIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
       </div>
 
       <div className="busca-container">
@@ -33,7 +56,7 @@ export default function Tarefas() {
       <div className="tarefas-container">
         <div className="tarefas-pendentes-container">
           <div className="tarefas-container-header">
-            <ErrorIcon style={{ color: "#848484ff", fontSize: 40 }}/>
+            <ErrorIcon style={{ color: "#848484ff", fontSize: 40 }} />
             <h2>Pendentes</h2>
           </div>
           <div className="tarefas-pendentes-body">
@@ -63,7 +86,7 @@ export default function Tarefas() {
 
         <div className="tarefas-andamento-container">
           <div className="tarefas-container-header">
-            <WatchLaterIcon style={{ color: "#E6B648", fontSize: 40 }}/>
+            <WatchLaterIcon style={{ color: "#E6B648", fontSize: 40 }} />
             <h2>Em Andamento</h2>
           </div>
           <div className="tarefas-andamento-body">
@@ -93,7 +116,7 @@ export default function Tarefas() {
 
         <div className="tarefas-concluidas-container">
           <div className="tarefas-container-header">
-            <CheckCircleIcon style={{ color: "#08c105ff", fontSize: 40 }}/>
+            <CheckCircleIcon style={{ color: "#08c105ff", fontSize: 40 }} />
             <h2>Concluídas</h2>
           </div>
           <div className="tarefas-concluidas-body">
@@ -113,4 +136,4 @@ export default function Tarefas() {
       </div>
     </div>
   );
-};
+}

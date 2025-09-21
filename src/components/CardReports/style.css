@@ -1,67 +1,67 @@
 .card-reports {
-    padding: 1%;
-    width: 65vw;
-    border: 3px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
+  padding: 1%;
+  width: 65vw;
+  border: 3px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .header-titulo {
-    display: flex;
-    align-items: center;
-    color: #370963;
-    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  color: #370963;
+  font-size: 0.9rem;
 }
 
 .descricao {
-    margin: 2% 0 3%;
+  margin: 2% 0 3%;
 }
 
 .card-footer {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 4%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 4%;
 }
 
 .responsavel {
-    display: flex;
-    align-items: center;
-    gap: 0.8vw;
+  display: flex;
+  align-items: center;
+  gap: 0.8vw;
 }
 
 .responsavel h4 {
-    color: #E6B648;
+  color: #e6b648;
 }
 
 .responsavel img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .data {
-    display: flex;
-    align-items: center;
-    gap: 0.5vw;
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
 }
 
 .data h4 {
-    margin-top: 2%;
+  margin-top: 2%;
 }
 
 .data svg {
-    color: #370963;
+  color: #370963;
 }

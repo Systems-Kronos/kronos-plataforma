@@ -14,13 +14,22 @@ export default function FormsEditarMembro({ onClose }) {
             <h2>Editar membro</h2>
             <p>Preencha todas as informações para editar o cadastro!</p>
           </div>
-          <CancelIcon style={{ color: "#370963", cursor: "pointer" }} onClick={onClose}/>
+          <CancelIcon
+            style={{ color: "#370963", cursor: "pointer" }}
+            onClick={onClose}
+          />
         </div>
 
         <div className="modal-body">
           <form>
             <label htmlFor="nomeCompleto">Nome Completo</label>
-            <input type="text" id="nomeCompleto" name="nomeCompleto" className="input-text" placeholder="Digite o nome completo"/>
+            <input
+              type="text"
+              id="nomeCompleto"
+              name="nomeCompleto"
+              className="input-text"
+              placeholder="Digite o nome completo"
+            />
 
             <div className="form-row">
               <div>
@@ -39,7 +48,13 @@ export default function FormsEditarMembro({ onClose }) {
             </div>
 
             <label htmlFor="email">E-mail</label>
-            <input type="text" id="email" name="email" className="input-text" placeholder="Digite o e-mail empresarial"></input>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              className="input-text"
+              placeholder="Digite o e-mail empresarial"
+            ></input>
 
             <button
               type="button"
@@ -47,7 +62,7 @@ export default function FormsEditarMembro({ onClose }) {
               style={{
                 backgroundColor: ativo ? "#EADAF5" : "#fff",
                 border: ativo ? "3px solid #EADAF5" : "3px solid #c2c2c2",
-                color: "#370963"
+                color: "#370963",
               }}
               onClick={() => setAtivo(!ativo)}
             >
@@ -58,7 +73,11 @@ export default function FormsEditarMembro({ onClose }) {
 
         <div className="modal-footer">
           <Button texto="Cancelar" variant="secundario" onClick={onClose} />
-          <Button texto="Editar" variant="primario" onClick={() => console.log("Criar Tarefa")} />
+          <Button
+            texto="Editar"
+            variant="primario"
+            onClick={() => console.log("Criar Tarefa")}
+          />
         </div>
       </div>
     </div>

@@ -11,16 +11,31 @@ export default function FormsAdicionarMembro({ onClose }) {
             <h2>Adicionar novo membro</h2>
             <p>Preencha todas as informações para criar o cadastro!</p>
           </div>
-          <CancelIcon style={{ color: "#370963", cursor: "pointer" }} onClick={onClose}/>
+          <CancelIcon
+            style={{ color: "#370963", cursor: "pointer" }}
+            onClick={onClose}
+          />
         </div>
 
         <div className="modal-body">
           <form>
             <label htmlFor="nomeCompleto">Nome Completo</label>
-            <input type="text" id="nomeCompleto" name="nomeCompleto" className="input-text" placeholder="Digite o nome completo"/>
+            <input
+              type="text"
+              id="nomeCompleto"
+              name="nomeCompleto"
+              className="input-text"
+              placeholder="Digite o nome completo"
+            />
 
             <label htmlFor="cpf">CPF</label>
-            <input type="text" id="cpf" name="cpf" className="input-text" placeholder="Digite apenas números"></input>
+            <input
+              type="text"
+              id="cpf"
+              name="cpf"
+              className="input-text"
+              placeholder="Digite apenas números"
+            ></input>
 
             <div className="form-row">
               <div>
@@ -39,13 +54,23 @@ export default function FormsAdicionarMembro({ onClose }) {
             </div>
 
             <label htmlFor="email">E-mail</label>
-            <input type="text" id="email" name="email" className="input-text" placeholder="Digite o e-mail empresarial"></input>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              className="input-text"
+              placeholder="Digite o e-mail empresarial"
+            ></input>
           </form>
         </div>
 
         <div className="modal-footer">
           <Button texto="Cancelar" variant="secundario" onClick={onClose} />
-          <Button texto="Adicionar" variant="primario" onClick={() => console.log("Criar Tarefa")} />
+          <Button
+            texto="Adicionar"
+            variant="primario"
+            onClick={() => console.log("Criar Tarefa")}
+          />
         </div>
       </div>
     </div>

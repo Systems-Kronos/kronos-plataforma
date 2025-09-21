@@ -60,11 +60,11 @@
 }
 
 .input-text {
-    width: 93%;
+  width: 93%;
 }
 
 .input-select {
-    width: 100%;
+  width: 100%;
 }
 
 .input-text:focus,
@@ -79,18 +79,18 @@
 }
 
 .button {
-    cursor: pointer;
-    align-self: center;
-    width: 100%;
-    padding: 0.6rem 1rem;
-    margin: 2rem 10px 0;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: 0.3s;
-    background-color: #EADAF5;
-    color: #370963;
-    border: 3px solid #EADAF5;
+  cursor: pointer;
+  align-self: center;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin: 2rem 10px 0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: 0.3s;
+  background-color: #eadaf5;
+  color: #370963;
+  border: 3px solid #eadaf5;
 }
 
 .modal-footer {

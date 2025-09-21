@@ -5,11 +5,11 @@ import Button from "../../components/Button";
 import Buscar from "../../components/Buscar";
 import FormsAdicionarMembro from "../../components/FormsAdicionarMembro";
 import CardInformacoes from "../../components/CardInformacoes";
-import CardUsuarios from "../../components/CardUsuarios"
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import GroupsIcon from '@mui/icons-material/Groups';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import CardUsuarios from "../../components/CardUsuarios";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import GroupsIcon from "@mui/icons-material/Groups";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 
 export default function Membros() {
   const navigate = useNavigate();
@@ -18,19 +18,45 @@ export default function Membros() {
   return (
     <div className="box-container">
       <div className="header-container">
-        <ArrowBackIosIcon style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }} onClick={() => navigate("/")} />
+        <ArrowBackIosIcon
+          style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
         <h1>Gerenciar Equipes</h1>
       </div>
 
       <div className="cards-container">
-        <CardInformacoes titulo={"Membros"} icone={<GroupsIcon style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}/>} descricao={"x membros nesse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Tarefas Concluídas"} icone={<CheckCircleIcon style={{ color: "#E6B648"}}/>} descricao={"x concluídas hoje"} numero={"00"} />
-        <CardInformacoes titulo={"Produtividade"} icone={<AutoGraphIcon style={{ color: "#E6B648"}}/>} descricao={"x% vs mês anterior"} numero={"00"} />
+        <CardInformacoes
+          titulo={"Membros"}
+          icone={
+            <GroupsIcon
+              style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}
+            />
+          }
+          descricao={"x membros nesse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Tarefas Concluídas"}
+          icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
+          descricao={"x concluídas hoje"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Produtividade"}
+          icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
+          descricao={"x% vs mês anterior"}
+          numero={"00"}
+        />
       </div>
 
       <div className="busca-adicionar-container">
         <Buscar />
-        <Button texto={"Adicionar Membro"} onClick={() => setShowPopup(true)} variant={"primario"} />
+        <Button
+          texto={"Adicionar Membro"}
+          onClick={() => setShowPopup(true)}
+          variant={"primario"}
+        />
       </div>
 
       <div className="users-container">
@@ -84,10 +110,10 @@ export default function Membros() {
           justificativaHoje={false}
         />
       </div>
-    
+
       {showPopup && (
         <FormsAdicionarMembro onClose={() => setShowPopup(false)} />
       )}
     </div>
   );
-};
+}

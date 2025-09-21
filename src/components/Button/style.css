@@ -31,14 +31,14 @@
 
 /* Button lilás */
 .btn.lilas {
-  background-color: #EADAF5;
+  background-color: #eadaf5;
   color: #370963;
-  border: 3px solid #EADAF5;
+  border: 3px solid #eadaf5;
 }
 
 /* Button amarelo */
 .btn.amarelo {
-  background-color: #E6B648;
+  background-color: #e6b648;
   color: white;
-  border: 3px solid #E6B648;
+  border: 3px solid #e6b648;
 }
