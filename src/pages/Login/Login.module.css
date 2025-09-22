@@ -1,0 +1,98 @@
+.boxContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.boxContainerLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 4rem;
+  width: 50%;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    rgba(55, 9, 99, 1) 17%,
+    rgba(104, 17, 186, 1) 69%,
+    rgba(112, 18, 201, 1) 100%
+  );
+  color: white;
+  text-align: start;
+}
+
+.boxContainerLeft h1 {
+  font-size: 3em;
+  width: 80%;
+  margin-bottom: 2%;
+}
+
+.boxContainerLeft p {
+  font-size: 1.4em;
+  width: 70%;
+}
+
+.boxContainerRight {
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  background: #ececec;
+  padding: 4rem 3rem;
+  border-radius: 18px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.boxContainerRight h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #370963;
+  font-size: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form label {
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.form input {
+  padding: 0.8rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #6811ba;
+  box-shadow: 0 0 5px rgba(104, 17, 186, 0.5);
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  width: 85%;
+  margin: 2% 0;
+}
+
+.buttonWrapper button {
+  width: 100%;
+}
