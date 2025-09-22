@@ -44,13 +44,6 @@ export default function Header() {
           variant={location.pathname === "/criar-tarefa" ? "lilas" : "primario"}
           onClick={() => setShowPopup(true)}
         />
-
-        <img
-          src={fotoPerfilDefault}
-          alt="fotoPerfil"
-          className={styles.fotoPerfil}
-          onClick={() => navigate("/perfil")}
-        />
       </div>
 
       {showPopup && <FormsCriarTarefa onClose={() => setShowPopup(false)} />}
