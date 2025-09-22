@@ -1,0 +1,100 @@
+.formsModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  font-family: "Inter", sans-serif;
+}
+
+.modalBox {
+  width: 30vw;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modalHeader h2 {
+  color: #370963;
+}
+
+.modalHeader p {
+  font-size: 0.9rem;
+}
+
+.modalBody form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: -1rem;
+}
+
+.modalBody label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 1.5rem 0 0.4rem;
+  display: block;
+}
+
+.inputText,
+.inputSelect {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.inputText {
+  width: 93%;
+}
+
+.inputSelect {
+  width: 100%;
+}
+
+.inputText:focus,
+.inputSelect:focus {
+  border-color: #370963;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.button {
+  cursor: pointer;
+  align-self: center;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin: 2rem 10px 0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: 0.3s;
+  background-color: #eadaf5;
+  color: #370963;
+  border: 3px solid #eadaf5;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

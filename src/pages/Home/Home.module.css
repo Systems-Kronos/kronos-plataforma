@@ -1,0 +1,15 @@
+.boxContainer {
+  margin: 4vw;
+}
+
+.boxContainer h1 {
+  color: #370963;
+}
+
+.cardsContainer {
+  margin-top: 2vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vw;
+  justify-content: center;
+}

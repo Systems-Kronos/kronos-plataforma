@@ -1,0 +1,73 @@
+.cardJustificativa {
+  margin: 10vw;
+  padding: 1%;
+  width: 22vw;
+  border: 3px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: #370963;
+}
+
+.descricao {
+  width: 95%;
+  margin: 8% 0;
+}
+
+.detalhes {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.8vw;
+}
+
+.data {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
+}
+
+.data h4 {
+  margin-top: 2%;
+}
+
+.data svg {
+  color: #e6b648;
+}
+
+.anexo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.anexo h4 {
+  margin: 0 2% 0 -0.5vw;
+}
+
+.anexo a {
+  color: black;
+}
+
+.anexo svg {
+  color: #e6b648;
+}
+
+.footer {
+  margin-top: 10%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}

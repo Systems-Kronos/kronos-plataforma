@@ -1,0 +1,44 @@
+.btn {
+  padding: 0.5rem 1rem;
+  margin: 0 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn.clicavel {
+  cursor: pointer;
+}
+
+.btn.nao-clicavel {
+  cursor: default;
+}
+
+/* Button primário */
+.btn.primario {
+  background-color: #370963;
+  color: white;
+  border: 3px solid #370963;
+}
+
+/* Button secundário */
+.btn.secundario {
+  background-color: white;
+  color: #370963;
+  border: 3px solid #c2c2c2;
+}
+
+/* Button lilás */
+.btn.lilas {
+  background-color: #eadaf5;
+  color: #370963;
+  border: 3px solid #eadaf5;
+}
+
+/* Button amarelo */
+.btn.amarelo {
+  background-color: #e6b648;
+  color: white;
+  border: 3px solid #e6b648;
+}
