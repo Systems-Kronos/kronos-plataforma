@@ -3,7 +3,6 @@ import { useState } from "react";
 import Button from "../Button";
 import FormsCriarTarefa from "../FormsCriarTarefa";
 import { useNavigate, useLocation } from "react-router-dom";
-import fotoPerfilDefault from "../../assets/fotoPerfilDefault.png";
 
 export default function Header() {
   const navigate = useNavigate();
