@@ -1,34 +1,52 @@
-import "./style.css";
+import styles from "./Reports.module.css";
 import { useNavigate } from "react-router-dom";
 import Buscar from "../../components/Buscar";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardReports from "../../components/CardReports";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 
 export default function Reports() {
   const navigate = useNavigate();
 
   return (
-    <div className="box-container">
-      <div className="header-container">
-        <ArrowBackIosIcon style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }} onClick={() => navigate("/")} />
+    <div className={styles.boxContainer}>
+      <div className={styles.headerContainer}>
+        <ArrowBackIosIcon
+          style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
         <h1>Gerenciar Reports</h1>
       </div>
 
-      <div className="cards-container">
-        <CardInformacoes titulo={"Reports Totais"} icone={<CircleOutlinedIcon style={{ color: "#E6B648" }}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Concluídos"} icone={<CheckCircleIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
-        <CardInformacoes titulo={"Pendentes"} icone={<ErrorIcon style={{ color: "#E6B648"}}/>} descricao={"esse mês"} numero={"00"} />
+      <div className={styles.cardsContainer}>
+        <CardInformacoes
+          titulo={"Reports Totais"}
+          icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Concluídos"}
+          icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
+          titulo={"Pendentes"}
+          icone={<ErrorIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
       </div>
 
-      <div className="busca-container">
+      <div className={styles.buscaContainer}>
         <Buscar />
       </div>
 
-      <div className="reports-container">
+      <div className={styles.reportsContainer}>
         {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
         <CardReports
           titulo="Relatório de Vendas"
@@ -54,4 +72,4 @@ export default function Reports() {
       </div>
     </div>
   );
-};
+}

@@ -1,0 +1,10 @@
+.boxContainer {
+  margin: 4vw;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  color: #370963;
+}

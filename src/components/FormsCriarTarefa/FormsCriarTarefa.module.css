@@ -1,4 +1,4 @@
-.forms-modal {
+.formsModal {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
@@ -9,7 +9,7 @@
   font-family: "Inter", sans-serif;
 }
 
-.modal-box {
+.modalBox {
   width: 30vw;
   padding: 2rem;
   background-color: white;
@@ -20,36 +20,37 @@
   gap: 1.5rem;
 }
 
-.modal-header {
+.modalHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.modal-header h2 {
+.modalHeader h2 {
   color: #370963;
 }
 
-.modal-header p {
+.modalHeader p {
   font-size: 0.9rem;
 }
 
-.modal-body form {
+.modalBody form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: -1rem;
 }
 
-.modal-body label {
+.modalBody label {
   font-weight: 600;
   font-size: 0.9rem;
   margin: 1.5rem 0 0.4rem;
   display: block;
 }
 
-.input-text,
-.input-select {
+.inputText,
+.inputSelect,
+.inputDate {
   width: 100%;
   padding: 0.7rem 1rem;
   border: 2px solid #ccc;
@@ -59,26 +60,31 @@
   transition: border 0.2s;
 }
 
-.input-text {
-    width: 93%;
+.inputText {
+  width: 93%;
 }
 
-.input-select {
-    width: 100%;
+.inputSelect {
+  width: 100%;
 }
 
-.input-text:focus,
-.input-select:focus {
+.inputDate {
+  width: 85%;
+}
+
+.inputText:focus,
+.inputSelect:focus,
+.inputDate:focus {
   border-color: #370963;
 }
 
-.form-row {
+.formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.modal-footer {
+.modalFooter {
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;

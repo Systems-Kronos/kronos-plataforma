@@ -1,0 +1,47 @@
+.cardInformacoes {
+  padding: 1%;
+  width: 18vw;
+  height: 20vh;
+  border: 3px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #370963;
+}
+
+.headerCardInformacoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  height: 50%;
+}
+
+.headerCardInformacoes h1 {
+  width: 70%;
+}
+
+.icone {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.bodyCardInformacoes {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 100%;
+  height: 50%;
+}
+
+.bodyCardInformacoes h1 {
+  font-size: 300%;
+}
+
+.bodyCardInformacoes p {
+  color: gray;
+  margin-top: -0.4vw;
+}
