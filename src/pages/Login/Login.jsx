@@ -37,7 +37,7 @@ export default function Login() {
 
       navigate("/");
       alert("Login realizado com sucesso!");
-    } catch (error) {
+    } catch {
       alert("CPF ou senha incorretos!");
     }
   };
