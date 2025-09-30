@@ -27,12 +27,10 @@ export default function Login() {
 
     try {
       const usuario = await login(cpf.trim(), senha.trim());
-      console.log("CPF enviado:", `"${cpf}"`);
-      console.log("Senha enviada:", `"${senha}"`);
       
       if (usuario?.token) {
-        console.log("Usuário logado:", usuario);
         localStorage.setItem("token", usuario.token);
+        localStorage.setItem("usuarioId", usuario.id);
       }
 
       navigate("/");

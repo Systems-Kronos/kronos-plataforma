@@ -12,6 +12,7 @@ import Tarefas from "./pages/Tarefas/Tarefas";
 export default function App() {
   useEffect(() => {
     localStorage.removeItem("token");
+    localStorage.removeItem("usuarioId");
   }, []);
 
   return (
