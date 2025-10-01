@@ -4,7 +4,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-export default function CardJustificativa({ descricao, data, anexo, id, onClose }) {
+export default function CardJustificativa({ descricao, data, anexo, onClose }) {
   return (
     <div className={styles.cardJustificativa}>
       <div className={styles.header}>
