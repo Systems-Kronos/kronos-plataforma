@@ -30,19 +30,19 @@ export default function Tarefas() {
           numero={"00"}
         />
         <CardInformacoes
-          titulo={"Tarefas Concluídas"}
+          titulo={"Concluídas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
           numero={"00"}
         />
         <CardInformacoes
-          titulo={"Tarefas Em Andamento"}
+          titulo={"Em Andamento"}
           icone={<WatchLaterIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
           numero={"00"}
         />
         <CardInformacoes
-          titulo={"Tarefas Pendentes"}
+          titulo={"Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
           numero={"00"}

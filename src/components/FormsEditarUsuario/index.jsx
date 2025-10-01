@@ -42,7 +42,8 @@ export default function FormsEditarMembro({ onClose }) {
               <div>
                 <label htmlFor="gestao">Permitir gestão</label>
                 <select id="gestao" name="gestao" className={styles.inputSelect}>
-                  <option value="">Selecione</option>
+                  <option value="false">Não</option>
+                  <option value="true">Sim</option>
                 </select>
               </div>
             </div>
