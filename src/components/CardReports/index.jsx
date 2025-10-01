@@ -4,11 +4,13 @@ import Button from "../Button";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export default function CardReports({
   titulo,
   descricao,
   data,
+  tituloTarefa,
   nomeResponsavel,
   fotoResponsavel,
 }) {
@@ -64,6 +66,10 @@ export default function CardReports({
         <div className={styles.data}>
           <CalendarMonthIcon color="grey" />
           <h4>{data}</h4>
+        </div>
+        <div className={styles.tarefa}>
+          <AssignmentIcon color="grey" />
+          <h4>{tituloTarefa}</h4>
         </div>
       </div>
     </div>

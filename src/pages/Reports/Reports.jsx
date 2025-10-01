@@ -6,6 +6,7 @@ import CardReports from "../../components/CardReports";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 
 export default function Reports() {
@@ -35,6 +36,12 @@ export default function Reports() {
           numero={"00"}
         />
         <CardInformacoes
+          titulo={"Em Andamento"}
+          icone={<WatchLaterIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={"00"}
+        />
+        <CardInformacoes
           titulo={"Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
@@ -52,6 +59,7 @@ export default function Reports() {
           titulo="Relatório de Vendas"
           descricao="Resumo das vendas realizadas no último mês."
           data="15/09/2025"
+          tituloTarefa="Tarefa 1"
           nomeResponsavel="Alice Silva"
           fotoResponsavel="https://i.pravatar.cc/150?img=5"
         />
@@ -59,6 +67,7 @@ export default function Reports() {
           titulo="Relatório de Suporte"
           descricao="Chamados técnicos resolvidos e em andamento."
           data="16/09/2025"
+          tituloTarefa="Tarefa 2"
           nomeResponsavel="Bruno Souza"
           fotoResponsavel="https://i.pravatar.cc/150?img=6"
         />
@@ -66,6 +75,7 @@ export default function Reports() {
           titulo="Relatório de Projetos"
           descricao="Status das entregas e atividades pendentes."
           data="17/09/2025"
+          tituloTarefa="Tarefa 3"
           nomeResponsavel="Carla Oliveira"
           fotoResponsavel="https://i.pravatar.cc/150?img=7"
         />
