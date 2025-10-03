@@ -30,7 +30,8 @@ export default function Login() {
       
       if (usuario?.token) {
         localStorage.setItem("token", usuario.token);
-        localStorage.setItem("usuarioId", usuario.id);
+        localStorage.setItem("usuarioId", usuario.usuarioId);
+        console.log("ID do usuário:", usuario.usuarioId);
       }
 
       navigate("/");
