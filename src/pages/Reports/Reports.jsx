@@ -1,16 +1,42 @@
 import styles from "./Reports.module.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Buscar from "../../components/Buscar";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardReports from "../../components/CardReports";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
-import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
+import { reportsPorGestor } from "../../service/reports";
 
 export default function Reports() {
   const navigate = useNavigate();
+  // const [reports, setReports] = useState([]);
+  const [totalReports, setTotalReports] = useState(0);
+  const [reportsConcluidos, setReportsConcluidos] = useState(0);
+  const [reportsPendentes, setReportsPendentes] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const carregarReports = async () => {
+      try {
+        const dados = await reportsPorGestor();
+        if (dados) {
+          // setReports(dados.reports);
+          setTotalReports(dados.total);
+          setReportsConcluidos(dados.concluidos);
+          setReportsPendentes(dados.pendentes);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar reports", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarReports();
+  }, []);
 
   return (
     <div className={styles.boxContainer}>
@@ -27,25 +53,19 @@ export default function Reports() {
           titulo={"Reports Totais"}
           icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
-          numero={"00"}
+          numero={loading ? "--" : totalReports || "00"}
         />
         <CardInformacoes
           titulo={"Concluídos"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
-          numero={"00"}
-        />
-        <CardInformacoes
-          titulo={"Em Andamento"}
-          icone={<WatchLaterIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
-          numero={"00"}
+          numero={loading ? "--" : reportsConcluidos || "00"}
         />
         <CardInformacoes
           titulo={"Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
-          numero={"00"}
+          numero={loading ? "--" : reportsPendentes || "00"}
         />
       </div>
 
@@ -54,7 +74,7 @@ export default function Reports() {
       </div>
 
       <div className={styles.reportsContainer}>
-        {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
+        {/* TESTE --> FAZER LÓGICA PARA RENDERIZAR OS REPORTS */}
         <CardReports
           titulo="Relatório de Vendas"
           descricao="Resumo das vendas realizadas no último mês."
