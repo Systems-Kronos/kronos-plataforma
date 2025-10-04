@@ -12,7 +12,7 @@ import { reportsPorGestor } from "../../service/reports";
 
 export default function Reports() {
   const navigate = useNavigate();
-  const [reports, setReports] = useState([]);
+  // const [reports, setReports] = useState([]);
   const [totalReports, setTotalReports] = useState(0);
   const [reportsConcluidos, setReportsConcluidos] = useState(0);
   const [reportsPendentes, setReportsPendentes] = useState(0);
@@ -23,7 +23,7 @@ export default function Reports() {
       try {
         const dados = await reportsPorGestor();
         if (dados) {
-          setReports(dados.reports);
+          // setReports(dados.reports);
           setTotalReports(dados.total);
           setReportsConcluidos(dados.concluidos);
           setReportsPendentes(dados.pendentes);
@@ -74,7 +74,7 @@ export default function Reports() {
       </div>
 
       <div className={styles.reportsContainer}>
-        {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
+        {/* TESTE --> FAZER LÓGICA PARA RENDERIZAR OS REPORTS */}
         <CardReports
           titulo="Relatório de Vendas"
           descricao="Resumo das vendas realizadas no último mês."
