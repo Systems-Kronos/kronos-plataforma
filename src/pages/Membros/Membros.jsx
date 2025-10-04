@@ -15,7 +15,7 @@ import { membrosPorGestor } from "../../service/membros";
 export default function Membros() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
-  const [membros, setMembros] = useState([]);
+  // const [membros, setMembros] = useState([]);
   const [quantidade, setQuantidade] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -24,7 +24,7 @@ export default function Membros() {
       try {
         const dados = await membrosPorGestor();
         if (dados) {
-          setMembros(dados.membros);
+          // setMembros(dados.membros);
           setQuantidade(dados.quantidadeMembros);
         }
       } catch (err) {
@@ -78,7 +78,7 @@ export default function Membros() {
       </div>
 
       <div className={styles.usersContainer}>
-        {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
+        {/* FAZER LÓGICA PARA RENDERIZAR OS USUÁRIOS */}
         <CardUsuarios
           nomeUsuario="Alice Silva"
           fotoUsuario="https://i.pravatar.cc/150?img=1"
