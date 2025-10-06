@@ -1,5 +1,6 @@
 import styles from "./Tarefas.module.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Buscar from "../../components/Buscar";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardTarefas from "../../components/CardTarefas";
@@ -7,10 +8,36 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
-import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
+import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import { tarefasPorGestor } from "../../service/tarefas";
 
 export default function Tarefas() {
   const navigate = useNavigate();
+  const [tarefasConcluidas, setTarefasConcluidas] = useState([]);
+  const [tarefasPendentes, setTarefasPendentes] = useState([]);
+  const [tarefasEmAndamento, setTarefasEmAndamento] = useState([]);
+  const [tarefasCanceladas, setTarefasCanceladas] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const carregarTarefas = async () => {
+      try {
+        const dados = await tarefasPorGestor("1", "4");
+        if (dados) {
+          setTarefasConcluidas(dados.tarefas.filter(t => t.status === "Concluída"));
+          setTarefasPendentes(dados.tarefas.filter(t => t.status === "Pendente"));
+          setTarefasEmAndamento(dados.tarefas.filter(t => t.status === "Em Andamento"));
+          setTarefasCanceladas(dados.tarefas.filter(t => t.status === "Cancelada"));
+        }
+      } catch (err) {
+        console.error("Erro ao buscar tarefas", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    carregarTarefas();
+  }, []);
 
   return (
     <div className={styles.boxContainer}>
@@ -24,28 +51,28 @@ export default function Tarefas() {
 
       <div className={styles.cardsContainer}>
         <CardInformacoes
-          titulo={"Tarefas Totais"}
-          icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
-          numero={"00"}
-        />
-        <CardInformacoes
           titulo={"Concluídas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
-          numero={"00"}
+          numero={loading ? "--" : tarefasConcluidas.length || "00"}
         />
         <CardInformacoes
           titulo={"Em Andamento"}
           icone={<WatchLaterIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
-          numero={"00"}
+          numero={loading ? "--" : tarefasEmAndamento.length || "00"}
         />
         <CardInformacoes
           titulo={"Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
           descricao={"esse mês"}
-          numero={"00"}
+          numero={loading ? "--" : tarefasPendentes.length || "00"}
+        />
+        <CardInformacoes
+          titulo={"Canceladas"}
+          icone={<NotInterestedIcon style={{ color: "#E6B648" }} />}
+          descricao={"esse mês"}
+          numero={loading ? "--" : tarefasCanceladas.length || "00"}
         />
       </div>
 
@@ -60,7 +87,7 @@ export default function Tarefas() {
             <h2>Pendentes</h2>
           </div>
           <div className={styles.tarefasPendentesBody}>
-            {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
+            {/* FAZER LÓGICA PARA TRAZER AS TAREFAS PENDENTES */}
             <CardTarefas
               titulo="Organizar reunião semanal"
               descricao="Definir agenda para a equipe de projetos, incluindo pauta de alinhamento, próximos passos, pendências e responsáveis. Garantir que todos os setores estejam representados e que os prazos sejam respeitados."
@@ -90,7 +117,7 @@ export default function Tarefas() {
             <h2>Em Andamento</h2>
           </div>
           <div className={styles.tarefasAndamentoBody}>
-            {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
+            {/* FAZER LÓGICA PARA TRAZER AS TAREFAS EM ANDAMENTO */}
             <CardTarefas
               titulo="Testar novo ambiente de QA"
               descricao="Validar deploy automatizado e testes automáticos para novo ambiente de QA do nosso site."
@@ -120,7 +147,7 @@ export default function Tarefas() {
             <h2>Concluídas</h2>
           </div>
           <div className={styles.tarefasConcluidasBody}>
-            {/* TESTE --> FAZER LÓGICA PARA TRAZER OS USUÁRIOS NO BACK */}
+            {/* FAZER LÓGICA PARA TRAZER AS TAREFAS CONCLUIDAS */}
             <CardTarefas
               titulo="Refatorar código legado"
               descricao="Melhorar performance do código para poder refletir as novas tecnologias do mercado tecnologico atual."

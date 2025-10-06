@@ -6,25 +6,27 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import { membrosPorGestor } from "../../service/membros";
+import { tarefasPorGestor } from "../../service/tarefas";
 import { reportsPorGestor } from "../../service/reports";
 
 export default function Home() {
-  const [quantidade, setQuantidade] = useState(0);
+  const [quantidadeMembros, setQuantidadeMembros] = useState(0);
   const [reportsPendentes, setReportsPendentes] = useState(0);
-  const [loadingMembros, setLoadingMembros] = useState(true);
-  const [loadingReport, setLoadingReports] = useState(true);
+  const [tarefasAtivas, setTarefasAtivas] = useState(0);
+  const [produtividade, setProdutividade] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const carregarMembros = async () => {
       try {
         const dados = await membrosPorGestor();
         if (dados) {
-          setQuantidade(dados.quantidadeMembros);
+          setQuantidadeMembros(dados.quantidadeMembros);
         }
       } catch (err) {
         console.error("Erro ao buscar membros", err);
       } finally {
-        setLoadingMembros(false);
+        setLoading(false);
       }
     };
 
@@ -41,11 +43,32 @@ export default function Home() {
       } catch (err) {
         console.error("Erro ao buscar reports", err);
       } finally {
-        setLoadingReports(false);
+        setLoading(false);
       }
     };
 
     carregarReports();
+  }, []);
+
+  useEffect(() => {
+    const carregarTarefas = async () => {
+      try {
+        const dados = await tarefasPorGestor("1", "4");
+        if (dados) {
+          let tarefasTotais = dados.tarefas.length;
+          let tarefasConcluidas = dados.tarefas.filter(t => t.status === "Concluída").length;
+
+          setTarefasAtivas(dados.tarefas.filter(t => t.status === "Em Andamento").length);
+          setProdutividade(tarefasTotais > 0 ? Math.round((tarefasConcluidas / tarefasTotais) * 100) : 0);
+        }
+      } catch (err) {
+        console.error("Erro ao calcular produtividade", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarTarefas();
   }, []);
 
   return (
@@ -57,25 +80,25 @@ export default function Home() {
           titulo={"Membros"}
           icone={<GroupsIcon style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }} />}
           descricao={"x membros nesse mês"}
-          numero={loadingMembros ? "--" : quantidade || "00"}
+          numero={loading ? "--" : quantidadeMembros || "00"}
         />
         <CardInformacoes
           titulo={"Tarefas Ativas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
           descricao={"x concluídas hoje"}
-          numero={"00"}
+          numero={loading ? "--" : tarefasAtivas || "00"}
         />
         <CardInformacoes
           titulo={"Reports Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
           descricao={"x adicionado hoje"}
-          numero={loadingReport ? "--" : reportsPendentes || "00"}
+          numero={loading ? "--" : reportsPendentes || "00"}
         />
         <CardInformacoes
           titulo={"Produtividade"}
           icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
           descricao={"x% vs mês anterior"}
-          numero={"00"}
+          numero={loading ? "--" : produtividade+"%" || "00%"}
         />
       </div>
     </div>
