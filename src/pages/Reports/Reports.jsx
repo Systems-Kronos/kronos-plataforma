@@ -12,18 +12,32 @@ import { reportsPorGestor } from "../../service/reports";
 
 export default function Reports() {
   const navigate = useNavigate();
-  // const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState([]);
   const [totalReports, setTotalReports] = useState(0);
   const [reportsConcluidos, setReportsConcluidos] = useState(0);
   const [reportsPendentes, setReportsPendentes] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  async function handleAtualizacao() {
+    try {
+      const dados = await reportsPorGestor();
+      if (dados) {
+        setReports(dados.reports);
+        setTotalReports(dados.total);
+        setReportsConcluidos(dados.concluidos);
+        setReportsPendentes(dados.pendentes);
+      }
+    } catch (err) {
+      console.error("Erro ao atualizar dados após conclusão:", err);
+    }
+  }
 
   useEffect(() => {
     const carregarReports = async () => {
       try {
         const dados = await reportsPorGestor();
         if (dados) {
-          // setReports(dados.reports);
+          setReports(dados.reports);
           setTotalReports(dados.total);
           setReportsConcluidos(dados.concluidos);
           setReportsPendentes(dados.pendentes);
@@ -74,31 +88,25 @@ export default function Reports() {
       </div>
 
       <div className={styles.reportsContainer}>
-        {/* TESTE --> FAZER LÓGICA PARA RENDERIZAR OS REPORTS */}
-        <CardReports
-          titulo="Relatório de Vendas"
-          descricao="Resumo das vendas realizadas no último mês."
-          data="15/09/2025"
-          tituloTarefa="Tarefa 1"
-          nomeResponsavel="Alice Silva"
-          fotoResponsavel="https://i.pravatar.cc/150?img=5"
-        />
-        <CardReports
-          titulo="Relatório de Suporte"
-          descricao="Chamados técnicos resolvidos e em andamento."
-          data="16/09/2025"
-          tituloTarefa="Tarefa 2"
-          nomeResponsavel="Bruno Souza"
-          fotoResponsavel="https://i.pravatar.cc/150?img=6"
-        />
-        <CardReports
-          titulo="Relatório de Projetos"
-          descricao="Status das entregas e atividades pendentes."
-          data="17/09/2025"
-          tituloTarefa="Tarefa 3"
-          nomeResponsavel="Carla Oliveira"
-          fotoResponsavel="https://i.pravatar.cc/150?img=7"
-        />
+        {loading ? (
+          <p>Carregando reports...</p>
+        ) : reports && reports.length > 0 ? (
+          reports.map((report) => (
+            <CardReports
+              key={report.id}
+              idReport={report.id}
+              titulo={report.problema}
+              descricao={report.descricao}
+              tituloTarefa={report.tituloTarefa}
+              nomeResponsavel={report.nomeUsuario}
+              fotoResponsavel={report.fotoUsuario}
+              status={report.status}
+              onAtualizar={handleAtualizacao}
+            />
+          ))
+        ) : (
+          <p>Nenhum report encontrado.</p>
+        )}
       </div>
     </div>
   );
