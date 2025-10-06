@@ -28,7 +28,6 @@ export const reportsPorGestor = async () => {
       }
     }
 
-    console.log({ reports: response.data, total, concluidos, pendentes });
     return { reports: response.data, total, concluidos, pendentes };
   } catch (error) {
     console.error("Erro ao carregar reports:", error);

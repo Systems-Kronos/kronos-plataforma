@@ -11,13 +11,37 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import { membrosPorGestor } from "../../service/membros";
+import { tarefasPorGestor } from "../../service/tarefas";
 
 export default function Membros() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   // const [membros, setMembros] = useState([]);
   const [quantidade, setQuantidade] = useState(0);
+  const [tarefasConcluidas, setTarefasConcluidas] = useState(0);
+  const [produtividade, setProdutividade] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const carregarTarefas = async () => {
+      try {
+        const dados = await tarefasPorGestor("1", "4");
+        if (dados) {
+          let tarefasTotais = dados.tarefas.length;
+          let tarefasConcluidas = dados.tarefas.filter(t => t.status === "Concluída").length;
+
+          setTarefasConcluidas(tarefasConcluidas);
+          setProdutividade(tarefasTotais > 0 ? Math.round((tarefasConcluidas / tarefasTotais) * 100) : 0);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar tarefas", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    carregarTarefas();
+  }, []);
 
   useEffect(() => {
     const carregarMembros = async () => {
@@ -58,13 +82,13 @@ export default function Membros() {
           titulo={"Tarefas Concluídas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
           descricao={"x concluídas hoje"}
-          numero={"00"}
+          numero={loading ? "--" : tarefasConcluidas || "00"}
         />
         <CardInformacoes
           titulo={"Produtividade"}
           icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
           descricao={"x% vs mês anterior"}
-          numero={"00"}
+          numero={loading ? "--" : produtividade+"%" || "00%"}
         />
       </div>
 
