@@ -1,7 +1,7 @@
 import styles from "./Buscar.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 
-export default function Buscar({ placeholder = "Buscar", onChange }) {
+export default function Buscar({ placeholder = "Buscar", value, onChange }) {
   return (
     <div className={styles.buscarContainer}>
       <SearchIcon className={styles.buscarIcone} />
@@ -9,6 +9,7 @@ export default function Buscar({ placeholder = "Buscar", onChange }) {
         type="text"
         placeholder={placeholder}
         className={styles.buscarInput}
+        value={value}
         onChange={onChange}
       />
     </div>

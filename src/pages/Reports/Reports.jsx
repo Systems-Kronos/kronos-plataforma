@@ -13,12 +13,13 @@ import { reportsPorGestor } from "../../service/reports";
 export default function Reports() {
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
+  const [filtro, setFiltro] = useState("");
   const [totalReports, setTotalReports] = useState(0);
   const [reportsConcluidos, setReportsConcluidos] = useState(0);
   const [reportsPendentes, setReportsPendentes] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  async function handleAtualizacao() {
+  async function carregarReports() {
     try {
       const dados = await reportsPorGestor();
       if (dados) {
@@ -28,27 +29,13 @@ export default function Reports() {
         setReportsPendentes(dados.pendentes);
       }
     } catch (err) {
-      console.error("Erro ao atualizar dados após conclusão:", err);
+      console.error("Erro ao buscar reports:", err);
+    }  finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    const carregarReports = async () => {
-      try {
-        const dados = await reportsPorGestor();
-        if (dados) {
-          setReports(dados.reports);
-          setTotalReports(dados.total);
-          setReportsConcluidos(dados.concluidos);
-          setReportsPendentes(dados.pendentes);
-        }
-      } catch (err) {
-        console.error("Erro ao buscar reports", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     carregarReports();
   }, []);
 
@@ -66,32 +53,42 @@ export default function Reports() {
         <CardInformacoes
           titulo={"Reports Totais"}
           icone={<CircleOutlinedIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : totalReports || "00"}
         />
         <CardInformacoes
           titulo={"Concluídos"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : reportsConcluidos || "00"}
         />
         <CardInformacoes
           titulo={"Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : reportsPendentes || "00"}
         />
       </div>
 
       <div className={styles.buscaContainer}>
-        <Buscar />
+        <Buscar
+          placeholder="Buscar por nome do responsável, status ou título"
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+        />
       </div>
 
       <div className={styles.reportsContainer}>
         {loading ? (
           <p>Carregando reports...</p>
         ) : reports && reports.length > 0 ? (
-          reports.map((report) => (
+          reports
+            .filter((report) => {
+              const termo = filtro.toLowerCase();
+              return (
+                report.problema.toLowerCase().includes(termo) ||
+                report.nomeUsuario.toLowerCase().includes(termo) ||
+                report.status.toLowerCase().includes(termo)
+              );
+            })
+          .map((report) => (
             <CardReports
               key={report.id}
               idReport={report.id}
@@ -101,7 +98,7 @@ export default function Reports() {
               nomeResponsavel={report.nomeUsuario}
               fotoResponsavel={report.fotoUsuario}
               status={report.status}
-              onAtualizar={handleAtualizacao}
+              onAtualizar={carregarReports}
             />
           ))
         ) : (

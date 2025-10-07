@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "../Button";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import { atualizarStatusReport } from "../../service/reports";
 
 export default function CardReports({
@@ -64,7 +64,16 @@ export default function CardReports({
 
       <div className={styles.cardFooter}>
         <div className={styles.responsavel}>
-          <img src={fotoResponsavel} alt="fotoResponsavel" />
+          <img
+            src={
+              fotoResponsavel
+                ? fotoResponsavel
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    nomeResponsavel
+                  )}&background=C2C2C2&color=000000&rounded=true&size=128`
+            }
+            alt={nomeResponsavel}
+          />
           <h4>{nomeResponsavel}</h4>
         </div>
         <div className={styles.tarefa}>
