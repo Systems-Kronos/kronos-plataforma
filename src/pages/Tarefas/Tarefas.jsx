@@ -53,25 +53,21 @@ export default function Tarefas() {
         <CardInformacoes
           titulo={"Concluídas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : tarefasConcluidas.length || "00"}
         />
         <CardInformacoes
           titulo={"Em Andamento"}
           icone={<WatchLaterIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : tarefasEmAndamento.length || "00"}
         />
         <CardInformacoes
           titulo={"Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : tarefasPendentes.length || "00"}
         />
         <CardInformacoes
           titulo={"Canceladas"}
           icone={<NotInterestedIcon style={{ color: "#E6B648" }} />}
-          descricao={"esse mês"}
           numero={loading ? "--" : tarefasCanceladas.length || "00"}
         />
       </div>

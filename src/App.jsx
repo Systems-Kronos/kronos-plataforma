@@ -13,6 +13,7 @@ export default function App() {
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("usuarioId");
+    localStorage.removeItem("empresaId");
   }, []);
 
   return (

@@ -27,12 +27,8 @@ export default function Login() {
 
     try {
       const usuario = await login(cpf.trim(), senha.trim());
-      
-      if (usuario?.token) {
-        localStorage.setItem("token", usuario.token);
-        localStorage.setItem("usuarioId", usuario.usuarioId);
-        console.log("ID do usuário:", usuario.usuarioId);
-      }
+      console.log("ID do usuário:", usuario.id);
+      console.log("ID da empresa:", usuario.empresaId);
 
       navigate("/");
       alert("Login realizado com sucesso!");

@@ -79,25 +79,21 @@ export default function Home() {
         <CardInformacoes
           titulo={"Membros"}
           icone={<GroupsIcon style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }} />}
-          descricao={"x membros nesse mês"}
           numero={loading ? "--" : quantidadeMembros || "00"}
         />
         <CardInformacoes
           titulo={"Tarefas Ativas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
-          descricao={"x concluídas hoje"}
           numero={loading ? "--" : tarefasAtivas || "00"}
         />
         <CardInformacoes
           titulo={"Reports Pendentes"}
           icone={<ErrorIcon style={{ color: "#E6B648" }} />}
-          descricao={"x adicionado hoje"}
           numero={loading ? "--" : reportsPendentes || "00"}
         />
         <CardInformacoes
           titulo={"Produtividade"}
           icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
-          descricao={"x% vs mês anterior"}
           numero={loading ? "--" : produtividade+"%" || "00%"}
         />
       </div>
