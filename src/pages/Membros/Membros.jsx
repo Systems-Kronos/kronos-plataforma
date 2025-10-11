@@ -16,49 +16,64 @@ import { tarefasPorGestor } from "../../service/tarefas";
 export default function Membros() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
-  // const [membros, setMembros] = useState([]);
+  const [membros, setMembros] = useState([]);
+  const [filtro, setFiltro] = useState("");
   const [quantidade, setQuantidade] = useState(0);
   const [tarefasConcluidas, setTarefasConcluidas] = useState(0);
+  const [tarefas, setTarefas] = useState([]);
   const [produtividade, setProdutividade] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const carregarTarefas = async () => {
-      try {
-        const dados = await tarefasPorGestor("1", "4");
-        if (dados) {
-          let tarefasTotais = dados.tarefas.length;
-          let tarefasConcluidas = dados.tarefas.filter(t => t.status === "Concluída").length;
-
-          setTarefasConcluidas(tarefasConcluidas);
-          setProdutividade(tarefasTotais > 0 ? Math.round((tarefasConcluidas / tarefasTotais) * 100) : 0);
-        }
-      } catch (err) {
-        console.error("Erro ao buscar tarefas", err);
-      } finally {
-        setLoading(false);
+  async function carregarMembros() {
+    try {
+      const dados = await membrosPorGestor();
+      if (dados) {
+        setMembros(dados.membros);
+        setQuantidade(dados.quantidadeMembros);
       }
-    };
-    
-    carregarTarefas();
+    } catch (err) {
+      console.error("Erro ao buscar membros:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleClosePopupAndRefresh = () => {
+    setShowPopup(false);
+    carregarMembros();
+  };
+
+  const carregarTarefas = async () => {
+    try {
+      const dados = await tarefasPorGestor("1", "4");
+      if (dados) {
+        setTarefas(dados.tarefas);
+
+        let tarefasTotais = dados.tarefas.length;
+        let tarefasConcluidas = dados.tarefas.filter(
+          (t) => t.status === "Concluída"
+        ).length;
+
+        setTarefasConcluidas(tarefasConcluidas);
+        setProdutividade(
+          tarefasTotais > 0
+            ? Math.round((tarefasConcluidas / tarefasTotais) * 100)
+            : 0
+        );
+      }
+    } catch (err) {
+      console.error("Erro ao buscar tarefas", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    carregarMembros();
   }, []);
 
   useEffect(() => {
-    const carregarMembros = async () => {
-      try {
-        const dados = await membrosPorGestor();
-        if (dados) {
-          // setMembros(dados.membros);
-          setQuantidade(dados.quantidadeMembros);
-        }
-      } catch (err) {
-        console.error("Erro ao buscar membros", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    carregarMembros();
+    carregarTarefas();
   }, []);
 
   return (
@@ -74,26 +89,31 @@ export default function Membros() {
       <div className={styles.cardsContainer}>
         <CardInformacoes
           titulo={"Membros"}
-          icone={<GroupsIcon style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }} />}
-          descricao={"x membros nesse mês"}
+          icone={
+            <GroupsIcon
+              Style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}
+            />
+          }
           numero={loading ? "--" : quantidade || "00"}
         />
         <CardInformacoes
           titulo={"Tarefas Concluídas"}
           icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
-          descricao={"x concluídas hoje"}
           numero={loading ? "--" : tarefasConcluidas || "00"}
         />
         <CardInformacoes
           titulo={"Produtividade"}
           icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
-          descricao={"x% vs mês anterior"}
-          numero={loading ? "--" : produtividade+"%" || "00%"}
+          numero={loading ? "--" : produtividade + "%" || "00%"}
         />
       </div>
 
       <div className={styles.buscaAdicionarContainer}>
-        <Buscar />
+        <Buscar
+          placeholder="Buscar por nome ou e-mail"
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+        />
         <Button
           texto={"Adicionar Membro"}
           onClick={() => setShowPopup(true)}
@@ -102,59 +122,47 @@ export default function Membros() {
       </div>
 
       <div className={styles.usersContainer}>
-        {/* FAZER LÓGICA PARA RENDERIZAR OS USUÁRIOS */}
-        <CardUsuarios
-          nomeUsuario="Alice Silva"
-          fotoUsuario="https://i.pravatar.cc/150?img=1"
-          cargo="Desenvolvedora Front-end"
-          emailUsuario="alice.silva@email.com"
-          telefoneUsuario="(11) 91234-5678"
-          setorUsuario="TI"
-          statusUsuario="Ativo"
-          tarefasConcluidas={12}
-          desempenho="Excelente"
-          justificativaHoje={true}
-        />
-        <CardUsuarios
-          nomeUsuario="Bruno Souza"
-          fotoUsuario="https://i.pravatar.cc/150?img=2"
-          cargo="Analista de Sistemas"
-          emailUsuario="bruno.souza@email.com"
-          telefoneUsuario="(21) 99876-5432"
-          setorUsuario="TI"
-          statusUsuario="Ativo"
-          tarefasConcluidas={8}
-          desempenho="Bom"
-          justificativaHoje={false}
-        />
-        <CardUsuarios
-          nomeUsuario="Carla Oliveira"
-          fotoUsuario="https://i.pravatar.cc/150?img=3"
-          cargo="Gerente de Projetos"
-          emailUsuario="carla.oliveira@email.com"
-          telefoneUsuario="(31) 98765-4321"
-          setorUsuario="Gestão"
-          statusUsuario="Ausente"
-          tarefasConcluidas={5}
-          desempenho="Regular"
-          justificativaHoje={true}
-        />
-        <CardUsuarios
-          nomeUsuario="Diego Santos"
-          fotoUsuario="https://i.pravatar.cc/150?img=4"
-          cargo="QA Tester"
-          emailUsuario="diego.santos@email.com"
-          telefoneUsuario="(41) 91234-5678"
-          setorUsuario="TI"
-          statusUsuario="Ativo"
-          tarefasConcluidas={10}
-          desempenho="Excelente"
-          justificativaHoje={false}
-        />
+        {loading ? (
+          <p>Carregando membros...</p>
+        ) : membros && membros.length > 0 ? (
+          membros
+            .filter((membro) => {
+              const termo = filtro.toLowerCase();
+              return (
+                membro.nome.toLowerCase().includes(termo) ||
+                membro.email.toLowerCase().includes(termo)
+              );
+            })
+            .map((membro) => {
+              const concluidasMembro = tarefas.filter(
+                (t) => t.idUsuario === membro.id && t.status === "Concluída"
+              ).length;
+
+              return (
+                <CardUsuarios
+                  key={membro.id}
+                  idUsuario={membro.id}
+                  nomeUsuario={membro.nome}
+                  fotoUsuario={membro.foto}
+                  idCargo={membro.idCargo}
+                  cargoUsuario={membro.nomeCargo}
+                  idSetor={membro.idSetor}
+                  setorUsuario={membro.nomeSetor}
+                  emailUsuario={membro.email}
+                  telefoneUsuario={membro.telefone}
+                  statusUsuario={membro.ativo}
+                  tarefasConcluidas={concluidasMembro}
+                  possuiCargoGestoria={membro.booleanGestor}
+                />
+              );
+            })
+        ) : (
+          <p>Nenhum membro encontrado.</p>
+        )}
       </div>
 
       {showPopup && (
-        <FormsAdicionarMembro onClose={() => setShowPopup(false)} />
+        <FormsAdicionarMembro onClose={handleClosePopupAndRefresh} />
       )}
     </div>
   );

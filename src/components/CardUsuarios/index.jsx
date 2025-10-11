@@ -8,15 +8,18 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 
 export default function CardUsuarios({
+  idUsuario,
   nomeUsuario,
   fotoUsuario,
-  cargo,
   emailUsuario,
   telefoneUsuario,
+  idCargo,
+  cargoUsuario,
+  idSetor,
   setorUsuario,
   statusUsuario,
   tarefasConcluidas,
-  desempenho,
+  possuiCargoGestoria,
   justificativaHoje,
 }) {
   const [openEdicao, setOpenEdicao] = useState(false);
@@ -26,10 +29,19 @@ export default function CardUsuarios({
     <div className={styles.cardUsuarios}>
       <div className={styles.headerCardUsuarios}>
         <div className={styles.responsavel}>
-          <img src={fotoUsuario} alt="fotoResponsavel" />
+          <img
+            src={
+              fotoUsuario
+                ? fotoUsuario
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    nomeUsuario
+                  )}&background=C2C2C2&color=000000&rounded=true&size=128`
+            }
+            alt={nomeUsuario}
+          />
           <div>
             <h4>{nomeUsuario}</h4>
-            <p>{cargo}</p>
+            <p>{cargoUsuario}</p>
           </div>
         </div>
         {justificativaHoje && (
@@ -60,15 +72,15 @@ export default function CardUsuarios({
         </div>
         <div>
           <p>Status:</p>
-          <p>{statusUsuario}</p>
+          <p>{statusUsuario ? "Ativo" : "Desativado"}</p>
         </div>
         <div>
-          <p>Tarefas Concluídas</p>
+          <p>Tarefas Concluídas:</p>
           <p>{tarefasConcluidas}</p>
         </div>
         <div>
-          <p>Desempenho:</p>
-          <p>{desempenho}</p>
+          <p>Possui cargo de gestão?</p>
+          <p>{possuiCargoGestoria ? "Sim" : "Não"}</p>
         </div>
       </div>
 
@@ -80,7 +92,19 @@ export default function CardUsuarios({
 
       {openEdicao && (
         <div className={styles.popupOverlay}>
-          <CardEditarUsuarios onClose={() => setOpenEdicao(false)} />
+          <CardEditarUsuarios
+            onClose={() => setOpenEdicao(false)}
+            membro={{
+              idUsuario,
+              nomeUsuario,
+              idSetor,
+              idCargo,
+              emailUsuario,
+              telefoneUsuario,
+              possuiCargoGestoria,
+              statusUsuario,
+            }}
+          />
         </div>
       )}
       {openJustificativa && (
