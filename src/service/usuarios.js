@@ -1,9 +1,31 @@
-import axios from "axios";
+import api from "./api";
 
-const API_URL = "https://spring-api-sql.onrender.com/api/usuario";
 const TOKEN_AUTH = localStorage.getItem("token");
 const ID_GESTOR = localStorage.getItem("usuarioId");
 const ID_EMPRESA = localStorage.getItem("empresaId");
+
+export const usuariosPorGestor = async () => {
+  const TOKEN_AUTH = localStorage.getItem("token");
+  const ID_GESTOR = localStorage.getItem("usuarioId");
+
+  if (!TOKEN_AUTH) {
+    console.warn("Sem token, não chamando a API.");
+    return null;
+  }
+
+  try {
+    const response = await api.get(
+      `usuario/selecionarFunction/${ID_GESTOR}`,
+      { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
+    );
+    const quantidadeMembros = response.data.length;
+
+    return { membros: response.data, quantidadeMembros };
+  } catch (error) {
+    console.error("Erro ao carregar membros:", error);
+    throw error;
+  }
+};
 
 export const atualizarUsuario = async ({
   idUsuario,
@@ -31,8 +53,8 @@ export const atualizarUsuario = async ({
     if (cargo) body.cargo = { id: Number(cargo) };
     console.log(body);
 
-    const response = await axios.put(
-      `${API_URL}/atualizar/${idUsuario}`,
+    const response = await api.put(
+      `usuario/atualizar/${idUsuario}`,
       body,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );
@@ -70,8 +92,8 @@ export const adicionarUsuario = async ({
       return [];
     }
 
-    const response = await axios.post(
-      `${API_URL}/adicionar`,
+    const response = await api.post(
+      `usuario/adicionar`,
       {
         id: 0,
         nome: nome,
@@ -83,7 +105,6 @@ export const adicionarUsuario = async ({
         cpf: cpf,
         telefone: telefone,
         email: email,
-        // senha: senhaHashed,
         senha: "senha123",
         foto: null,
         ativo: true,
