@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import styles from "./FormsAdicionarMembro.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
-import { listarCargos } from "../../service/cargo";
+import { listarCargos } from "../../service/cargos";
 import { setoresPorEmpresa } from "../../service/setores";
-import { adicionarUsuario } from "../../service/usuario";
+import { adicionarUsuario } from "../../service/usuarios";
 
 export default function FormsAdicionarMembro({ onClose }) {
   const [step, setStep] = useState(1);
