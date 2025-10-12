@@ -10,7 +10,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
-import { membrosPorGestor } from "../../service/membros";
+import { usuariosPorGestor } from "../../service/usuarios";
 import { tarefasPorGestor } from "../../service/tarefas";
 
 export default function Membros() {
@@ -26,7 +26,7 @@ export default function Membros() {
 
   async function carregarMembros() {
     try {
-      const dados = await membrosPorGestor();
+      const dados = await usuariosPorGestor();
       if (dados) {
         setMembros(dados.membros);
         setQuantidade(dados.quantidadeMembros);

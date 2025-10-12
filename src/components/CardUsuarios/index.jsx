@@ -72,7 +72,7 @@ export default function CardUsuarios({
         </div>
         <div>
           <p>Status:</p>
-          <p>{statusUsuario ? "Ativo" : "Desativado"}</p>
+          <p>{statusUsuario ? "Ativo" : "Desligado"}</p>
         </div>
         <div>
           <p>Tarefas Concluídas:</p>

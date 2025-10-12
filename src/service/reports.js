@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "https://spring-api-sql.onrender.com/api/report";
+import api from "./api";
 
 export const reportsPorGestor = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -12,8 +10,8 @@ export const reportsPorGestor = async () => {
   }
 
   try {
-    const response = await axios.get(
-      `${API_URL}/selecionarFunction/${ID_GESTOR}`,
+    const response = await api.get(
+      `report/selecionarFunction/${ID_GESTOR}`,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );
     const total = response.data.length;
@@ -44,10 +42,15 @@ export const atualizarStatusReport = async (idReport, status) => {
   }
 
   try {
-    const response = await axios.put(
-      `${API_URL}/atualizarStatus/${idReport}`,
+    const response = await api.put(
+      `report/atualizarStatus/${idReport}`,
       { status },
-      { headers: { Authorization: `Bearer ${TOKEN_AUTH}`, "Content-Type": "application/json" } }
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN_AUTH}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
 
     return response.data;

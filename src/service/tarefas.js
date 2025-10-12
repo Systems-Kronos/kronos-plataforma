@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "https://spring-api-sql.onrender.com/api/tarefa";
+import api from "./api";
 
 export const tarefasPorGestor = async (tipoTarefa = "1", status = "4") => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -12,8 +10,8 @@ export const tarefasPorGestor = async (tipoTarefa = "1", status = "4") => {
   }
 
   try {
-    const response = await axios.get(
-      `${API_URL}/selecionarFunctionGestor/${ID_GESTOR}`,
+    const response = await api.get(
+      `tarefa/selecionarFunctionGestor/${ID_GESTOR}`,
       {
         headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
         params: { tipoTarefa, status },

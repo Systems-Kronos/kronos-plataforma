@@ -26,10 +26,7 @@ export default function Login() {
     evento.preventDefault();
 
     try {
-      const usuario = await login(cpf.trim(), senha.trim());
-      console.log("ID do usuário:", usuario.id);
-      console.log("ID da empresa:", usuario.empresaId);
-
+      await login(cpf.trim(), senha.trim());
       navigate("/");
       alert("Login realizado com sucesso!");
     } catch {

@@ -5,7 +5,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
-import { membrosPorGestor } from "../../service/membros";
+import { usuariosPorGestor } from "../../service/usuarios";
 import { tarefasPorGestor } from "../../service/tarefas";
 import { reportsPorGestor } from "../../service/reports";
 
@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     const carregarMembros = async () => {
       try {
-        const dados = await membrosPorGestor();
+        const dados = await usuariosPorGestor();
         if (dados) {
           setQuantidadeMembros(dados.quantidadeMembros);
         }

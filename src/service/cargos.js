@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "https://spring-api-sql.onrender.com/api/cargo";
+import api from "./api";
 
 export const listarCargos = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -11,7 +9,7 @@ export const listarCargos = async () => {
   }
 
   try {
-    const response = await axios.get(`${API_URL}/listar`, {
+    const response = await api.get(`cargo/listar`, {
       headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
     });
 

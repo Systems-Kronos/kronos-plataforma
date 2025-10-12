@@ -3,8 +3,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
 import { useState, useEffect } from "react";
 import { setoresPorEmpresa } from "../../service/setores";
-import { listarCargos } from "../../service/cargo";
-import { atualizarUsuario } from "../../service/usuario";
+import { listarCargos } from "../../service/cargos";
+import { atualizarUsuario } from "../../service/usuarios";
 
 export default function FormsEditarMembro({ onClose, membro }) {
   const [step, setStep] = useState(1);
@@ -96,6 +96,11 @@ export default function FormsEditarMembro({ onClose, membro }) {
 
     if (ativo !== membro?.statusUsuario) {
       dadosAtualizados.ativo = ativo;
+    }
+
+    if (Object.keys(dadosAtualizados).length === 0) {
+      alert("Nenhuma alteração foi feita.");
+      return;
     }
 
     try {

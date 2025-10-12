@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "https://spring-api-sql.onrender.com/api/setor";
+import api from "./api";
 
 export const setoresPorEmpresa = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -17,8 +15,8 @@ export const setoresPorEmpresa = async () => {
   }
 
   try {
-    const respSetores = await axios.get(
-      `${API_URL}/selecionar/empresa/${ID_EMPRESA}`,
+    const respSetores = await api.get(
+      `setor/selecionar/empresa/${ID_EMPRESA}`,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );
 

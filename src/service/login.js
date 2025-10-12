@@ -1,10 +1,8 @@
-import axios from "axios";
-
-const API_URL = "https://spring-api-sql.onrender.com/api/usuario";
+import api from "./api";
 
 export const login = async (cpf, senha) => {
   try {
-    const response = await axios.post(`${API_URL}/loginPlataforma`, {
+    const response = await api.post(`usuario/loginPlataforma`, {
       cpf,
       senha,
     });
@@ -13,7 +11,7 @@ export const login = async (cpf, senha) => {
     localStorage.setItem("token", token);
     localStorage.setItem("usuarioId", usuarioId);
 
-    const respGestor = await axios.get(`https://spring-api-sql.onrender.com/api/usuario/selecionarId/${usuarioId}`,
+    const respGestor = await api.get(`usuario/selecionarId/${usuarioId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
