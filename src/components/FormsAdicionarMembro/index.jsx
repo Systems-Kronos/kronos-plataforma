@@ -5,6 +5,7 @@ import Button from "../Button";
 import { listarCargos } from "../../service/cargos";
 import { setoresPorEmpresa } from "../../service/setores";
 import { adicionarUsuario } from "../../service/usuarios";
+import { habilidadesPorEmpresa, adicionarHabilidadeUsuarios } from "../../service/habilidades";
 
 export default function FormsAdicionarMembro({ onClose }) {
   const [step, setStep] = useState(1);
@@ -12,6 +13,8 @@ export default function FormsAdicionarMembro({ onClose }) {
   const [loadingSetores, setLoadingSetores] = useState(true);
   const [opcoesCargos, setOpcoesCargos] = useState([]);
   const [loadingCargos, setLoadingCargos] = useState(true);
+  const [opcoesHabilidades, setOpcoesHabilidades] = useState([]);
+  const [loadingHabilidades, setLoadingHabilidades] = useState(true);
   const [formData, setFormData] = useState({
     nomeCompleto: "",
     cpf: "",
@@ -20,7 +23,7 @@ export default function FormsAdicionarMembro({ onClose }) {
     setor: "",
     cargo: "",
     gestao: false,
-    habilidades: "",
+    habilidades: [],
   });
 
   useEffect(() => {
@@ -46,8 +49,20 @@ export default function FormsAdicionarMembro({ onClose }) {
       }
     };
 
+    const carregarHabilidades = async () => {
+      try {
+        const habilidades = await habilidadesPorEmpresa();
+        setOpcoesHabilidades(habilidades || []);
+      } catch (err) {
+        console.error("Erro ao carregar habilidades:", err);
+      } finally {
+        setLoadingHabilidades(false);
+      }
+    };
+
     carregarSetores();
     carregarCargos();
+    carregarHabilidades();
   }, []);
 
   const maskCpf = (value) => {
@@ -86,6 +101,9 @@ export default function FormsAdicionarMembro({ onClose }) {
       formattedValue = maskCpf(value);
     } else if (name === "telefone") {
       formattedValue = maskTelefone(value);
+    } else if (name === "habilidades") {
+      const options = Array.from(e.target.selectedOptions);
+      formattedValue = options.map((option) => option.value);
     }
 
     setFormData({ ...formData, [name]: formattedValue });
@@ -94,34 +112,47 @@ export default function FormsAdicionarMembro({ onClose }) {
   const handleNext = () => setStep(2);
   const handleBack = () => setStep(1);
 
-const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (!formData.nomeCompleto || !formData.email || !formData.cpf || !formData.setor || !formData.cargo) {
-            alert("Por favor, preencha todos os campos obrigatórios.");
-            return;
-        }
+    if (
+      !formData.nomeCompleto ||
+      !formData.email ||
+      !formData.cpf ||
+      !formData.setor ||
+      !formData.cargo
+    ) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
 
-        const payload = {
-            nome: formData.nomeCompleto,
-            email: formData.email,
-            telefone: formData.telefone, 
-            cpf: formData.cpf,
-            booleanGestor: formData.gestao === "true", 
-            setorId: Number(formData.setor),
-            cargoId: Number(formData.cargo),
-        };
-
-        try {
-            await adicionarUsuario(payload);
-            
-            alert("Usuário adicionado com sucesso!");
-            onClose();
-        } catch (error) {
-            console.error("Erro ao adicionar usuário:", error);
-            alert("Erro ao adicionar usuário. Tente novamente.");
-        }
+    const payload = {
+      nome: formData.nomeCompleto,
+      email: formData.email,
+      telefone: formData.telefone,
+      cpf: formData.cpf,
+      booleanGestor: formData.gestao === "true",
+      setorId: Number(formData.setor),
+      cargoId: Number(formData.cargo),
     };
+
+    try {
+      const novoUsuario = await adicionarUsuario(payload);
+
+      if (formData.habilidades.length > 0 && novoUsuario.id) {
+        await adicionarHabilidadeUsuarios(
+          novoUsuario.id,
+          formData.habilidades.map((id) => Number(id))
+        );
+      }
+
+      alert("Usuário adicionado com sucesso!");
+      onClose();
+    } catch (error) {
+      console.error("Erro ao adicionar usuário:", error);
+      alert("Erro ao adicionar usuário. Tente novamente.");
+    }
+  };
 
   return (
     <div className={styles.formsModal}>
@@ -181,7 +212,7 @@ const handleSubmit = async (e) => {
                   name="telefone"
                   className={styles.inputText}
                   placeholder="Digite o telefone pessoal"
-                  value={"+55 "+formData.telefone}
+                  value={"+55 " + formData.telefone}
                   onChange={handleChange}
                 />
               </>
@@ -257,15 +288,27 @@ const handleSubmit = async (e) => {
 
                 <div>
                   <label htmlFor="habilidades">Habilidades</label>
-                  <input
-                    type="text"
+                  <select
+                    multiple
                     id="habilidades"
                     name="habilidades"
                     className={styles.inputText}
-                    placeholder="Ex: Excel, Liderança, Comunicação"
                     value={formData.habilidades}
                     onChange={handleChange}
-                  />
+                    disabled={loadingHabilidades}
+                  >
+                    {loadingHabilidades ? (
+                      <option>Carregando...</option>
+                    ) : (
+                      <>
+                        {opcoesHabilidades.map((h) => (
+                          <option key={h.id} value={h.id}>
+                            {h.nome}
+                          </option>
+                        ))}
+                      </>
+                    )}
+                  </select>
                 </div>
               </>
             )}
