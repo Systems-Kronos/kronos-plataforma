@@ -56,3 +56,26 @@ export const adicionarHabilidadeUsuarios = async (idUsuario, idsHabilidade) => {
     throw error;
   }
 };
+
+export const habilidadesPorUsuario = async (idUsuario) => {
+  const TOKEN_AUTH = localStorage.getItem("token");
+
+  if (!TOKEN_AUTH) {
+    console.warn("Sem token, não chamando a API.");
+    return null;
+  }
+
+  try {
+    const response = await api.get(
+      `habilidade-usuario/selecionar/${idUsuario}`,
+      {
+        headers: { Authorization: `Bearer ${TOKEN_AUTH}` }
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao carregar habilidades do usuário:", error);
+    throw error;
+  }
+};

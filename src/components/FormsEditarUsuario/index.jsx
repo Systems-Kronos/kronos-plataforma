@@ -5,6 +5,13 @@ import { useState, useEffect } from "react";
 import { setoresPorEmpresa } from "../../service/setores";
 import { listarCargos } from "../../service/cargos";
 import { atualizarUsuario } from "../../service/usuarios";
+import MuiMultiSelect from "../Selects/multipleSelect";
+import MuiSingleSelect from "../Selects/singleSelect";
+
+const OPCOES_GESTAO = [
+  { value: "false", label: "Não" },
+  { value: "true", label: "Sim" },
+];
 
 export default function FormsEditarMembro({ onClose, membro }) {
   const [step, setStep] = useState(1);
@@ -13,12 +20,24 @@ export default function FormsEditarMembro({ onClose, membro }) {
   const [telefone, setTelefone] = useState(membro?.telefoneUsuario);
   const [setor, setSetor] = useState(membro?.idSetor);
   const [cargo, setCargo] = useState(membro?.idCargo);
-  const [gestao, setGestao] = useState(membro?.possuiCargoGestoria ? "true" : "false");
+  const [gestao, setGestao] = useState(
+    membro?.possuiCargoGestoria ? "true" : "false"
+  );
   const [ativo, setAtivo] = useState(membro?.statusUsuario);
   const [opcoesSetores, setOpcoesSetores] = useState([]);
   const [opcoesCargos, setOpcoesCargos] = useState([]);
   const [loadingSetores, setLoadingSetores] = useState(true);
   const [loadingCargos, setLoadingCargos] = useState(true);
+
+  const handleChangeSelect = (event) => {
+    const {
+      target: { value, name },
+    } = event;
+
+    if (name === "setor") setSetor(value);
+    if (name === "cargo") setCargo(value);
+    if (name === "gestao") setGestao(value);
+  };
 
   const handleTelefoneChange = (evento) => {
     let value = evento.target.value.replace(/\D/g, "");
@@ -43,7 +62,11 @@ export default function FormsEditarMembro({ onClose, membro }) {
     const carregarSetores = async () => {
       try {
         const setores = await setoresPorEmpresa();
-        setOpcoesSetores(setores || []);
+        const mappedSetores = (setores || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesSetores(mappedSetores || []);
       } catch (err) {
         console.error("Erro ao carregar setores:", err);
       } finally {
@@ -54,7 +77,11 @@ export default function FormsEditarMembro({ onClose, membro }) {
     const carregarCargos = async () => {
       try {
         const cargos = await listarCargos();
-        setOpcoesCargos(cargos || []);
+        const mappedCargos = (cargos || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesCargos(mappedCargos || []);
       } catch (err) {
         console.error("Erro ao carregar cargos:", err);
       } finally {
@@ -89,7 +116,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
       dadosAtualizados.cargo = cargo;
     }
 
-    const gestaoBoolean = gestao === "true"; 
+    const gestaoBoolean = gestao === "true";
     if (gestaoBoolean !== membro?.possuiCargoGestoria) {
       dadosAtualizados.booleanGestor = gestaoBoolean;
     }
@@ -175,67 +202,38 @@ export default function FormsEditarMembro({ onClose, membro }) {
                 <div className={styles.formRow}>
                   <div>
                     <label htmlFor="setor">Setor</label>
-                    <select
+                    <MuiSingleSelect
                       id="setor"
                       name="setor"
-                      className={styles.inputSelect}
                       value={setor}
-                      onChange={(e) => setSetor(Number(e.target.value))}
-                      disabled={loadingSetores}
-                    >
-                      {loadingSetores ? (
-                        <option>Carregando...</option>
-                      ) : (
-                        <>
-                          <option value="">Selecione</option>
-                          {opcoesSetores.map((s) => (
-                            <option key={s.id} value={s.id}>
-                              {s.nome}
-                            </option>
-                          ))}
-                        </>
-                      )}
-                    </select>
+                      onChange={handleChangeSelect}
+                      options={opcoesSetores}
+                      loading={loadingSetores}
+                    />
                   </div>
 
                   <div>
                     <label htmlFor="gestao">Permitir gestão</label>
-                    <select
+                    <MuiSingleSelect
                       id="gestao"
                       name="gestao"
-                      className={styles.inputSelect}
                       value={gestao}
-                      onChange={(e) => setGestao(e.target.value)}
-                    >
-                      <option value="false">Não</option>
-                      <option value="true">Sim</option>
-                    </select>
+                      onChange={handleChangeSelect}
+                      options={OPCOES_GESTAO}
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="cargo">Cargo</label>
-                  <select
+                  <MuiSingleSelect
                     id="cargo"
                     name="cargo"
-                    className={styles.inputSelect}
                     value={cargo}
-                    onChange={(e) => setCargo(Number(e.target.value))}
-                    disabled={loadingCargos}
-                  >
-                    {loadingCargos ? (
-                      <option>Carregando...</option>
-                    ) : (
-                      <>
-                        <option value="">Selecione</option>
-                        {opcoesCargos.map((c) => (
-                          <option key={c.id} value={c.id}>
-                            {c.nome}
-                          </option>
-                        ))}
-                      </>
-                    )}
-                  </select>
+                    onChange={handleChangeSelect}
+                    options={opcoesCargos}
+                    loading={loadingCargos}
+                  />
                 </div>
 
                 <div>

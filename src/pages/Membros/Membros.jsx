@@ -126,6 +126,7 @@ export default function Membros() {
           <p>Carregando membros...</p>
         ) : membros && membros.length > 0 ? (
           membros
+            .sort((a, b) => a.nome.localeCompare(b.nome))
             .filter((membro) => {
               const termo = filtro.toLowerCase();
               return (

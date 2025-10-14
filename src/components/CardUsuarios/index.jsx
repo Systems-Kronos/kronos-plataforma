@@ -1,11 +1,12 @@
 import styles from "./CardUsuarios.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../Button";
 import CardJustificativa from "../CardJustificativa";
 import CardEditarUsuarios from "../FormsEditarUsuario";
 import ErrorIcon from "@mui/icons-material/Error";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import { habilidadesPorUsuario } from "../../service/habilidades";
 
 export default function CardUsuarios({
   idUsuario,
@@ -22,8 +23,30 @@ export default function CardUsuarios({
   possuiCargoGestoria,
   justificativaHoje,
 }) {
+  const [habilidades, setHabilidades] = useState([]);
   const [openEdicao, setOpenEdicao] = useState(false);
   const [openJustificativa, setOpenJustificativa] = useState(false);
+
+  useEffect(() => {
+    const carregarHabilidades = async () => {
+      try {
+        const resultado = await habilidadesPorUsuario(idUsuario);
+        let habilidadesArray = Array.isArray(resultado)
+          ? resultado
+          : [resultado];
+
+        const nomesHabilidades = habilidadesArray
+          .filter((h) => h && h.habilidade && h.habilidade.nome)
+          .map((h) => h.habilidade.nome);
+
+        setHabilidades(nomesHabilidades);
+      } catch (err) {
+        console.error("Erro ao carregar habilidades:", err);
+      }
+    };
+
+    carregarHabilidades();
+  }, [idUsuario]);
 
   return (
     <div className={styles.cardUsuarios}>
@@ -66,21 +89,29 @@ export default function CardUsuarios({
       <hr className={styles.divisao} />
 
       <div className={styles.informacoes}>
-        <div>
+        <div className={styles.info}>
           <p>Setor:</p>
           <p>{setorUsuario}</p>
         </div>
-        <div>
-          <p>Status:</p>
-          <p>{statusUsuario ? "Ativo" : "Desligado"}</p>
-        </div>
-        <div>
+        <div className={styles.info}>
           <p>Tarefas Concluídas:</p>
           <p>{tarefasConcluidas}</p>
         </div>
-        <div>
-          <p>Possui cargo de gestão?</p>
+        <div className={styles.infoHabilidades}>
+          <p>Habilidades:</p>
+          <ul className={styles.listaHabilidades}>
+            {habilidades.map((habilidade) => (
+              <li key={habilidade}>{habilidade}</li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.info}>
+          <p>É gestor?</p>
           <p>{possuiCargoGestoria ? "Sim" : "Não"}</p>
+        </div>
+        <div className={styles.info}>
+          <p>Status:</p>
+          <p>{statusUsuario ? "Ativo" : "Desligado"}</p>
         </div>
       </div>
 

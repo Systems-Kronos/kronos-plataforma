@@ -74,12 +74,22 @@
   color: #370963;
 }
 
-.informacoes > div {
+.info {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  margin: 2% 0;
+  margin: 2.5% 0;
+}
+
+.infoHabilidades {
+  display: flex;
+  flex-direction: column;
+  margin: 2.5% 0;
+}
+
+.listaHabilidades {
+  padding: 2% 10%;
 }
 
 .popupOverlay {

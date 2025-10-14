@@ -80,6 +80,7 @@ export default function Reports() {
           <p>Carregando reports...</p>
         ) : reports && reports.length > 0 ? (
           reports
+            .sort((a, b) => b.id - a.id)
             .filter((report) => {
               const termo = filtro.toLowerCase();
               return (
