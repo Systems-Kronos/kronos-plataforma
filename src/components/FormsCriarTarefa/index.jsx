@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./FormsCriarTarefa.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
+import { setoresPorEmpresa } from "../../service/setores";
+import { habilidadesPorEmpresa } from "../../service/habilidades";
+import { usuariosPorGestor } from "../../service/usuarios";
+import MuiSingleSelect from "../Selects/singleSelect";
+import MuiMultiSelect from "../Selects/multipleSelect";
+
+const OPCOES_GUT = [
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+];
 
 export default function FormsCriarTarefa({ onClose }) {
-  const [step, setStep] = useState(1); // controla em qual parte está
+  const [step, setStep] = useState(1);
+  const [opcoesSetores, setOpcoesSetores] = useState([]);
+  const [loadingSetores, setLoadingSetores] = useState(true);
+  const [opcoesHabilidades, setOpcoesHabilidades] = useState([]);
+  const [loadingHabilidades, setLoadingHabilidades] = useState(true);
+  const [opcoesUsuarios, setOpcoesUsuarios] = useState([]);
+  const [loadingUsuarios, setLoadingUsuarios] = useState(true);
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
-    habilidades: "",
+    habilidades: [],
     setor: "",
     prioridade: "",
     data: "",
@@ -17,6 +36,69 @@ export default function FormsCriarTarefa({ onClose }) {
     urgencia: "",
     tendencia: "",
   });
+
+  const handleChangeSelect = (event) => {
+    const {
+      target: { value, name },
+    } = event;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const carregarSetores = async () => {
+      try {
+        const setores = await setoresPorEmpresa();
+        const mappedSetores = (setores || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesSetores(mappedSetores || []);
+      } catch (err) {
+        console.error("Erro ao carregar setores:", err);
+      } finally {
+        setLoadingSetores(false);
+      }
+    };
+
+    const carregarHabilidades = async () => {
+      try {
+        const habilidades = await habilidadesPorEmpresa();
+        const mappedHabilidades = (habilidades || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesHabilidades(mappedHabilidades || []);
+      } catch (err) {
+        console.error("Erro ao carregar habilidades:", err);
+      } finally {
+        setLoadingHabilidades(false);
+      }
+    };
+
+    const carregarUsuarios = async () => {
+      try {
+        const response = await usuariosPorGestor();
+        const usuarios = response?.membros || [];
+        const mappedUsuarios = usuarios.map((u) => ({
+          value: u.id,
+          label: u.nome,
+        }));
+        setOpcoesUsuarios(mappedUsuarios.sort((a, b) => a.label.localeCompare(b.label)) || []);
+      } catch (err) {
+        console.error("Erro ao carregar usuários:", err);
+      } finally {
+        setLoadingUsuarios(false);
+      }
+    };
+
+    carregarSetores();
+    carregarHabilidades();
+    carregarUsuarios();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +110,7 @@ export default function FormsCriarTarefa({ onClose }) {
       setStep(2);
     } else {
       console.log("Criar Tarefa", formData);
-      onClose(); // fecha modal
+      onClose();
     }
   };
 
@@ -81,14 +163,13 @@ export default function FormsCriarTarefa({ onClose }) {
                 />
 
                 <label htmlFor="habilidades">Habilidades</label>
-                <input
-                  type="text"
+                <MuiMultiSelect
                   id="habilidades"
                   name="habilidades"
-                  className={styles.inputText}
-                  placeholder="Ex: Excel, Liderança, Comunicação"
                   value={formData.habilidades}
-                  onChange={handleChange}
+                  onChange={handleChangeSelect}
+                  options={opcoesHabilidades}
+                  loading={loadingHabilidades}
                 />
               </>
             )}
@@ -110,85 +191,62 @@ export default function FormsCriarTarefa({ onClose }) {
 
                   <div>
                     <label htmlFor="gravidade">Gravidade</label>
-                    <select
-                      id="gravidade"
-                      name="gravidade"
-                      className={styles.inputSelect}
-                      value={formData.gravidade}
-                      onChange={handleChange}
-                    >
-                      <option value="">Selecione</option>
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <option key={n} value={n}>
-                          {n}
-                        </option>
-                      ))}
-                    </select>
+                    <MuiSingleSelect
+                      id="gestao"
+                      name="gestao"
+                      value={formData.gestao}
+                      onChange={handleChangeSelect}
+                      options={OPCOES_GUT}
+                    />
                   </div>
                 </div>
 
                 <div className={styles.formRow}>
                   <div>
                     <label htmlFor="urgencia">Urgência</label>
-                    <select
-                      id="urgencia"
-                      name="urgencia"
-                      className={styles.inputSelect}
-                      value={formData.urgencia}
-                      onChange={handleChange}
-                    >
-                      <option value="">Selecione</option>
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <option key={n} value={n}>
-                          {n}
-                        </option>
-                      ))}
-                    </select>
+                    <MuiSingleSelect
+                      id="gestao"
+                      name="gestao"
+                      value={formData.gestao}
+                      onChange={handleChangeSelect}
+                      options={OPCOES_GUT}
+                    />
                   </div>
 
                   <div>
                     <label htmlFor="tendencia">Tendência</label>
-                    <select
-                      id="tendencia"
-                      name="tendencia"
-                      className={styles.inputSelect}
-                      value={formData.tendencia}
-                      onChange={handleChange}
-                    >
-                      <option value="">Selecione</option>
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <option key={n} value={n}>
-                          {n}
-                        </option>
-                      ))}
-                    </select>
+                    <MuiSingleSelect
+                      id="gestao"
+                      name="gestao"
+                      value={formData.gestao}
+                      onChange={handleChangeSelect}
+                      options={OPCOES_GUT}
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="atribuir">Atribuir à</label>
-                  <select
+                  <MuiSingleSelect
                     id="atribuir"
                     name="atribuir"
-                    className={styles.inputSelect}
                     value={formData.atribuir}
-                    onChange={handleChange}
-                  >
-                    <option value="">Selecione</option>
-                  </select>
+                    onChange={handleChangeSelect}
+                    options={opcoesUsuarios}
+                    loading={loadingUsuarios}
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="setor">Setor</label>
-                  <select
+                  <MuiSingleSelect
                     id="setor"
                     name="setor"
-                    className={styles.inputSelect}
                     value={formData.setor}
-                    onChange={handleChange}
-                  >
-                    <option value="">Selecione</option>
-                  </select>
+                    onChange={handleChangeSelect}
+                    options={opcoesSetores}
+                    loading={loadingSetores}
+                  />
                 </div>
               </>
             )}

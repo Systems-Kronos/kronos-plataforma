@@ -5,7 +5,17 @@ import Button from "../Button";
 import { listarCargos } from "../../service/cargos";
 import { setoresPorEmpresa } from "../../service/setores";
 import { adicionarUsuario } from "../../service/usuarios";
-import { habilidadesPorEmpresa, adicionarHabilidadeUsuarios } from "../../service/habilidades";
+import {
+  habilidadesPorEmpresa,
+  adicionarHabilidadeUsuarios,
+} from "../../service/habilidades";
+import MuiMultiSelect from "../Selects/multipleSelect";
+import MuiSingleSelect from "../Selects/singleSelect";
+
+const OPCOES_GESTAO = [
+  { value: "false", label: "Não" },
+  { value: "true", label: "Sim" },
+];
 
 export default function FormsAdicionarMembro({ onClose }) {
   const [step, setStep] = useState(1);
@@ -22,15 +32,30 @@ export default function FormsAdicionarMembro({ onClose }) {
     telefone: "",
     setor: "",
     cargo: "",
-    gestao: false,
+    gestao: "false",
     habilidades: [],
   });
+
+  const handleChangeSelect = (event) => {
+    const {
+      target: { value, name },
+    } = event;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     const carregarSetores = async () => {
       try {
         const setores = await setoresPorEmpresa();
-        setOpcoesSetores(setores || []);
+        const mappedSetores = (setores || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesSetores(mappedSetores || []);
       } catch (err) {
         console.error("Erro ao carregar setores:", err);
       } finally {
@@ -41,7 +66,11 @@ export default function FormsAdicionarMembro({ onClose }) {
     const carregarCargos = async () => {
       try {
         const cargos = await listarCargos();
-        setOpcoesCargos(cargos || []);
+        const mappedCargos = (cargos || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesCargos(mappedCargos || []);
       } catch (err) {
         console.error("Erro ao carregar cargos:", err);
       } finally {
@@ -52,7 +81,11 @@ export default function FormsAdicionarMembro({ onClose }) {
     const carregarHabilidades = async () => {
       try {
         const habilidades = await habilidadesPorEmpresa();
-        setOpcoesHabilidades(habilidades || []);
+        const mappedHabilidades = (habilidades || []).map((h) => ({
+          value: h.id,
+          label: h.nome,
+        }));
+        setOpcoesHabilidades(mappedHabilidades || []);
       } catch (err) {
         console.error("Erro ao carregar habilidades:", err);
       } finally {
@@ -223,92 +256,50 @@ export default function FormsAdicionarMembro({ onClose }) {
                 <div className={styles.formRow}>
                   <div>
                     <label htmlFor="setor">Setor</label>
-                    <select
+                    <MuiSingleSelect
                       id="setor"
                       name="setor"
-                      className={styles.inputSelect}
                       value={formData.setor}
-                      onChange={handleChange}
-                      disabled={loadingSetores}
-                    >
-                      {loadingSetores ? (
-                        <option>Carregando...</option>
-                      ) : (
-                        <>
-                          <option value="">Selecione</option>
-                          {opcoesSetores.map((s) => (
-                            <option key={s.id} value={s.id}>
-                              {s.nome}
-                            </option>
-                          ))}
-                        </>
-                      )}
-                    </select>
+                      onChange={handleChangeSelect}
+                      options={opcoesSetores}
+                      loading={loadingSetores}
+                    />
                   </div>
 
                   <div>
                     <label htmlFor="gestao">Permitir gestão</label>
-                    <select
+                    <MuiSingleSelect
                       id="gestao"
                       name="gestao"
-                      className={styles.inputSelect}
                       value={formData.gestao}
-                      onChange={handleChange}
-                    >
-                      <option value="false">Não</option>
-                      <option value="true">Sim</option>
-                    </select>
+                      onChange={handleChangeSelect}
+                      options={OPCOES_GESTAO}
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="cargo">Cargo</label>
-                  <select
+                  <MuiSingleSelect
                     id="cargo"
                     name="cargo"
-                    className={styles.inputSelect}
                     value={formData.cargo}
-                    onChange={handleChange}
-                    disabled={loadingCargos}
-                  >
-                    {loadingCargos ? (
-                      <option>Carregando...</option>
-                    ) : (
-                      <>
-                        <option value="">Selecione</option>
-                        {opcoesCargos.map((c) => (
-                          <option key={c.id} value={c.id}>
-                            {c.nome}
-                          </option>
-                        ))}
-                      </>
-                    )}
-                  </select>
+                    onChange={handleChangeSelect}
+                    options={opcoesCargos}
+                    loading={loadingCargos}
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="habilidades">Habilidades</label>
-                  <select
-                    multiple
+                  <MuiMultiSelect
                     id="habilidades"
                     name="habilidades"
-                    className={styles.inputText}
                     value={formData.habilidades}
-                    onChange={handleChange}
-                    disabled={loadingHabilidades}
-                  >
-                    {loadingHabilidades ? (
-                      <option>Carregando...</option>
-                    ) : (
-                      <>
-                        {opcoesHabilidades.map((h) => (
-                          <option key={h.id} value={h.id}>
-                            {h.nome}
-                          </option>
-                        ))}
-                      </>
-                    )}
-                  </select>
+                    onChange={handleChangeSelect}
+                    options={opcoesHabilidades}
+                    loading={loadingHabilidades}
+                  />
                 </div>
               </>
             )}
