@@ -54,16 +54,12 @@
   object-fit: cover;
 }
 
-.data {
+.tarefa {
   display: flex;
   align-items: center;
   gap: 0.5vw;
 }
 
-.data h4 {
-  margin-top: 2%;
-}
-
-.data svg {
+.tarefa svg {
   color: #370963;
 }

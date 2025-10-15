@@ -6,6 +6,15 @@
   padding: 6px 12px;
   width: 80%;
   background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.buscarContainer:focus-within {
+  border-color: #E6B648;
+
+  .buscarIcone {
+    color: #E6B648;
+  }
 }
 
 .buscarIcone {

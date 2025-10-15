@@ -1,35 +1,70 @@
 import styles from "./CardUsuarios.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../Button";
 import CardJustificativa from "../CardJustificativa";
 import CardEditarUsuarios from "../FormsEditarUsuario";
 import ErrorIcon from "@mui/icons-material/Error";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import { habilidadesPorUsuario } from "../../service/habilidades";
 
 export default function CardUsuarios({
+  idUsuario,
   nomeUsuario,
   fotoUsuario,
-  cargo,
   emailUsuario,
   telefoneUsuario,
+  idCargo,
+  cargoUsuario,
+  idSetor,
   setorUsuario,
   statusUsuario,
   tarefasConcluidas,
-  desempenho,
+  possuiCargoGestoria,
   justificativaHoje,
 }) {
+  const [habilidades, setHabilidades] = useState([]);
   const [openEdicao, setOpenEdicao] = useState(false);
   const [openJustificativa, setOpenJustificativa] = useState(false);
+
+  useEffect(() => {
+    const carregarHabilidades = async () => {
+      try {
+        const resultado = await habilidadesPorUsuario(idUsuario);
+        let habilidadesArray = Array.isArray(resultado)
+          ? resultado
+          : [resultado];
+
+        const nomesHabilidades = habilidadesArray
+          .filter((h) => h && h.habilidade && h.habilidade.nome)
+          .map((h) => h.habilidade.nome);
+
+        setHabilidades(nomesHabilidades);
+      } catch (err) {
+        console.error("Erro ao carregar habilidades:", err);
+      }
+    };
+
+    carregarHabilidades();
+  }, [idUsuario]);
 
   return (
     <div className={styles.cardUsuarios}>
       <div className={styles.headerCardUsuarios}>
         <div className={styles.responsavel}>
-          <img src={fotoUsuario} alt="fotoResponsavel" />
+          <img
+            src={
+              fotoUsuario
+                ? fotoUsuario
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    nomeUsuario
+                  )}&background=C2C2C2&color=000000&rounded=true&size=128`
+            }
+            alt={nomeUsuario}
+          />
           <div>
             <h4>{nomeUsuario}</h4>
-            <p>{cargo}</p>
+            <p>{cargoUsuario}</p>
           </div>
         </div>
         {justificativaHoje && (
@@ -54,21 +89,29 @@ export default function CardUsuarios({
       <hr className={styles.divisao} />
 
       <div className={styles.informacoes}>
-        <div>
+        <div className={styles.info}>
           <p>Setor:</p>
           <p>{setorUsuario}</p>
         </div>
-        <div>
-          <p>Status:</p>
-          <p>{statusUsuario}</p>
-        </div>
-        <div>
-          <p>Tarefas Concluídas</p>
+        <div className={styles.info}>
+          <p>Tarefas Concluídas:</p>
           <p>{tarefasConcluidas}</p>
         </div>
-        <div>
-          <p>Desempenho:</p>
-          <p>{desempenho}</p>
+        <div className={styles.infoHabilidades}>
+          <p>Habilidades:</p>
+          <ul className={styles.listaHabilidades}>
+            {habilidades.map((habilidade) => (
+              <li key={habilidade}>{habilidade}</li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.info}>
+          <p>É gestor?</p>
+          <p>{possuiCargoGestoria ? "Sim" : "Não"}</p>
+        </div>
+        <div className={styles.info}>
+          <p>Status:</p>
+          <p>{statusUsuario ? "Ativo" : "Desligado"}</p>
         </div>
       </div>
 
@@ -80,7 +123,19 @@ export default function CardUsuarios({
 
       {openEdicao && (
         <div className={styles.popupOverlay}>
-          <CardEditarUsuarios onClose={() => setOpenEdicao(false)} />
+          <CardEditarUsuarios
+            onClose={() => setOpenEdicao(false)}
+            membro={{
+              idUsuario,
+              nomeUsuario,
+              idSetor,
+              idCargo,
+              emailUsuario,
+              telefoneUsuario,
+              possuiCargoGestoria,
+              statusUsuario,
+            }}
+          />
         </div>
       )}
       {openJustificativa && (

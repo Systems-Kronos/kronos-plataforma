@@ -1,28 +1,34 @@
 import styles from "./CardReports.module.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "../Button";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import { atualizarStatusReport } from "../../service/reports";
 
 export default function CardReports({
+  idReport,
   titulo,
   descricao,
-  data,
+  tituloTarefa,
   nomeResponsavel,
   fotoResponsavel,
+  status,
+  onAtualizar,
 }) {
-  const storageKey = `concluido_${titulo}`;
-  const [concluido, setConcluido] = useState(false);
+  const [concluido, setConcluido] = useState(status === "Concluído");
 
-  useEffect(() => {
-    const salvo = localStorage.getItem(storageKey);
-    if (salvo === "true") setConcluido(true);
-  }, [storageKey]);
-
-  function concluirTarefa() {
-    setConcluido(true);
-    localStorage.setItem(storageKey, "true");
+  async function concluirTarefa() {
+    try {
+      await atualizarStatusReport(idReport, "Concluído");
+      setConcluido(true);
+      if (onAtualizar) {
+        onAtualizar();
+      }
+    } catch (error) {
+      console.error("Erro ao concluir tarefa:", error);
+      alert("Não foi possível atualizar o status do report.");
+    }
   }
 
   return (
@@ -58,12 +64,21 @@ export default function CardReports({
 
       <div className={styles.cardFooter}>
         <div className={styles.responsavel}>
-          <img src={fotoResponsavel} alt="fotoResponsavel" />
+          <img
+            src={
+              fotoResponsavel
+                ? fotoResponsavel
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    nomeResponsavel
+                  )}&background=C2C2C2&color=000000&rounded=true&size=128`
+            }
+            alt={nomeResponsavel}
+          />
           <h4>{nomeResponsavel}</h4>
         </div>
-        <div className={styles.data}>
-          <CalendarMonthIcon color="grey" />
-          <h4>{data}</h4>
+        <div className={styles.tarefa}>
+          <AssignmentIcon color="grey" />
+          <h4>{tituloTarefa}</h4>
         </div>
       </div>
     </div>

@@ -96,3 +96,7 @@
 .buttonWrapper button {
   width: 100%;
 }
+
+.loginButton {
+  cursor: pointer;
+}

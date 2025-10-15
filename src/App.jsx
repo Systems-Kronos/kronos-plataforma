@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Analises from "./pages/Analises/Analises";
@@ -12,21 +13,20 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+
         <Route
-          path="*"
           element={
-            <>
-              <Header />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/analises" element={<Analises />} />
-                <Route path="/membros-equipe" element={<Membros />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/tarefas" element={<Tarefas />} />
-              </Routes>
-            </>
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
           }
-        />
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="/analises" element={<Analises />} />
+          <Route path="/membros-equipe" element={<Membros />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/tarefas" element={<Tarefas />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -3,6 +3,7 @@
   padding: 1%;
   width: 22vw;
   border: 3px solid #ccc;
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -62,12 +63,4 @@
 
 .anexo svg {
   color: #e6b648;
-}
-
-.footer {
-  margin-top: 10%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
 }
