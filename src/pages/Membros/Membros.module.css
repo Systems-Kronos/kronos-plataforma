@@ -32,7 +32,8 @@
 .usersContainer {
   margin-top: 4vw;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 4vw;
-  justify-content: center;
 }

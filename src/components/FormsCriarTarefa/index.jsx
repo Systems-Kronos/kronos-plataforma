@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import styles from "./FormsCriarTarefa.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
-import { setoresPorEmpresa } from "../../service/setores";
 import { habilidadesPorEmpresa } from "../../service/habilidades";
 import { usuariosPorGestor } from "../../service/usuarios";
 import MuiSingleSelect from "../Selects/singleSelect";
@@ -18,8 +17,6 @@ const OPCOES_GUT = [
 
 export default function FormsCriarTarefa({ onClose }) {
   const [step, setStep] = useState(1);
-  const [opcoesSetores, setOpcoesSetores] = useState([]);
-  const [loadingSetores, setLoadingSetores] = useState(true);
   const [opcoesHabilidades, setOpcoesHabilidades] = useState([]);
   const [loadingHabilidades, setLoadingHabilidades] = useState(true);
   const [opcoesUsuarios, setOpcoesUsuarios] = useState([]);
@@ -28,7 +25,6 @@ export default function FormsCriarTarefa({ onClose }) {
     titulo: "",
     descricao: "",
     habilidades: [],
-    setor: "",
     prioridade: "",
     data: "",
     atribuir: "",
@@ -49,21 +45,6 @@ export default function FormsCriarTarefa({ onClose }) {
   };
 
   useEffect(() => {
-    const carregarSetores = async () => {
-      try {
-        const setores = await setoresPorEmpresa();
-        const mappedSetores = (setores || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesSetores(mappedSetores || []);
-      } catch (err) {
-        console.error("Erro ao carregar setores:", err);
-      } finally {
-        setLoadingSetores(false);
-      }
-    };
-
     const carregarHabilidades = async () => {
       try {
         const habilidades = await habilidadesPorEmpresa();
@@ -87,7 +68,9 @@ export default function FormsCriarTarefa({ onClose }) {
           value: u.id,
           label: u.nome,
         }));
-        setOpcoesUsuarios(mappedUsuarios.sort((a, b) => a.label.localeCompare(b.label)) || []);
+        setOpcoesUsuarios(
+          mappedUsuarios.sort((a, b) => a.label.localeCompare(b.label)) || []
+        );
       } catch (err) {
         console.error("Erro ao carregar usuários:", err);
       } finally {
@@ -95,7 +78,6 @@ export default function FormsCriarTarefa({ onClose }) {
       }
     };
 
-    carregarSetores();
     carregarHabilidades();
     carregarUsuarios();
   }, []);
@@ -171,20 +153,40 @@ export default function FormsCriarTarefa({ onClose }) {
                   options={opcoesHabilidades}
                   loading={loadingHabilidades}
                 />
+
+                <label htmlFor="atribuir">Atribuir à</label>
+                <MuiSingleSelect
+                  id="atribuir"
+                  name="atribuir"
+                  value={formData.atribuir}
+                  onChange={handleChangeSelect}
+                  options={opcoesUsuarios}
+                  loading={loadingUsuarios}
+                />
               </>
             )}
 
             {step === 2 && (
               <>
+                <label htmlFor="prazoTarefa">Prazo da tarefa</label>
+                <input
+                  type="date"
+                  id="prazoTarefa"
+                  name="prazoTarefa"
+                  className={styles.inputText}
+                  value={formData.prazoTarefa}
+                  onChange={handleChange}
+                />
+
                 <div className={styles.formRow}>
                   <div>
-                    <label htmlFor="data">Data de vencimento</label>
+                    <label htmlFor="tempoEstimado">Tempo estimado (h)</label>
                     <input
-                      type="date"
-                      id="data"
-                      name="data"
-                      className={styles.inputDate}
-                      value={formData.data}
+                      type="number"
+                      id="tempoEstimado"
+                      name="tempoEstimado"
+                      className={styles.inputNumber}
+                      value={formData.tempoEstimado}
                       onChange={handleChange}
                     />
                   </div>
@@ -223,30 +225,6 @@ export default function FormsCriarTarefa({ onClose }) {
                       options={OPCOES_GUT}
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label htmlFor="atribuir">Atribuir à</label>
-                  <MuiSingleSelect
-                    id="atribuir"
-                    name="atribuir"
-                    value={formData.atribuir}
-                    onChange={handleChangeSelect}
-                    options={opcoesUsuarios}
-                    loading={loadingUsuarios}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="setor">Setor</label>
-                  <MuiSingleSelect
-                    id="setor"
-                    name="setor"
-                    value={formData.setor}
-                    onChange={handleChangeSelect}
-                    options={opcoesSetores}
-                    loading={loadingSetores}
-                  />
                 </div>
               </>
             )}

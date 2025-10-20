@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
-import Analises from "./pages/Analises/Analises";
+import Noticias from "./pages/Noticias/Noticias";
 import Membros from "./pages/Membros/Membros";
 import Reports from "./pages/Reports/Reports";
 import Tarefas from "./pages/Tarefas/Tarefas";
@@ -22,7 +22,7 @@ export default function App() {
           }
         >
           <Route path="/" element={<Home />} />
-          <Route path="/analises" element={<Analises />} />
+          <Route path="/noticias" element={<Noticias />} />
           <Route path="/membros-equipe" element={<Membros />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/tarefas" element={<Tarefas />} />

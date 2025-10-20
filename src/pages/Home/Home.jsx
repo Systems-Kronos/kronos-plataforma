@@ -5,6 +5,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+import LogoutIcon from '@mui/icons-material/Logout';
 import { usuariosPorGestor } from "../../service/usuarios";
 import { tarefasPorGestor } from "../../service/tarefas";
 import { reportsPorGestor } from "../../service/reports";
@@ -97,6 +98,13 @@ export default function Home() {
           numero={loading ? "--" : produtividade+"%" || "00%"}
         />
       </div>
+
+      <LogoutIcon className={styles.logout} onClick={() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuarioId");
+        localStorage.removeItem("empresaId");
+        window.location.reload();
+      }} />
     </div>
   );
 }

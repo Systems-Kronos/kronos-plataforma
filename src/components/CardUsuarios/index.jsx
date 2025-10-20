@@ -26,6 +26,7 @@ export default function CardUsuarios({
   const [habilidades, setHabilidades] = useState([]);
   const [openEdicao, setOpenEdicao] = useState(false);
   const [openJustificativa, setOpenJustificativa] = useState(false);
+  const [exibirTodasHabilidades, setExibirTodasHabilidades] = useState(false);
 
   useEffect(() => {
     const carregarHabilidades = async () => {
@@ -47,6 +48,8 @@ export default function CardUsuarios({
 
     carregarHabilidades();
   }, [idUsuario]);
+
+  const temMaisDeUma = habilidades.length > 1;
 
   return (
     <div className={styles.cardUsuarios}>
@@ -100,9 +103,33 @@ export default function CardUsuarios({
         <div className={styles.infoHabilidades}>
           <p>Habilidades:</p>
           <ul className={styles.listaHabilidades}>
-            {habilidades.map((habilidade) => (
-              <li key={habilidade}>{habilidade}</li>
-            ))}
+            {!exibirTodasHabilidades &&
+              habilidades
+                .slice(0, 1)
+                .map((habilidade) => <li key={habilidade}>{habilidade}</li>)}
+
+            {temMaisDeUma && !exibirTodasHabilidades && (
+              <li
+                className={styles.maisHabilidades}
+                onClick={() => setExibirTodasHabilidades(true)}
+              >
+                ...
+              </li>
+            )}
+
+            {exibirTodasHabilidades &&
+              habilidades.map((habilidade) => (
+                <li key={habilidade}>{habilidade}</li>
+              ))}
+
+            {exibirTodasHabilidades && temMaisDeUma && (
+              <li
+                className={styles.maisHabilidades}
+                onClick={() => setExibirTodasHabilidades(false)}
+              >
+                Ver menos
+              </li>
+            )}
           </ul>
         </div>
         <div className={styles.info}>
