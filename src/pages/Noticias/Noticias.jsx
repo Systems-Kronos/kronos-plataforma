@@ -1,8 +1,8 @@
-import styles from "./Analises.module.css";
+import styles from "./Noticias.module.css";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-export default function Analises() {
+export default function Noticias() {
   const navigate = useNavigate();
 
   return (
@@ -12,7 +12,7 @@ export default function Analises() {
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
           onClick={() => navigate("/")}
         />
-        <h1>Análises e Estatísticas</h1>
+        <h1>Notícias do momento</h1>
       </div>
     </div>
   );

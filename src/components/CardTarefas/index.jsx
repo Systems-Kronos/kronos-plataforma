@@ -93,7 +93,7 @@ export default function CardTarefas({
   titulo,
   descricao,
   setor,
-  vencimento,
+  atribuicao,
   conclusao,
   prioridade,
   status,
@@ -121,7 +121,7 @@ export default function CardTarefas({
             <strong>Setor:</strong> {setor}
           </p>
           <p>
-            <strong>Data vencimento:</strong> {vencimento}
+            <strong>Data atribuição:</strong> {atribuicao}
           </p>
           <p>
             <strong>Data conclusão:</strong> {conclusao}

@@ -17,9 +17,9 @@ export default function Header() {
 
       <div className={styles.navegation}>
         <Button
-          texto={"Análises"}
-          variant={location.pathname === "/analises" ? "amarelo" : "secundario"}
-          onClick={() => navigate("/analises")}
+          texto={"Notícias"}
+          variant={location.pathname === "/noticias" ? "amarelo" : "secundario"}
+          onClick={() => navigate("/noticias")}
         />
         <Button
           texto={"Membros"}
