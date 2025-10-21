@@ -135,14 +135,11 @@ export default function FormsCriarTarefa({ onClose }) {
       );
 
       setAlerta({ mensagem: "Tarefa criada com sucesso!", tipo: "sucesso" });
-      setTimeout(() => {
-        onClose();
-      }, 1500);
-    } catch (error) {
-      setAlerta({
-        mensagem: "Erro ao criar tarefa. Tente novamente.",
-        tipo: "erro",
-      });
+      setTimeout(() => {onClose();}, 1500);
+    } catch {
+      setAlerta({ mensagem: "Erro ao criar tarefa. Tente novamente.", tipo: "erro"});
+    } finally {
+      setLoading(false);
     }
   };
 
