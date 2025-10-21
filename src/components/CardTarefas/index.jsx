@@ -118,7 +118,16 @@ export default function CardTarefas({
       onClick={() => setExpandido(!expandido)}
     >
       <div className={styles.responsavel}>
-        <img src={fotoResponsavel} alt="fotoResponsavel" />
+        <img
+          src={
+            fotoResponsavel
+              ? fotoResponsavel
+              : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  nomeResponsavel
+                )}&background=C2C2C2&color=000000&rounded=true&size=128`
+          }
+          alt={nomeResponsavel}
+        />
         <h4>{nomeResponsavel}</h4>
       </div>
 
