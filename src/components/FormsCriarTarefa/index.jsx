@@ -7,6 +7,8 @@ import { usuariosPorGestor } from "../../service/usuarios";
 import { criarTarefa } from "../../service/tarefas";
 import MuiSingleSelect from "../Selects/singleSelect";
 import MuiMultiSelect from "../Selects/multipleSelect";
+import Loading from "../../components/Loading";
+import Alert from "../../components/Alert";
 
 const OPCOES_GUT = [
   { value: 1, label: "1" },
@@ -18,6 +20,8 @@ const OPCOES_GUT = [
 
 export default function FormsCriarTarefa({ onClose }) {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [alerta, setAlerta] = useState({ mensagem: "", tipo: "" });
   const [opcoesHabilidades, setOpcoesHabilidades] = useState([]);
   const [loadingHabilidades, setLoadingHabilidades] = useState(true);
   const [opcoesUsuarios, setOpcoesUsuarios] = useState([]);
@@ -92,6 +96,8 @@ export default function FormsCriarTarefa({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setAlerta({ mensagem: "", tipo: "" });
+    setLoading(true);
 
     if (
       !formData.titulo ||
@@ -102,7 +108,11 @@ export default function FormsCriarTarefa({ onClose }) {
       formData.habilidades.length === 0 ||
       !formData.idUsuario
     ) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+      setAlerta({
+        mensagem: "Por favor, preencha todos os campos.",
+        tipo: "aviso",
+      });
+      setLoading(false);
       return;
     }
 
@@ -124,16 +134,26 @@ export default function FormsCriarTarefa({ onClose }) {
         [formData.idUsuario]
       );
 
-      alert("Tarefa criada com sucesso!");
-      onClose();
+      setAlerta({ mensagem: "Tarefa criada com sucesso!", tipo: "sucesso" });
+      setTimeout(() => {
+        onClose();
+      }, 1500);
     } catch (error) {
-      console.error("Erro ao criar tarefa:", error);
-      alert("Erro ao criar tarefa. Tente novamente.");
+      setAlerta({
+        mensagem: "Erro ao criar tarefa. Tente novamente.",
+        tipo: "erro",
+      });
     }
   };
 
   return (
     <div className={styles.formsModal}>
+      {loading && <Loading />}
+
+      {alerta.mensagem && (
+        <Alert mensagem={alerta.mensagem} tipo={alerta.tipo} />
+      )}
+
       <div className={styles.modalBox}>
         <div className={styles.modalHeader}>
           <div>

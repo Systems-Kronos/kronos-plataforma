@@ -11,6 +11,8 @@ import {
 } from "../../service/habilidades";
 import MuiMultiSelect from "../Selects/multipleSelect";
 import MuiSingleSelect from "../Selects/singleSelect";
+import Loading from "../../components/Loading";
+import Alert from "../../components/Alert";
 
 const OPCOES_GESTAO = [
   { value: "false", label: "Não" },
@@ -19,6 +21,8 @@ const OPCOES_GESTAO = [
 
 export default function FormsAdicionarMembro({ onClose }) {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [alerta, setAlerta] = useState({ mensagem: "", tipo: "" });
   const [opcoesSetores, setOpcoesSetores] = useState([]);
   const [loadingSetores, setLoadingSetores] = useState(true);
   const [opcoesCargos, setOpcoesCargos] = useState([]);
@@ -147,6 +151,8 @@ export default function FormsAdicionarMembro({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setAlerta({ mensagem: "", tipo: "" });
+    setLoading(true);
 
     if (
       !formData.nomeCompleto ||
@@ -155,7 +161,8 @@ export default function FormsAdicionarMembro({ onClose }) {
       !formData.setor ||
       !formData.cargo
     ) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+      setAlerta({ mensagem: "Por favor, preencha todos os campos obrigatórios.", tipo: "aviso" });
+      setLoading(false);
       return;
     }
 
@@ -179,16 +186,23 @@ export default function FormsAdicionarMembro({ onClose }) {
         );
       }
 
-      alert("Usuário adicionado com sucesso!");
-      onClose();
-    } catch (error) {
-      console.error("Erro ao adicionar usuário:", error);
-      alert("Erro ao adicionar usuário. Tente novamente.");
+      setAlerta({ mensagem: "Usuário adicionado com sucesso!", tipo: "sucesso" });
+      setTimeout(() => onClose(), 1500);
+    } catch {
+      setAlerta({ mensagem: "Erro ao adicionar usuário. Tente novamente.", tipo: "erro" });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.formsModal}>
+      {loading && <Loading />}
+
+      {alerta.mensagem && (
+        <Alert mensagem={alerta.mensagem} tipo={alerta.tipo} />
+      )}
+
       <div className={styles.modalBox}>
         <div className={styles.modalHeader}>
           <div>
