@@ -8,13 +8,14 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
-import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import { tarefasPorGestor } from "../../service/tarefas";
 
 export default function Tarefas() {
   const navigate = useNavigate();
   const [tarefasConcluidas, setTarefasConcluidas] = useState([]);
   const [tarefasPendentes, setTarefasPendentes] = useState([]);
+  const [filtro, setFiltro] = useState("");
   const [tarefasEmAndamento, setTarefasEmAndamento] = useState([]);
   const [tarefasCanceladas, setTarefasCanceladas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,10 +25,18 @@ export default function Tarefas() {
       try {
         const dados = await tarefasPorGestor("1", "4");
         if (dados) {
-          setTarefasConcluidas(dados.tarefas.filter(t => t.status === "Concluída"));
-          setTarefasPendentes(dados.tarefas.filter(t => t.status === "Pendente"));
-          setTarefasEmAndamento(dados.tarefas.filter(t => t.status === "Em Andamento"));
-          setTarefasCanceladas(dados.tarefas.filter(t => t.status === "Cancelada"));
+          setTarefasConcluidas(
+            dados.tarefas.filter((t) => t.status === "Concluída")
+          );
+          setTarefasPendentes(
+            dados.tarefas.filter((t) => t.status === "Pendente")
+          );
+          setTarefasEmAndamento(
+            dados.tarefas.filter((t) => t.status === "Em Andamento")
+          );
+          setTarefasCanceladas(
+            dados.tarefas.filter((t) => t.status === "Cancelada")
+          );
         }
       } catch (err) {
         console.error("Erro ao buscar tarefas", err);
@@ -35,7 +44,7 @@ export default function Tarefas() {
         setLoading(false);
       }
     };
-    
+
     carregarTarefas();
   }, []);
 
@@ -73,7 +82,11 @@ export default function Tarefas() {
       </div>
 
       <div className={styles.buscaContainer}>
-        <Buscar />
+        <Buscar
+          placeholder="Buscar por nome do responsável, status ou título"
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+        />
       </div>
 
       <div className={styles.tarefasContainer}>
@@ -83,27 +96,54 @@ export default function Tarefas() {
             <h2>Pendentes</h2>
           </div>
           <div className={styles.tarefasPendentesBody}>
-            {/* FAZER LÓGICA PARA TRAZER AS TAREFAS PENDENTES */}
-            <CardTarefas
-              titulo="Organizar reunião semanal"
-              descricao="Definir agenda para a equipe de projetos, incluindo pauta de alinhamento, próximos passos, pendências e responsáveis. Garantir que todos os setores estejam representados e que os prazos sejam respeitados."
-              setor="Gestão"
-              vencimento="22/09/2025"
-              prioridade="Baixa"
-              status="Pendente"
-              fotoResponsavel="https://i.pravatar.cc/150?img=14"
-              nomeResponsavel="Diego Santos"
-            />
-            <CardTarefas
-              titulo="Corrigir bug no login"
-              descricao="Erro de autenticação ao usar credenciais inválidas. Além disso, validar casos de bloqueio após múltiplas tentativas e revisar a integração com o serviço de autenticação externo (OAuth)."
-              setor="TI"
-              vencimento="20/09/2025"
-              prioridade="Muito Alta"
-              status="Pendente"
-              fotoResponsavel="https://i.pravatar.cc/150?img=11"
-              nomeResponsavel="Alice Silva"
-            />
+            {loading ? (
+              <p>Carregando Tarefas...</p>
+            ) : tarefasPendentes && tarefasPendentes.length > 0 ? (
+              tarefasPendentes
+                .slice()
+                .sort((a, b) => b.id - a.id)
+                .filter((tarefa) => {
+                  const termo = filtro.toLowerCase();
+                  if (!termo) return true;
+
+                  return (
+                    tarefa.titulo?.toLowerCase().includes(termo) ||
+                    tarefa.nomeResponsavel?.toLowerCase().includes(termo) ||
+                    tarefa.status?.toLowerCase().includes(termo)
+                  );
+                })
+                .map((tarefaPendente) => (
+                  <CardTarefas
+                    key={tarefaPendente.id}
+                    titulo={tarefaPendente.titulo}
+                    descricao={tarefaPendente.descricao}
+                    atribuicao={
+                      tarefaPendente.dataAtribuicao
+                        ? tarefaPendente.dataAtribuicao
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : ""
+                    }
+                    conclusao={
+                      tarefaPendente.dataConclusao
+                        ? tarefaPendente.dataConclusao.split("T")[0]
+                        : "Pendente"
+                    }
+                    prioridade={
+                      (Number(tarefaPendente.gravidade) || 1) *
+                      (Number(tarefaPendente.urgencia) || 1) *
+                      (Number(tarefaPendente.Tendencia) || 1)
+                    }
+                    status={tarefaPendente.status}
+                    fotoResponsavel={tarefaPendente.fotoUsuario}
+                    nomeResponsavel={tarefaPendente.nomeUsuario}
+                  />
+                ))
+            ) : (
+              <p>Nenhuma Tarefa encontrada.</p>
+            )}
           </div>
         </div>
 
@@ -113,27 +153,54 @@ export default function Tarefas() {
             <h2>Em Andamento</h2>
           </div>
           <div className={styles.tarefasAndamentoBody}>
-            {/* FAZER LÓGICA PARA TRAZER AS TAREFAS EM ANDAMENTO */}
-            <CardTarefas
-              titulo="Testar novo ambiente de QA"
-              descricao="Validar deploy automatizado e testes automáticos para novo ambiente de QA do nosso site."
-              setor="Qualidade"
-              vencimento="23/09/2025"
-              prioridade="Muito Baixa"
-              status="Em andamento"
-              fotoResponsavel="https://i.pravatar.cc/150?img=15"
-              nomeResponsavel="Eduarda Martins"
-            />
-            <CardTarefas
-              titulo="Atualizar documentação"
-              descricao="Revisar o guia de integração com a API, atualizar novos métodos e models de tabelas do banco."
-              setor="Suporte"
-              vencimento="21/09/2025"
-              prioridade="Alta"
-              status="Em andamento"
-              fotoResponsavel="https://i.pravatar.cc/150?img=12"
-              nomeResponsavel="Bruno Souza"
-            />
+            {loading ? (
+              <p>Carregando Tarefas...</p>
+            ) : tarefasEmAndamento && tarefasEmAndamento.length > 0 ? (
+              tarefasEmAndamento
+                .slice()
+                .sort((a, b) => b.id - a.id)
+                .filter((tarefa) => {
+                  if (!tarefa) return false;
+                  const termo = (filtro || "").toLowerCase();
+                  if (!termo) return true;
+
+                  return (
+                    tarefa.titulo?.toLowerCase().includes(termo) ||
+                    tarefa.nomeResponsavel?.toLowerCase().includes(termo) ||
+                    tarefa.status?.toLowerCase().includes(termo)
+                  );
+                })
+                .map((tarefaEmAndamento) => (
+                  <CardTarefas
+                    titulo={tarefaEmAndamento.titulo}
+                    descricao={tarefaEmAndamento.descricao}
+                    atribuicao={
+                      tarefaEmAndamento.dataAtribuicao
+                        ? tarefaEmAndamento.dataAtribuicao
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : ""
+                    }
+                    conclusao={
+                      tarefaEmAndamento.dataConclusao
+                        ? tarefaEmAndamento.dataConclusao.split("T")[0]
+                        : "Em Andamento"
+                    }
+                    prioridade={
+                      (Number(tarefaEmAndamento.gravidade) || 1) *
+                      (Number(tarefaEmAndamento.urgencia) || 1) *
+                      (Number(tarefaEmAndamento.Tendencia) || 1)
+                    }
+                    status={tarefaEmAndamento.status}
+                    fotoResponsavel={tarefaEmAndamento.fotoUsuario}
+                    nomeResponsavel={tarefaEmAndamento.nomeUsuario}
+                  />
+                ))
+            ) : (
+              <p>Nenhuma Tarefa encontrada.</p>
+            )}
           </div>
         </div>
 
@@ -143,17 +210,59 @@ export default function Tarefas() {
             <h2>Concluídas</h2>
           </div>
           <div className={styles.tarefasConcluidasBody}>
-            {/* FAZER LÓGICA PARA TRAZER AS TAREFAS CONCLUIDAS */}
-            <CardTarefas
-              titulo="Refatorar código legado"
-              descricao="Melhorar performance do código para poder refletir as novas tecnologias do mercado tecnologico atual."
-              setor="Desenvolvimento"
-              vencimento="25/09/2025"
-              prioridade="Moderada"
-              status="Concluído"
-              fotoResponsavel="https://i.pravatar.cc/150?img=13"
-              nomeResponsavel="Carla Oliveira"
-            />
+            {loading ? (
+              <p>Carregando Tarefas...</p>
+            ) : tarefasConcluidas && tarefasConcluidas.length > 0 ? (
+              tarefasConcluidas
+                .slice()
+                .sort((a, b) => b.id - a.id)
+                .filter((tarefa) => {
+                  if (!tarefa) return false;
+                  const termo = (filtro || "").toLowerCase();
+                  if (!termo) return true;
+
+                  return (
+                    tarefa.titulo?.toLowerCase().includes(termo) ||
+                    tarefa.nomeResponsavel?.toLowerCase().includes(termo) ||
+                    tarefa.status?.toLowerCase().includes(termo)
+                  );
+                })
+
+                .map((tarefaConcluida) => (
+                  <CardTarefas
+                    titulo={tarefaConcluida.titulo}
+                    descricao={tarefaConcluida.descricao}
+                    atribuicao={
+                      tarefaConcluida.dataAtribuicao
+                        ? tarefaConcluida.dataAtribuicao
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : ""
+                    }
+                    conclusao={
+                      tarefaConcluida.dataConclusao
+                        ? tarefaConcluida.dataConclusao
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : "Concluida"
+                    }
+                    prioridade={
+                      (Number(tarefaConcluida.gravidade) || 1) *
+                      (Number(tarefaConcluida.urgencia) || 1) *
+                      (Number(tarefaConcluida.Tendencia) || 1)
+                    }
+                    status={tarefaConcluida.status}
+                    fotoResponsavel={tarefaConcluida.fotoUsuario}
+                    nomeResponsavel={tarefaConcluida.nomeUsuario}
+                  />
+                ))
+            ) : (
+              <p>Nenhuma Tarefa encontrada.</p>
+            )}
           </div>
         </div>
       </div>

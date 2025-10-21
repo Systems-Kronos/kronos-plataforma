@@ -92,8 +92,7 @@ const prioridades = [
 export default function CardTarefas({
   titulo,
   descricao,
-  setor,
-  vencimento,
+  atribuicao,
   conclusao,
   prioridade,
   status,
@@ -118,10 +117,7 @@ export default function CardTarefas({
         <div className={styles.descricao}>
           <p>{descricao}</p>
           <p>
-            <strong>Setor:</strong> {setor}
-          </p>
-          <p>
-            <strong>Data vencimento:</strong> {vencimento}
+            <strong>Data atribuição:</strong> {atribuicao}
           </p>
           <p>
             <strong>Data conclusão:</strong> {conclusao}
@@ -136,7 +132,7 @@ export default function CardTarefas({
         </div>
         <Button
           texto={status}
-          variant={status === "Concluído" ? "primario" : "secundario"}
+          variant={status === "Concluída" ? "primario" : "secundario"}
         />
       </div>
     </div>
