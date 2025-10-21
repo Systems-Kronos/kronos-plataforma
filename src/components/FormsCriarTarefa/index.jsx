@@ -2,24 +2,22 @@ import { useState, useEffect } from "react";
 import styles from "./FormsCriarTarefa.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
-import { setoresPorEmpresa } from "../../service/setores";
 import { habilidadesPorEmpresa } from "../../service/habilidades";
 import { usuariosPorGestor } from "../../service/usuarios";
+import { criarTarefa } from "../../service/tarefas";
 import MuiSingleSelect from "../Selects/singleSelect";
 import MuiMultiSelect from "../Selects/multipleSelect";
 
 const OPCOES_GUT = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
+  { value: 1, label: "1" },
+  { value: 2, label: "2" },
+  { value: 3, label: "3" },
+  { value: 4, label: "4" },
+  { value: 5, label: "5" },
 ];
 
 export default function FormsCriarTarefa({ onClose }) {
   const [step, setStep] = useState(1);
-  const [opcoesSetores, setOpcoesSetores] = useState([]);
-  const [loadingSetores, setLoadingSetores] = useState(true);
   const [opcoesHabilidades, setOpcoesHabilidades] = useState([]);
   const [loadingHabilidades, setLoadingHabilidades] = useState(true);
   const [opcoesUsuarios, setOpcoesUsuarios] = useState([]);
@@ -27,14 +25,12 @@ export default function FormsCriarTarefa({ onClose }) {
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
+    gravidade: null,
+    urgencia: null,
+    tendencia: null,
+    tempoEstimado: null,
     habilidades: [],
-    setor: "",
-    prioridade: "",
-    data: "",
-    atribuir: "",
-    gravidade: "",
-    urgencia: "",
-    tendencia: "",
+    idUsuario: null,
   });
 
   const handleChangeSelect = (event) => {
@@ -49,21 +45,6 @@ export default function FormsCriarTarefa({ onClose }) {
   };
 
   useEffect(() => {
-    const carregarSetores = async () => {
-      try {
-        const setores = await setoresPorEmpresa();
-        const mappedSetores = (setores || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesSetores(mappedSetores || []);
-      } catch (err) {
-        console.error("Erro ao carregar setores:", err);
-      } finally {
-        setLoadingSetores(false);
-      }
-    };
-
     const carregarHabilidades = async () => {
       try {
         const habilidades = await habilidadesPorEmpresa();
@@ -87,7 +68,9 @@ export default function FormsCriarTarefa({ onClose }) {
           value: u.id,
           label: u.nome,
         }));
-        setOpcoesUsuarios(mappedUsuarios.sort((a, b) => a.label.localeCompare(b.label)) || []);
+        setOpcoesUsuarios(
+          mappedUsuarios.sort((a, b) => a.label.localeCompare(b.label)) || []
+        );
       } catch (err) {
         console.error("Erro ao carregar usuários:", err);
       } finally {
@@ -95,7 +78,6 @@ export default function FormsCriarTarefa({ onClose }) {
       }
     };
 
-    carregarSetores();
     carregarHabilidades();
     carregarUsuarios();
   }, []);
@@ -105,17 +87,49 @@ export default function FormsCriarTarefa({ onClose }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleNext = () => {
-    if (step === 1) {
-      setStep(2);
-    } else {
-      console.log("Criar Tarefa", formData);
-      onClose();
-    }
-  };
+  const handleNext = () => setStep(2);
+  const handleBack = () => setStep(1);
 
-  const handleBack = () => {
-    if (step === 2) setStep(1);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      !formData.titulo ||
+      !formData.descricao ||
+      !formData.gravidade ||
+      !formData.urgencia ||
+      !formData.tendencia ||
+      formData.habilidades.length === 0 ||
+      !formData.idUsuario
+    ) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    const habilidadesMap = formData.habilidades.map((idHabilidade, index) => ({
+      idHabilidade: idHabilidade,
+      prioridade: index + 1,
+    }));
+
+    try {
+      await criarTarefa(
+        formData.titulo,
+        formData.descricao,
+        formData.gravidade,
+        formData.urgencia,
+        formData.tendencia,
+        formData.prazoTarefa,
+        formData.tempoEstimado,
+        habilidadesMap,
+        [formData.idUsuario]
+      );
+
+      alert("Tarefa criada com sucesso!");
+      onClose();
+    } catch (error) {
+      console.error("Erro ao criar tarefa:", error);
+      alert("Erro ao criar tarefa. Tente novamente.");
+    }
   };
 
   return (
@@ -171,20 +185,40 @@ export default function FormsCriarTarefa({ onClose }) {
                   options={opcoesHabilidades}
                   loading={loadingHabilidades}
                 />
+
+                <label htmlFor="idUsuario">Atribuir à</label>
+                <MuiSingleSelect
+                  id="idUsuario"
+                  name="idUsuario"
+                  value={formData.idUsuario}
+                  onChange={handleChangeSelect}
+                  options={opcoesUsuarios}
+                  loading={loadingUsuarios}
+                />
               </>
             )}
 
             {step === 2 && (
               <>
+                <label htmlFor="prazoTarefa">Prazo da tarefa</label>
+                <input
+                  type="date"
+                  id="prazoTarefa"
+                  name="prazoTarefa"
+                  className={styles.inputText}
+                  value={formData.prazoTarefa}
+                  onChange={handleChange}
+                />
+
                 <div className={styles.formRow}>
                   <div>
-                    <label htmlFor="data">Data de vencimento</label>
+                    <label htmlFor="tempoEstimado">Tempo estimado (h)</label>
                     <input
-                      type="date"
-                      id="data"
-                      name="data"
-                      className={styles.inputDate}
-                      value={formData.data}
+                      type="number"
+                      id="tempoEstimado"
+                      name="tempoEstimado"
+                      className={styles.inputNumber}
+                      value={formData.tempoEstimado}
                       onChange={handleChange}
                     />
                   </div>
@@ -192,9 +226,9 @@ export default function FormsCriarTarefa({ onClose }) {
                   <div>
                     <label htmlFor="gravidade">Gravidade</label>
                     <MuiSingleSelect
-                      id="gestao"
-                      name="gestao"
-                      value={formData.gestao}
+                      id="gravidade"
+                      name="gravidade"
+                      value={formData.gravidade}
                       onChange={handleChangeSelect}
                       options={OPCOES_GUT}
                     />
@@ -205,9 +239,9 @@ export default function FormsCriarTarefa({ onClose }) {
                   <div>
                     <label htmlFor="urgencia">Urgência</label>
                     <MuiSingleSelect
-                      id="gestao"
-                      name="gestao"
-                      value={formData.gestao}
+                      id="urgencia"
+                      name="urgencia"
+                      value={formData.urgencia}
                       onChange={handleChangeSelect}
                       options={OPCOES_GUT}
                     />
@@ -216,37 +250,13 @@ export default function FormsCriarTarefa({ onClose }) {
                   <div>
                     <label htmlFor="tendencia">Tendência</label>
                     <MuiSingleSelect
-                      id="gestao"
-                      name="gestao"
-                      value={formData.gestao}
+                      id="tendencia"
+                      name="tendencia"
+                      value={formData.tendencia}
                       onChange={handleChangeSelect}
                       options={OPCOES_GUT}
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label htmlFor="atribuir">Atribuir à</label>
-                  <MuiSingleSelect
-                    id="atribuir"
-                    name="atribuir"
-                    value={formData.atribuir}
-                    onChange={handleChangeSelect}
-                    options={opcoesUsuarios}
-                    loading={loadingUsuarios}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="setor">Setor</label>
-                  <MuiSingleSelect
-                    id="setor"
-                    name="setor"
-                    value={formData.setor}
-                    onChange={handleChangeSelect}
-                    options={opcoesSetores}
-                    loading={loadingSetores}
-                  />
                 </div>
               </>
             )}
@@ -254,17 +264,25 @@ export default function FormsCriarTarefa({ onClose }) {
         </div>
 
         <div className={styles.modalFooter}>
-          {step === 1 && (
-            <Button texto="Cancelar" variant="secundario" onClick={onClose} />
+          {step === 1 ? (
+            <>
+              <Button texto="Cancelar" variant="secundario" onClick={onClose} />
+              <Button texto="Próximo" variant="primario" onClick={handleNext} />
+            </>
+          ) : (
+            <>
+              <Button
+                texto="Voltar"
+                variant="secundario"
+                onClick={handleBack}
+              />
+              <Button
+                texto="Criar Tarefa"
+                variant="primario"
+                onClick={handleSubmit}
+              />
+            </>
           )}
-          {step === 2 && (
-            <Button texto="Voltar" variant="secundario" onClick={handleBack} />
-          )}
-          <Button
-            texto={step === 1 ? "Próximo" : "Criar"}
-            variant="primario"
-            onClick={handleNext}
-          />
         </div>
       </div>
     </div>

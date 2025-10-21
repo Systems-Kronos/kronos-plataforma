@@ -89,11 +89,19 @@ const prioridades = [
   },
 ];
 
+function definirNivelPrioridade(valor) {
+  if (valor >= 0 && valor <= 25) return "Muito Baixa";
+  if (valor >= 26 && valor <= 50) return "Baixa";
+  if (valor >= 51 && valor <= 75) return "Moderada";
+  if (valor >= 76 && valor <= 100) return "Alta";
+  if (valor >= 101 && valor <= 125) return "Muito Alta";
+  return "Desconhecida";
+}
+
 export default function CardTarefas({
   titulo,
   descricao,
-  setor,
-  vencimento,
+  atribuicao,
   conclusao,
   prioridade,
   status,
@@ -101,7 +109,8 @@ export default function CardTarefas({
   nomeResponsavel,
 }) {
   const [expandido, setExpandido] = useState(false);
-  const prioridadeData = prioridades.find((p) => p.nivel === prioridade);
+  const nivelPrioridade = definirNivelPrioridade(prioridade);
+  const prioridadeData = prioridades.find((p) => p.nivel === nivelPrioridade);
 
   return (
     <div
@@ -109,7 +118,16 @@ export default function CardTarefas({
       onClick={() => setExpandido(!expandido)}
     >
       <div className={styles.responsavel}>
-        <img src={fotoResponsavel} alt="fotoResponsavel" />
+        <img
+          src={
+            fotoResponsavel
+              ? fotoResponsavel
+              : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  nomeResponsavel
+                )}&background=C2C2C2&color=000000&rounded=true&size=128`
+          }
+          alt={nomeResponsavel}
+        />
         <h4>{nomeResponsavel}</h4>
       </div>
 
@@ -118,10 +136,7 @@ export default function CardTarefas({
         <div className={styles.descricao}>
           <p>{descricao}</p>
           <p>
-            <strong>Setor:</strong> {setor}
-          </p>
-          <p>
-            <strong>Data vencimento:</strong> {vencimento}
+            <strong>Data atribuição:</strong> {atribuicao}
           </p>
           <p>
             <strong>Data conclusão:</strong> {conclusao}
@@ -132,11 +147,11 @@ export default function CardTarefas({
       <div className={styles.tags}>
         <div className={styles.prioridade}>
           {prioridadeData?.svg}
-          <p>{prioridadeData?.nivel ?? prioridade}</p>
+          <p>{nivelPrioridade}</p>
         </div>
         <Button
           texto={status}
-          variant={status === "Concluído" ? "primario" : "secundario"}
+          variant={status === "Concluída" ? "primario" : "secundario"}
         />
       </div>
     </div>
