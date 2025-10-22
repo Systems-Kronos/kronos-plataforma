@@ -5,7 +5,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import { usuariosPorGestor } from "../../service/usuarios";
 import { tarefasPorGestor } from "../../service/tarefas";
 import { reportsPorGestor } from "../../service/reports";
@@ -24,30 +24,27 @@ export default function Home() {
         if (dados) {
           setQuantidadeMembros(dados.quantidadeMembros);
         }
-      } catch (err) {
-        console.error("Erro ao buscar membros", err);
+      } catch (error) {
+        console.error("Erro ao buscar membros", error);
       } finally {
         setLoading(false);
       }
     };
 
-    carregarMembros();
-  }, []);
-
-  useEffect(() => {
     const carregarReports = async () => {
       try {
         const dados = await reportsPorGestor();
         if (dados) {
           setReportsPendentes(dados.pendentes);
         }
-      } catch (err) {
-        console.error("Erro ao buscar reports", err);
+      } catch (error) {
+        console.error("Erro ao buscar reports", error);
       } finally {
         setLoading(false);
       }
     };
 
+    carregarMembros();
     carregarReports();
   }, []);
 
@@ -57,13 +54,21 @@ export default function Home() {
         const dados = await tarefasPorGestor("1", "4");
         if (dados) {
           let tarefasTotais = dados.tarefas.length;
-          let tarefasConcluidas = dados.tarefas.filter(t => t.status === "Concluída").length;
+          let tarefasConcluidas = dados.tarefas.filter(
+            (t) => t.status === "Concluída"
+          ).length;
 
-          setTarefasAtivas(dados.tarefas.filter(t => t.status === "Em Andamento").length);
-          setProdutividade(tarefasTotais > 0 ? Math.round((tarefasConcluidas / tarefasTotais) * 100) : 0);
+          setTarefasAtivas(
+            dados.tarefas.filter((t) => t.status === "Em Andamento").length
+          );
+          setProdutividade(
+            tarefasTotais > 0
+              ? Math.round((tarefasConcluidas / tarefasTotais) * 100)
+              : 0
+          );
         }
-      } catch (err) {
-        console.error("Erro ao calcular produtividade", err);
+      } catch (error) {
+        console.error("Erro ao calcular produtividade", error);
       } finally {
         setLoading(false);
       }
@@ -79,7 +84,11 @@ export default function Home() {
       <div className={styles.cardsContainer}>
         <CardInformacoes
           titulo={"Membros"}
-          icone={<GroupsIcon style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }} />}
+          icone={
+            <GroupsIcon
+              style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}
+            />
+          }
           numero={loading ? "--" : quantidadeMembros || "00"}
         />
         <CardInformacoes
@@ -95,16 +104,19 @@ export default function Home() {
         <CardInformacoes
           titulo={"Produtividade"}
           icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
-          numero={loading ? "--" : produtividade+"%" || "00%"}
+          numero={loading ? "--" : produtividade + "%" || "00%"}
         />
       </div>
 
-      <LogoutIcon className={styles.logout} onClick={() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("usuarioId");
-        localStorage.removeItem("empresaId");
-        window.location.reload();
-      }} />
+      <LogoutIcon
+        className={styles.logout}
+        onClick={() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuarioId");
+          localStorage.removeItem("empresaId");
+          window.location.reload();
+        }}
+      />
     </div>
   );
 }

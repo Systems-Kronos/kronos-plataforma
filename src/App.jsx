@@ -12,7 +12,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
 
         <Route
           element={
@@ -21,7 +21,7 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/noticias" element={<Noticias />} />
           <Route path="/membros-equipe" element={<Membros />} />
           <Route path="/reports" element={<Reports />} />

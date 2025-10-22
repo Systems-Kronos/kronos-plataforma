@@ -10,7 +10,7 @@ export default function Noticias() {
       <div className={styles.headerContainer}>
         <ArrowBackIosIcon
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         />
         <h1>Notícias do momento</h1>
       </div>

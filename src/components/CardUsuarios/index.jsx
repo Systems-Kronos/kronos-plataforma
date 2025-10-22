@@ -41,8 +41,8 @@ export default function CardUsuarios({
           .map((h) => h.habilidade.nome);
 
         setHabilidades(nomesHabilidades);
-      } catch (err) {
-        console.error("Erro ao carregar habilidades:", err);
+      } catch (error) {
+        console.error("Erro ao carregar habilidades:", error);
       }
     };
 

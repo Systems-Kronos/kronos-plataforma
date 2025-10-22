@@ -70,8 +70,8 @@ export default function FormsEditarMembro({ onClose, membro }) {
           label: h.nome,
         }));
         setOpcoesSetores(mappedSetores || []);
-      } catch (err) {
-        console.error("Erro ao carregar setores:", err);
+      } catch (error) {
+        console.error("Erro ao carregar setores:", error);
       } finally {
         setLoadingSetores(false);
       }
@@ -85,8 +85,8 @@ export default function FormsEditarMembro({ onClose, membro }) {
           label: h.nome,
         }));
         setOpcoesCargos(mappedCargos || []);
-      } catch (err) {
-        console.error("Erro ao carregar cargos:", err);
+      } catch (error) {
+        console.error("Erro ao carregar cargos:", error);
       } finally {
         setLoadingCargos(false);
       }
@@ -131,7 +131,11 @@ export default function FormsEditarMembro({ onClose, membro }) {
     }
 
     if (Object.keys(dadosAtualizados).length === 0) {
-      setAlerta({ mensagem: "Nenhuma alteração foi feita.", tipo: "aviso" });
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Nenhuma alteração foi feita.",
+        tipo: "aviso",
+      });
       setLoading(false);
       return;
     }
@@ -141,12 +145,19 @@ export default function FormsEditarMembro({ onClose, membro }) {
         idUsuario: membro.idUsuario,
         ...dadosAtualizados,
       });
-
-      setAlerta({ mensagem: "Usuário atualizado com sucesso!", tipo: "sucesso" });
-      console.log("Alerta de Sucesso setado!");
-      setTimeout(() => onClose(), 1500);
+      
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Usuário atualizado com sucesso!",
+        tipo: "sucesso",
+      });
+      setTimeout(() => {onClose()}, 1500);
     } catch {
-      setAlerta({ mensagem: "Erro ao atualizar o usuário.", tipo: "erro" });
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Erro ao atualizar o usuário.",
+        tipo: "erro",
+      });
     } finally {
       setLoading(false);
     }
@@ -157,7 +168,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
       {loading && <Loading />}
 
       {alerta.mensagem && (
-        <Alert mensagem={alerta.mensagem} tipo={alerta.tipo} />
+        <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />
       )}
 
       <div className={styles.modalBox}>

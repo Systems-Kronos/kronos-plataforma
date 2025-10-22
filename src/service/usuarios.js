@@ -51,7 +51,6 @@ export const atualizarUsuario = async ({
     if (ativo !== undefined) body.ativo = ativo;
     if (setor) body.setor = { id: Number(setor) };
     if (cargo) body.cargo = { id: Number(cargo) };
-    console.log(body);
 
     const response = await api.put(
       `usuario/atualizar/${idUsuario}`,

@@ -38,8 +38,8 @@ export default function Tarefas() {
             dados.tarefas.filter((t) => t.status === "Cancelada")
           );
         }
-      } catch (err) {
-        console.error("Erro ao buscar tarefas", err);
+      } catch (error) {
+        console.error("Erro ao buscar tarefas", error);
       } finally {
         setLoading(false);
       }
@@ -53,7 +53,7 @@ export default function Tarefas() {
       <div className={styles.headerContainer}>
         <ArrowBackIosIcon
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         />
         <h1>Gerenciar Tarefas</h1>
       </div>
