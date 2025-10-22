@@ -12,12 +12,10 @@
   padding: 0 4rem;
   width: 50%;
   height: 100vh;
-  background: linear-gradient(
-    180deg,
-    rgba(55, 9, 99, 1) 17%,
-    rgba(104, 17, 186, 1) 69%,
-    rgba(112, 18, 201, 1) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(55, 9, 99, 1) 17%,
+      rgba(104, 17, 186, 1) 69%,
+      rgba(112, 18, 201, 1) 100%);
   color: white;
   text-align: start;
 }
@@ -78,12 +76,37 @@
   border: 1px solid #ccc;
   font-size: 1rem;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .form input:focus {
   outline: none;
   border-color: #6811ba;
   box-shadow: 0 0 5px rgba(104, 17, 186, 0.5);
+}
+
+.passwordContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordContainer input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: #6811ba;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.eyeIcon:hover {
+  color: #370963;
 }
 
 .buttonWrapper {
