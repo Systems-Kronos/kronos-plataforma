@@ -37,10 +37,18 @@ export default function Login() {
     try {
       await login(cpf.trim(), senha.trim());
 
-      setAlerta({ mensagem: "Login realizado com sucesso!", tipo: "sucesso" });
-      setTimeout(() => navigate("/"), 1500);
-    } catch {
-      setAlerta({ mensagem: "CPF ou senha incorretos!", tipo: "erro" });
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Login realizado com sucesso!",
+        tipo: "sucesso",
+      });
+      setTimeout(() => navigate("/home"), 1500);
+    } catch (error) {
+      setAlerta({
+        id: Date.now(),
+        mensagem: error.message,
+        tipo: "erro"
+      });
     } finally {
       setLoading(false);
     }
@@ -51,7 +59,7 @@ export default function Login() {
       {loading && <Loading />}
 
       {alerta.mensagem && (
-        <Alert mensagem={alerta.mensagem} tipo={alerta.tipo} />
+        <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />
       )}
 
       <div className={styles.boxContainerLeft}>

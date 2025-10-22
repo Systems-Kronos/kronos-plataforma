@@ -60,8 +60,8 @@ export default function FormsAdicionarMembro({ onClose }) {
           label: h.nome,
         }));
         setOpcoesSetores(mappedSetores || []);
-      } catch (err) {
-        console.error("Erro ao carregar setores:", err);
+      } catch (error) {
+        console.error("Erro ao carregar setores:", error);
       } finally {
         setLoadingSetores(false);
       }
@@ -75,8 +75,8 @@ export default function FormsAdicionarMembro({ onClose }) {
           label: h.nome,
         }));
         setOpcoesCargos(mappedCargos || []);
-      } catch (err) {
-        console.error("Erro ao carregar cargos:", err);
+      } catch (error) {
+        console.error("Erro ao carregar cargos:", error);
       } finally {
         setLoadingCargos(false);
       }
@@ -90,8 +90,8 @@ export default function FormsAdicionarMembro({ onClose }) {
           label: h.nome,
         }));
         setOpcoesHabilidades(mappedHabilidades || []);
-      } catch (err) {
-        console.error("Erro ao carregar habilidades:", err);
+      } catch (error) {
+        console.error("Erro ao carregar habilidades:", error);
       } finally {
         setLoadingHabilidades(false);
       }
@@ -159,9 +159,14 @@ export default function FormsAdicionarMembro({ onClose }) {
       !formData.email ||
       !formData.cpf ||
       !formData.setor ||
-      !formData.cargo
+      !formData.cargo ||
+      formData.habilidades.length === 0
     ) {
-      setAlerta({ mensagem: "Por favor, preencha todos os campos obrigatórios.", tipo: "aviso" });
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Por favor, preencha todos os campos obrigatórios.",
+        tipo: "aviso",
+      });
       setLoading(false);
       return;
     }
@@ -186,10 +191,18 @@ export default function FormsAdicionarMembro({ onClose }) {
         );
       }
 
-      setAlerta({ mensagem: "Usuário adicionado com sucesso!", tipo: "sucesso" });
-      setTimeout(() => onClose(), 1500);
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Usuário adicionado com sucesso!",
+        tipo: "sucesso",
+      });
+      setTimeout(() => {onClose()}, 1500);
     } catch {
-      setAlerta({ mensagem: "Erro ao adicionar usuário. Tente novamente.", tipo: "erro" });
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Erro ao adicionar usuário. Tente novamente.",
+        tipo: "erro",
+      });
     } finally {
       setLoading(false);
     }
@@ -200,7 +213,7 @@ export default function FormsAdicionarMembro({ onClose }) {
       {loading && <Loading />}
 
       {alerta.mensagem && (
-        <Alert mensagem={alerta.mensagem} tipo={alerta.tipo} />
+        <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />
       )}
 
       <div className={styles.modalBox}>
