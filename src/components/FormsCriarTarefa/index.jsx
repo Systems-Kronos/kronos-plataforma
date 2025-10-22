@@ -57,8 +57,8 @@ export default function FormsCriarTarefa({ onClose }) {
           label: h.nome,
         }));
         setOpcoesHabilidades(mappedHabilidades || []);
-      } catch (err) {
-        console.error("Erro ao carregar habilidades:", err);
+      } catch (error) {
+        console.error("Erro ao carregar habilidades:", error);
       } finally {
         setLoadingHabilidades(false);
       }
@@ -75,8 +75,8 @@ export default function FormsCriarTarefa({ onClose }) {
         setOpcoesUsuarios(
           mappedUsuarios.sort((a, b) => a.label.localeCompare(b.label)) || []
         );
-      } catch (err) {
-        console.error("Erro ao carregar usuários:", err);
+      } catch (error) {
+        console.error("Erro ao carregar usuários:", error);
       } finally {
         setLoadingUsuarios(false);
       }
@@ -109,6 +109,7 @@ export default function FormsCriarTarefa({ onClose }) {
       !formData.idUsuario
     ) {
       setAlerta({
+        id: Date.now(),
         mensagem: "Por favor, preencha todos os campos.",
         tipo: "aviso",
       });
@@ -134,10 +135,18 @@ export default function FormsCriarTarefa({ onClose }) {
         [formData.idUsuario]
       );
 
-      setAlerta({ mensagem: "Tarefa criada com sucesso!", tipo: "sucesso" });
-      setTimeout(() => {onClose();}, 1500);
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Tarefa criada com sucesso!",
+        tipo: "sucesso"
+      });
+      setTimeout(() => {onClose()}, 1500);
     } catch {
-      setAlerta({ mensagem: "Erro ao criar tarefa. Tente novamente.", tipo: "erro"});
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Erro ao criar tarefa. Tente novamente.",
+        tipo: "erro"
+      });
     } finally {
       setLoading(false);
     }
@@ -148,7 +157,7 @@ export default function FormsCriarTarefa({ onClose }) {
       {loading && <Loading />}
 
       {alerta.mensagem && (
-        <Alert mensagem={alerta.mensagem} tipo={alerta.tipo} />
+        <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />
       )}
 
       <div className={styles.modalBox}>
@@ -225,6 +234,7 @@ export default function FormsCriarTarefa({ onClose }) {
                   className={styles.inputText}
                   value={formData.prazoTarefa}
                   onChange={handleChange}
+                  min={new Date().toISOString().split('T')[0]}
                 />
 
                 <div className={styles.formRow}>

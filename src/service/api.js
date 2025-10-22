@@ -10,13 +10,13 @@ api.interceptors.response.use(
     const status = error.response ? error.response.status : null;
     
     if (status === 401 || status === 403) {
-      console.log("Token expirado ou inválido. Redirecionando para login.");
+      console.warn("Token expirado ou inválido. Redirecionando para login.");
       
       localStorage.removeItem("token");
       localStorage.removeItem("usuarioId");
       localStorage.removeItem("empresaId");
       
-      window.location.href = '/login'; 
+      window.location.href = '/'; 
     }
     
     return Promise.reject(error);
