@@ -24,23 +24,18 @@ export default function Membros() {
   const [produtividade, setProdutividade] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  async function carregarMembros() {
+  const carregarMembros = async () => {
     try {
       const dados = await usuariosPorGestor();
       if (dados) {
         setMembros(dados.membros);
         setQuantidade(dados.quantidadeMembros);
       }
-    } catch (err) {
-      console.error("Erro ao buscar membros:", err);
+    } catch (error) {
+      console.error("Erro ao buscar membros:", error);
     } finally {
       setLoading(false);
     }
-  }
-
-  const handleClosePopupAndRefresh = () => {
-    setShowPopup(false);
-    carregarMembros();
   };
 
   const carregarTarefas = async () => {
@@ -61,8 +56,8 @@ export default function Membros() {
             : 0
         );
       }
-    } catch (err) {
-      console.error("Erro ao buscar tarefas", err);
+    } catch (error) {
+      console.error("Erro ao buscar tarefas", error);
     } finally {
       setLoading(false);
     }
@@ -70,18 +65,21 @@ export default function Membros() {
 
   useEffect(() => {
     carregarMembros();
-  }, []);
-
-  useEffect(() => {
     carregarTarefas();
   }, []);
+
+  const handleClosePopupAndRefresh = async () => {
+    setShowPopup(false);
+    await carregarMembros();
+    await carregarTarefas();
+  };
 
   return (
     <div className={styles.boxContainer}>
       <div className={styles.headerContainer}>
         <ArrowBackIosIcon
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         />
         <h1>Gerenciar Equipes</h1>
       </div>

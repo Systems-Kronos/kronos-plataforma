@@ -53,7 +53,6 @@ export const atualizarUsuario = async ({
     if (ativo !== undefined) body.ativo = ativo;
     if (setor) body.setor = { id: Number(setor) };
     if (cargo) body.cargo = { id: Number(cargo) };
-    console.log(body);
 
     const response = await apiSQL.put(`usuario/atualizar/${idUsuario}`, body, {
       headers: { Authorization: `Bearer ${TOKEN_AUTH}` },

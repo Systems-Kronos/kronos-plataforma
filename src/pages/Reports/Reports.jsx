@@ -28,8 +28,8 @@ export default function Reports() {
         setReportsConcluidos(dados.concluidos);
         setReportsPendentes(dados.pendentes);
       }
-    } catch (err) {
-      console.error("Erro ao buscar reports:", err);
+    } catch (error) {
+      console.error("Erro ao buscar reports:", error);
     }  finally {
       setLoading(false);
     }
@@ -44,7 +44,7 @@ export default function Reports() {
       <div className={styles.headerContainer}>
         <ArrowBackIosIcon
           style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         />
         <h1>Gerenciar Reports</h1>
       </div>

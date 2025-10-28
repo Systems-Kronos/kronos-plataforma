@@ -26,7 +26,7 @@ export default function CardReports({
         onAtualizar();
       }
     } catch (error) {
-      console.error("Erro ao concluir tarefa:", error);
+      console.error("Erro ao concluir report:", error);
       alert("Não foi possível atualizar o status do report.");
     }
   }

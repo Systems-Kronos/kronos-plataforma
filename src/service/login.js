@@ -25,7 +25,12 @@ export const login = async (cpf, senha) => {
 
     return { ...response.data, empresaId };
   } catch (error) {
-    console.error("Erro ao fazer login:", error);
-    throw error;
+    if (error.response?.status === 404) {
+      throw new Error("CPF não encontrado.");
+    } else if (error.response?.status === 401) {
+      throw new Error("Senha incorreta.");
+    } else {
+      throw new Error("Erro ao fazer login. Tente novamente mais tarde.");
+    }
   }
 };

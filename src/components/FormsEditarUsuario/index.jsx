@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import { setoresPorEmpresa } from "../../service/setores";
 import { listarCargos } from "../../service/cargos";
 import { atualizarUsuario } from "../../service/usuarios";
-import MuiMultiSelect from "../Selects/multipleSelect";
 import MuiSingleSelect from "../Selects/singleSelect";
+import Loading from "../../components/Loading";
+import Alert from "../../components/Alert";
 
 const OPCOES_GESTAO = [
   { value: "false", label: "Não" },
@@ -28,6 +29,8 @@ export default function FormsEditarMembro({ onClose, membro }) {
   const [opcoesCargos, setOpcoesCargos] = useState([]);
   const [loadingSetores, setLoadingSetores] = useState(true);
   const [loadingCargos, setLoadingCargos] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [alerta, setAlerta] = useState({ mensagem: "", tipo: "" });
 
   const handleChangeSelect = (event) => {
     const {
@@ -67,8 +70,8 @@ export default function FormsEditarMembro({ onClose, membro }) {
           label: h.nome,
         }));
         setOpcoesSetores(mappedSetores || []);
-      } catch (err) {
-        console.error("Erro ao carregar setores:", err);
+      } catch (error) {
+        console.error("Erro ao carregar setores:", error);
       } finally {
         setLoadingSetores(false);
       }
@@ -82,8 +85,8 @@ export default function FormsEditarMembro({ onClose, membro }) {
           label: h.nome,
         }));
         setOpcoesCargos(mappedCargos || []);
-      } catch (err) {
-        console.error("Erro ao carregar cargos:", err);
+      } catch (error) {
+        console.error("Erro ao carregar cargos:", error);
       } finally {
         setLoadingCargos(false);
       }
@@ -95,6 +98,8 @@ export default function FormsEditarMembro({ onClose, membro }) {
 
   const handleEditar = async () => {
     const dadosAtualizados = {};
+    setAlerta({ mensagem: "", tipo: "" });
+    setLoading(true);
 
     if (nome !== membro?.nomeUsuario) {
       dadosAtualizados.nome = nome;
@@ -126,7 +131,12 @@ export default function FormsEditarMembro({ onClose, membro }) {
     }
 
     if (Object.keys(dadosAtualizados).length === 0) {
-      alert("Nenhuma alteração foi feita.");
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Nenhuma alteração foi feita.",
+        tipo: "aviso",
+      });
+      setLoading(false);
       return;
     }
 
@@ -135,17 +145,32 @@ export default function FormsEditarMembro({ onClose, membro }) {
         idUsuario: membro.idUsuario,
         ...dadosAtualizados,
       });
-
-      alert("Usuário atualizado com sucesso!");
-      onClose();
-    } catch (error) {
-      console.error("Erro ao editar usuário:", error);
-      alert("Erro ao atualizar usuário. Tente novamente.");
+      
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Usuário atualizado com sucesso!",
+        tipo: "sucesso",
+      });
+      setTimeout(() => {onClose()}, 1500);
+    } catch {
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Erro ao atualizar o usuário.",
+        tipo: "erro",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.formsModal}>
+      {loading && <Loading />}
+
+      {alerta.mensagem && (
+        <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />
+      )}
+
       <div className={styles.modalBox}>
         <div className={styles.modalHeader}>
           <div>

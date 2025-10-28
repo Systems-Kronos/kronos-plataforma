@@ -9,6 +9,11 @@ export const tarefasPorGestor = async (tipoTarefa = "1", status = "4") => {
     return null;
   }
 
+  if (!ID_GESTOR) {
+    console.warn("Nenhum id do gestor encontrado.");
+    return [];
+  }
+
   try {
     const response = await apiSQL.get(
       `tarefa/selecionarFunctionGestor/${ID_GESTOR}`,
