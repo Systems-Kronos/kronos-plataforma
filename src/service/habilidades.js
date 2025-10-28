@@ -1,4 +1,4 @@
-import api from "./api";
+import { apiSQL } from "./api";
 
 export const habilidadesPorEmpresa = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -15,7 +15,7 @@ export const habilidadesPorEmpresa = async () => {
   }
 
   try {
-    const response = await api.get(
+    const response = await apiSQL.get(
       `habilidade/selecionar/empresa/${ID_EMPRESA}`,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );
@@ -36,7 +36,7 @@ export const adicionarHabilidadeUsuarios = async (idUsuario, idsHabilidade) => {
   }
 
   try {
-    const response = await api.post(
+    const response = await apiSQL.post(
       `habilidade-usuario/adicionar`,
       {
         idUsuario: idUsuario,
@@ -66,10 +66,10 @@ export const habilidadesPorUsuario = async (idUsuario) => {
   }
 
   try {
-    const response = await api.get(
+    const response = await apiSQL.get(
       `habilidade-usuario/selecionar/${idUsuario}`,
       {
-        headers: { Authorization: `Bearer ${TOKEN_AUTH}` }
+        headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
       }
     );
 

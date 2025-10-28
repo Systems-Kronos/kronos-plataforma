@@ -1,4 +1,4 @@
-import api from "./api";
+import { apiSQL } from "./api";
 
 export const setoresPorEmpresa = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -15,7 +15,7 @@ export const setoresPorEmpresa = async () => {
   }
 
   try {
-    const respSetores = await api.get(
+    const respSetores = await apiSQL.get(
       `setor/selecionar/empresa/${ID_EMPRESA}`,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );

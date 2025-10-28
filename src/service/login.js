@@ -1,8 +1,8 @@
-import api from "./api";
+import { apiSQL } from "./api";
 
 export const login = async (cpf, senha) => {
   try {
-    const response = await api.post(`usuario/loginPlataforma`, {
+    const response = await apiSQL.post(`usuario/loginPlataforma`, {
       cpf,
       senha,
     });
@@ -11,9 +11,9 @@ export const login = async (cpf, senha) => {
     localStorage.setItem("token", token);
     localStorage.setItem("usuarioId", usuarioId);
 
-    const respGestor = await api.get(`usuario/selecionarId/${usuarioId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const respGestor = await apiSQL.get(`usuario/selecionarId/${usuarioId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     const empresaId = respGestor.data.empresa?.id;
     if (empresaId) {

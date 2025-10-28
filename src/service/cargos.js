@@ -1,4 +1,4 @@
-import api from "./api";
+import { apiSQL } from "./api";
 
 export const listarCargos = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -9,7 +9,7 @@ export const listarCargos = async () => {
   }
 
   try {
-    const response = await api.get(`cargo/listar`, {
+    const response = await apiSQL.get(`cargo/listar`, {
       headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
     });
 
