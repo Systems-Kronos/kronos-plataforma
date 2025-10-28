@@ -1,8 +1,4 @@
-import api from "./api";
-
-const TOKEN_AUTH = localStorage.getItem("token");
-const ID_GESTOR = localStorage.getItem("usuarioId");
-const ID_EMPRESA = localStorage.getItem("empresaId");
+import { apiSQL } from "./api";
 
 export const usuariosPorGestor = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -13,11 +9,15 @@ export const usuariosPorGestor = async () => {
     return null;
   }
 
+  if (!ID_GESTOR) {
+    console.warn("Nenhum id do gestor encontrado.");
+    return [];
+  }
+
   try {
-    const response = await api.get(
-      `usuario/selecionarFunction/${ID_GESTOR}`,
-      { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
-    );
+    const response = await apiSQL.get(`usuario/selecionarFunction/${ID_GESTOR}`, {
+      headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
+    });
     const quantidadeMembros = response.data.length;
 
     return { membros: response.data, quantidadeMembros };
@@ -38,6 +38,8 @@ export const atualizarUsuario = async ({
   ativo,
 }) => {
   try {
+    const TOKEN_AUTH = localStorage.getItem("token");
+
     if (!TOKEN_AUTH) {
       console.warn("Sem token, não chamando a API.");
       return null;
@@ -52,11 +54,9 @@ export const atualizarUsuario = async ({
     if (setor) body.setor = { id: Number(setor) };
     if (cargo) body.cargo = { id: Number(cargo) };
 
-    const response = await api.put(
-      `usuario/atualizar/${idUsuario}`,
-      body,
-      { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
-    );
+    const response = await apiSQL.put(`usuario/atualizar/${idUsuario}`, body, {
+      headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
+    });
 
     window.location.reload();
     return response.data;
@@ -76,6 +76,10 @@ export const adicionarUsuario = async ({
   email,
 }) => {
   try {
+    const TOKEN_AUTH = localStorage.getItem("token");
+    const ID_GESTOR = localStorage.getItem("usuarioId");
+    const ID_EMPRESA = localStorage.getItem("empresaId");
+
     if (!TOKEN_AUTH) {
       console.warn("Sem token, não chamando a API.");
       return null;
@@ -91,7 +95,7 @@ export const adicionarUsuario = async ({
       return [];
     }
 
-    const response = await api.post(
+    const response = await apiSQL.post(
       `usuario/adicionar`,
       {
         id: 0,

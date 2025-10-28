@@ -89,7 +89,7 @@ export default function Membros() {
           titulo={"Membros"}
           icone={
             <GroupsIcon
-              Style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}
+              style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}
             />
           }
           numero={loading ? "--" : quantidade || "00"}

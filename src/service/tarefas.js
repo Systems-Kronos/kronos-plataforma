@@ -1,4 +1,4 @@
-import api from "./api";
+import { apiSQL } from "./api";
 
 export const tarefasPorGestor = async (tipoTarefa = "1", status = "4") => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -15,7 +15,7 @@ export const tarefasPorGestor = async (tipoTarefa = "1", status = "4") => {
   }
 
   try {
-    const response = await api.get(
+    const response = await apiSQL.get(
       `tarefa/selecionarFunctionGestor/${ID_GESTOR}`,
       {
         headers: { Authorization: `Bearer ${TOKEN_AUTH}` },
@@ -55,7 +55,7 @@ export const criarTarefa = async (
   }
 
   try {
-    const response = await api.post(
+    const response = await apiSQL.post(
       `tarefa/adicionar`,
       {
         nome: titulo,
