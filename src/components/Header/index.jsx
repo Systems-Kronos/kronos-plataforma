@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../Button";
 import FormsCriarTarefa from "../FormsCriarTarefa";
 import { useNavigate, useLocation } from "react-router-dom";
-import { avisosPorGestor } from "../../service/avisos";
+import { avisosDeHojePorGestor } from "../../service/avisos";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -14,19 +14,8 @@ export default function Header() {
   useEffect(() => {
     const carregarAvisos = async () => {
       try {
-        const avisos = await avisosPorGestor();
-
-        if (avisos && Array.isArray(avisos)) {
-          const diaAtual = new Date().toISOString().split("T")[0];
-
-          const avisosPendentesHoje = avisos.filter((a) => {
-            const dataAviso = a.dia ? a.dia.split("T")[0] : null;
-            const pendente = a.aceito === false || a.aceito === null;
-            return dataAviso === diaAtual && pendente;
-          });
-
-          setAvisosPendentes(avisosPendentesHoje.length > 0);
-        }
+        const avisos = await avisosDeHojePorGestor();
+        setAvisosPendentes(avisos && avisos.length > 0);
       } catch (error) {
         console.error("Erro ao carregar avisos:", error);
       }
