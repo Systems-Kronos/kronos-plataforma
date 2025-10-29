@@ -38,14 +38,14 @@ export default function Header() {
         />
         <div className={styles.avisosButton}>
           <Button
-            texto={"Membros"}
-            variant={location.pathname === "/membros-equipe" ? "amarelo" : "secundario"}
-            onClick={() => navigate("/membros-equipe")}
+            texto={"Equipe"}
+            variant={location.pathname === "/equipe" ? "amarelo" : "secundario"}
+            onClick={() => navigate("/equipe")}
           />
           {avisosPendentes && (
             <span
               className={
-                location.pathname === "/membros-equipe"
+                location.pathname === "/equipe"
                   ? styles.marcadorSelect
                   : styles.marcadorNoSelect
               }>!</span>
