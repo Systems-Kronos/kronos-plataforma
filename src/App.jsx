@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Noticias from "./pages/Noticias/Noticias";
 import Membros from "./pages/Membros/Membros";
+import Historico from "./pages/Historico/Historico";
 import Reports from "./pages/Reports/Reports";
 import Tarefas from "./pages/Tarefas/Tarefas";
 
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/noticias" element={<Noticias />} />
           <Route path="/membros-equipe" element={<Membros />} />
+          <Route path="/historico" element={<Historico />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/tarefas" element={<Tarefas />} />
         </Route>

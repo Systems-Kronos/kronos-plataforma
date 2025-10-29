@@ -1,13 +1,39 @@
 import styles from "./Header.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button";
 import FormsCriarTarefa from "../FormsCriarTarefa";
 import { useNavigate, useLocation } from "react-router-dom";
+import { avisosPorGestor } from "../../service/avisos";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showPopup, setShowPopup] = useState(false);
+  const [avisosPendentes, setAvisosPendentes] = useState(false);
+
+  useEffect(() => {
+    const carregarAvisos = async () => {
+      try {
+        const avisos = await avisosPorGestor();
+
+        if (avisos && Array.isArray(avisos)) {
+          const diaAtual = new Date().toISOString().split("T")[0];
+
+          const avisosPendentesHoje = avisos.filter((a) => {
+            const dataAviso = a.dia ? a.dia.split("T")[0] : null;
+            const pendente = a.aceito === false || a.aceito === null;
+            return dataAviso === diaAtual && pendente;
+          });
+
+          setAvisosPendentes(avisosPendentesHoje.length > 0);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar avisos:", error);
+      }
+    };
+
+    carregarAvisos();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -21,13 +47,22 @@ export default function Header() {
           variant={location.pathname === "/noticias" ? "amarelo" : "secundario"}
           onClick={() => navigate("/noticias")}
         />
-        <Button
-          texto={"Membros"}
-          variant={
-            location.pathname === "/membros-equipe" ? "amarelo" : "secundario"
-          }
-          onClick={() => navigate("/membros-equipe")}
-        />
+        <div className={styles.avisosButton}>
+          <Button
+            texto={"Membros"}
+            variant={location.pathname === "/membros-equipe" ? "amarelo" : "secundario"}
+            onClick={() => navigate("/membros-equipe")}
+          />
+          {avisosPendentes && (
+            <span
+              className={
+                location.pathname === "/membros-equipe"
+                  ? styles.marcadorSelect
+                  : styles.marcadorNoSelect
+              }>!</span>
+          )}
+        </div>
+
         <Button
           texto={"Reports"}
           variant={location.pathname === "/reports" ? "amarelo" : "secundario"}
