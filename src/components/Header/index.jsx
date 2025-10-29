@@ -42,7 +42,7 @@ export default function Header() {
             variant={location.pathname === "/equipe" ? "amarelo" : "secundario"}
             onClick={() => navigate("/equipe")}
           />
-          {avisosPendentes && (
+          {avisosPendentes > 0 && (
             <span
               className={
                 location.pathname === "/equipe"

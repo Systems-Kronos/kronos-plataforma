@@ -1,13 +1,7 @@
 import { apiNoSQL } from "./api";
 
 export const avisosPorGestor = async () => {
-  const TOKEN_AUTH = localStorage.getItem("token");
   const ID_GESTOR = localStorage.getItem("usuarioId");
-
-  if (!TOKEN_AUTH) {
-    console.warn("Sem token, não chamando a API.");
-    return null;
-  }
 
   if (!ID_GESTOR) {
     console.warn("Nenhum id do gestor encontrado.");
@@ -16,8 +10,7 @@ export const avisosPorGestor = async () => {
 
   try {
     const response = await apiNoSQL.get(
-      `calendario/selecionarObservacoesGestor/${ID_GESTOR}`,
-      { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
+      `calendario/selecionarObservacoesGestor/${ID_GESTOR}`
     );
 
     return response.data;
@@ -47,3 +40,16 @@ export const avisosDeHojePorGestor = async () => {
   }
 };
 
+export const atualizarStatusAviso = async (id) => {
+  try {
+    const response = await apiNoSQL.put(
+      `calendario/atualizarStatus/${id}`,
+      { "aceito": true }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualiza status de aviso:", error);
+    throw error;
+  }
+};

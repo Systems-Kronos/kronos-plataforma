@@ -21,7 +21,7 @@ export default function CardUsuarios({
   statusUsuario,
   tarefasConcluidas,
   possuiCargoGestoria,
-  justificativaHoje,
+  avisoHoje,
 }) {
   const [habilidades, setHabilidades] = useState([]);
   const [openEdicao, setOpenEdicao] = useState(false);
@@ -70,7 +70,7 @@ export default function CardUsuarios({
             <p>{cargoUsuario}</p>
           </div>
         </div>
-        {justificativaHoje && (
+        {avisoHoje.length > 0 && (
           <ErrorIcon
             style={{ color: "#E6B648", cursor: "pointer" }}
             onClick={() => setOpenJustificativa(true)}
@@ -167,7 +167,14 @@ export default function CardUsuarios({
       )}
       {openJustificativa && (
         <div className={styles.popupOverlay}>
-          <CardJustificativa onClose={() => setOpenJustificativa(false)} />
+          <CardJustificativa
+            id={avisoHoje[0].id}
+            presenca={avisoHoje[0].presenca}
+            observacao={avisoHoje[0].observacao}
+            data={avisoHoje[0].dia}
+            atestado={avisoHoje[0].atestado}
+            onClose={() => setOpenJustificativa(false)}
+          />
         </div>
       )}
     </div>
