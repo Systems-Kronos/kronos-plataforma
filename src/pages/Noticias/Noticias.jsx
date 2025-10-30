@@ -16,7 +16,7 @@ export default function Noticias() {
       try {
         const response = await noticiasRpa();
         setNoticias(response || []);
-      } catch (error) {
+      } catch {
         setErro("Erro ao carregar notícias.");
       } finally {
         setLoading(false);
