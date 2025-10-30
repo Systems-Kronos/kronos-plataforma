@@ -33,3 +33,10 @@
   flex-wrap: wrap;
   gap: 4vw;
 }
+
+@media (max-width: 1024px) {
+  .usersContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4vw;
+  }
+}

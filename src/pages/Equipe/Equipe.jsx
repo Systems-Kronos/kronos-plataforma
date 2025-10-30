@@ -1,4 +1,4 @@
-import styles from "./Membros.module.css";
+import styles from "./Equipe.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "../../components/Button";
@@ -14,7 +14,7 @@ import { usuariosPorGestor } from "../../service/usuarios";
 import { tarefasPorGestor } from "../../service/tarefas";
 import { avisosDeHojePorGestor } from "../../service/avisos";
 
-export default function Membros() {
+export default function Equipe() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [membros, setMembros] = useState([]);
