@@ -29,9 +29,3 @@
   flex: 1;
   font-size: 1rem;
 }
-
-@media (max-width: 1024px) {
-  .buscaInput {
-    font-size: 0.8rem;
-  }
-}
