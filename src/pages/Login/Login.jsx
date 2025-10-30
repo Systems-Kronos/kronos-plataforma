@@ -7,6 +7,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Loading from "../../components/Loading";
 import Alert from "../../components/Alert";
+import { validarCPF } from "../../utils/validacaoRegex";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -32,6 +33,25 @@ export default function Login() {
   const handleSubmit = async (evento) => {
     evento.preventDefault();
     setAlerta({ mensagem: "", tipo: "" });
+
+    if (!validarCPF(cpf)) {
+      setAlerta({
+        id: Date.now(),
+        mensagem: "CPF inválido. Verifique e tente novamente.",
+        tipo: "erro",
+      });
+      return;
+    }
+
+    if (!senha.trim()) {
+      setAlerta({
+        id: Date.now(),
+        mensagem: "A senha não pode estar vazia.",
+        tipo: "erro",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -47,7 +67,7 @@ export default function Login() {
       setAlerta({
         id: Date.now(),
         mensagem: error.message,
-        tipo: "erro"
+        tipo: "erro",
       });
     } finally {
       setLoading(false);

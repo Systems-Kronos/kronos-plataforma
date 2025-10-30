@@ -5,14 +5,12 @@ import Button from "../Button";
 import { listarCargos } from "../../service/cargos";
 import { setoresPorEmpresa } from "../../service/setores";
 import { adicionarUsuario } from "../../service/usuarios";
-import {
-  habilidadesPorEmpresa,
-  adicionarHabilidadeUsuarios,
-} from "../../service/habilidades";
+import { habilidadesPorEmpresa, adicionarHabilidadeUsuarios } from "../../service/habilidades";
 import MuiMultiSelect from "../Selects/multipleSelect";
 import MuiSingleSelect from "../Selects/singleSelect";
 import Loading from "../../components/Loading";
 import Alert from "../../components/Alert";
+import { validarEmail, validarTelefone, validarCPF } from "../../utils/validacaoRegex";
 
 const OPCOES_GESTAO = [
   { value: "false", label: "Não" },
@@ -24,10 +22,10 @@ export default function FormsAdicionarMembro({ onClose }) {
   const [loading, setLoading] = useState(false);
   const [alerta, setAlerta] = useState({ mensagem: "", tipo: "" });
   const [opcoesSetores, setOpcoesSetores] = useState([]);
-  const [loadingSetores, setLoadingSetores] = useState(true);
   const [opcoesCargos, setOpcoesCargos] = useState([]);
-  const [loadingCargos, setLoadingCargos] = useState(true);
   const [opcoesHabilidades, setOpcoesHabilidades] = useState([]);
+  const [loadingSetores, setLoadingSetores] = useState(true);
+  const [loadingCargos, setLoadingCargos] = useState(true);
   const [loadingHabilidades, setLoadingHabilidades] = useState(true);
   const [formData, setFormData] = useState({
     nomeCompleto: "",
@@ -40,28 +38,13 @@ export default function FormsAdicionarMembro({ onClose }) {
     habilidades: [],
   });
 
-  const handleChangeSelect = (event) => {
-    const {
-      target: { value, name },
-    } = event;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   useEffect(() => {
     const carregarSetores = async () => {
       try {
         const setores = await setoresPorEmpresa();
-        const mappedSetores = (setores || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesSetores(mappedSetores || []);
-      } catch (error) {
-        console.error("Erro ao carregar setores:", error);
+        setOpcoesSetores(
+          setores.map((h) => ({ value: h.id, label: h.nome })) || []
+        );
       } finally {
         setLoadingSetores(false);
       }
@@ -70,13 +53,9 @@ export default function FormsAdicionarMembro({ onClose }) {
     const carregarCargos = async () => {
       try {
         const cargos = await listarCargos();
-        const mappedCargos = (cargos || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesCargos(mappedCargos || []);
-      } catch (error) {
-        console.error("Erro ao carregar cargos:", error);
+        setOpcoesCargos(
+          cargos.map((h) => ({ value: h.id, label: h.nome })) || []
+        );
       } finally {
         setLoadingCargos(false);
       }
@@ -85,13 +64,9 @@ export default function FormsAdicionarMembro({ onClose }) {
     const carregarHabilidades = async () => {
       try {
         const habilidades = await habilidadesPorEmpresa();
-        const mappedHabilidades = (habilidades || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesHabilidades(mappedHabilidades || []);
-      } catch (error) {
-        console.error("Erro ao carregar habilidades:", error);
+        setOpcoesHabilidades(
+          habilidades.map((h) => ({ value: h.id, label: h.nome })) || []
+        );
       } finally {
         setLoadingHabilidades(false);
       }
@@ -103,47 +78,39 @@ export default function FormsAdicionarMembro({ onClose }) {
   }, []);
 
   const maskCpf = (value) => {
-    value = value.replace(/\D/g, "");
-    value = value.slice(0, 11);
-
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
-    value = value.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
-    return value;
+    return value
+      .replace(/\D/g, "")
+      .slice(0, 11)
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
   };
 
   const maskTelefone = (value) => {
-    value = value.replace(/\D/g, "");
-
-    if (value.startsWith("55")) {
-      value = value.slice(2);
-    }
-
-    value = value.slice(0, 11);
-    if (value.length <= 2) {
-      value = `(${value}`;
-    } else if (value.length <= 6) {
-      value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-    } else {
-      value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
-    }
-    return value;
+    value = value.replace(/\D/g, "").slice(0, 11);
+    if (value.length <= 2) return `(${value}`;
+    if (value.length <= 6) return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     let formattedValue = value;
 
-    if (name === "cpf") {
-      formattedValue = maskCpf(value);
-    } else if (name === "telefone") {
-      formattedValue = maskTelefone(value);
-    } else if (name === "habilidades") {
-      const options = Array.from(e.target.selectedOptions);
-      formattedValue = options.map((option) => option.value);
-    }
+    if (name === "cpf") formattedValue = maskCpf(value);
+    if (name === "telefone") formattedValue = maskTelefone(value);
 
     setFormData({ ...formData, [name]: formattedValue });
+  };
+
+  const handleChangeSelect = (event) => {
+    const {
+      target: { value, name },
+    } = event;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleNext = () => setStep(2);
@@ -152,30 +119,58 @@ export default function FormsAdicionarMembro({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAlerta({ mensagem: "", tipo: "" });
-    setLoading(true);
 
     if (
-      !formData.nomeCompleto ||
-      !formData.email ||
-      !formData.cpf ||
+      !formData.nomeCompleto.trim() ||
+      !formData.email.trim() ||
+      !formData.cpf.trim() ||
+      !formData.telefone.trim() ||
       !formData.setor ||
       !formData.cargo ||
       formData.habilidades.length === 0
     ) {
       setAlerta({
         id: Date.now(),
-        mensagem: "Por favor, preencha todos os campos obrigatórios.",
+        mensagem: "Preencha todos os campos obrigatórios.",
         tipo: "aviso",
       });
-      setLoading(false);
       return;
     }
 
+    if (!validarCPF(formData.cpf)) {
+      setAlerta({
+        id: Date.now(),
+        mensagem: "CPF inválido. Verifique e tente novamente.",
+        tipo: "erro",
+      });
+      return;
+    }
+
+    if (!validarEmail(formData.email)) {
+      setAlerta({
+        id: Date.now(),
+        mensagem: "E-mail inválido.",
+        tipo: "erro",
+      });
+      return;
+    }
+
+    if (!validarTelefone(formData.telefone)) {
+      setAlerta({
+        id: Date.now(),
+        mensagem: "Telefone inválido.",
+        tipo: "erro",
+      });
+      return;
+    }
+
+    setLoading(true);
+
     const payload = {
       nome: formData.nomeCompleto,
-      email: formData.email,
-      telefone: formData.telefone,
-      cpf: formData.cpf,
+      email: formData.email.trim(),
+      telefone: formData.telefone.trim(),
+      cpf: formData.cpf.trim(),
       booleanGestor: formData.gestao === "true",
       setorId: Number(formData.setor),
       cargoId: Number(formData.cargo),
@@ -196,13 +191,14 @@ export default function FormsAdicionarMembro({ onClose }) {
         mensagem: "Usuário adicionado com sucesso!",
         tipo: "sucesso",
       });
-      setTimeout(() => {onClose()}, 1500);
-    } catch {
+      setTimeout(() => onClose(), 1500);
+    } catch (error) {
       setAlerta({
         id: Date.now(),
         mensagem: "Erro ao adicionar usuário. Tente novamente.",
         tipo: "erro",
       });
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -249,14 +245,14 @@ export default function FormsAdicionarMembro({ onClose }) {
                   id="cpf"
                   name="cpf"
                   className={styles.inputText}
-                  placeholder="Digite apenas números"
+                  placeholder="000.000.000-00"
                   value={formData.cpf}
                   onChange={handleChange}
                 />
 
                 <label htmlFor="email">E-mail</label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   name="email"
                   className={styles.inputText}
@@ -271,8 +267,8 @@ export default function FormsAdicionarMembro({ onClose }) {
                   id="telefone"
                   name="telefone"
                   className={styles.inputText}
-                  placeholder="Digite o telefone pessoal"
-                  value={"+55 " + formData.telefone}
+                  placeholder="(00) 00000-0000"
+                  value={formData.telefone}
                   onChange={handleChange}
                 />
               </>
