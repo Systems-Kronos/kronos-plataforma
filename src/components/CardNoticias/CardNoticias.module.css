@@ -1,0 +1,66 @@
+.cardNoticias {
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+  padding: 1rem 0;
+}
+
+.cardNoticias:hover {
+  background-color: #fafafa;
+}
+
+.link {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  width: 90%;
+  gap: 1.5rem;
+}
+
+.imagemPrincipal {
+  width: 30%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.conteudo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.titulo {
+  font-size: 1.4rem;
+  color: #370963;
+}
+
+.subtitulo {
+  color: #343434;
+}
+
+.footer {
+  margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.autor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.imagemAutor {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
