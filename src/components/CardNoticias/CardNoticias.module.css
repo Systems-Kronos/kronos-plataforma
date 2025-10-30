@@ -65,7 +65,6 @@
   object-fit: cover;
 }
 
-/* Responsividade */
 @media (max-width: 1024px) {
   .link {
     flex-direction: column;

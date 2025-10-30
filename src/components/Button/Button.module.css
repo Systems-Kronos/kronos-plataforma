@@ -1,4 +1,4 @@
-.btn {
+.button {
   padding: 0.5rem 1rem;
   margin: 0 10px;
   border-radius: 10px;
@@ -7,58 +7,60 @@
   transition: 0.3s;
 }
 
-.btn.clicavel {
+.button.clicavel {
   cursor: pointer;
 }
 
-.btn.nao-clicavel {
+.button.nao-clicavel {
   cursor: default;
 }
 
-/* Button primário */
-.btn.primario {
+.button.primario {
   background-color: #370963;
   color: white;
   border: 3px solid #370963;
 }
 
-.btn.primario.clicavel:active { 
+.button.primario.clicavel:active { 
   filter: brightness(0.5);
   scale: 0.98;
 }
 
-/* Button secundário */
-.btn.secundario {
+.button.secundario {
   background-color: white;
   color: #370963;
   border: 3px solid #c2c2c2;
 }
 
-.btn.secundario.clicavel:active {
+.button.secundario.clicavel:active {
   filter: brightness(0.5);
   scale: 0.98;
 }
 
-/* Button lilás */
-.btn.lilas {
+.button.lilas {
   background-color: #eadaf5;
   color: #370963;
   border: 3px solid #eadaf5;
 }
 
-.btn.lilas.clicavel:active {
+.button.lilas.clicavel:active {
   filter: brightness(0.5);
   scale: 0.98;
 }
 
-/* Button amarelo */
-.btn.amarelo {
+.button.amarelo {
   background-color: #e6b648;
   color: white;
   border: 3px solid #e6b648;
 }
 
-.btn.amarelo.clicavel:active {
+.button.amarelo.clicavel:active {
   filter: brightness(0.5);
   scale: 0.98;
+}
+
+@media (max-width: 1024px) {
+  .button {
+    transform: scale(0.85);
+  }
 }
