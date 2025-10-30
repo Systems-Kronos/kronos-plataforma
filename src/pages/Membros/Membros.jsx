@@ -92,18 +92,11 @@ export default function Membros() {
   return (
     <div className={styles.boxContainer}>
       <div className={styles.headerContainer}>
-        <div className={styles.titulo}>
-          <ArrowBackIosIcon
-            style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
-            onClick={() => navigate("/home")}
-          />
-          <h1>Gerenciar Equipes</h1>
-        </div>
-        <Button
-          texto={"Histórico de Justificativas"}
-          variant={"lilas"}
-          onClick={() => navigate("/historico")}
+        <ArrowBackIosIcon
+          style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
+          onClick={() => navigate("/home")}
         />
+        <h1>Gerenciar Equipes</h1>
       </div>
 
       <div className={styles.cardsContainer}>
@@ -147,8 +140,12 @@ export default function Membros() {
         ) : membros && membros.length > 0 ? (
           membros
             .sort((a, b) => {
-              const aTemAviso = avisos.some((aviso) => aviso.usuario === a.id) ? 1 : 0;
-              const bTemAviso = avisos.some((aviso) => aviso.usuario === b.id) ? 1 : 0;
+              const aTemAviso = avisos.some((aviso) => aviso.usuario === a.id)
+                ? 1
+                : 0;
+              const bTemAviso = avisos.some((aviso) => aviso.usuario === b.id)
+                ? 1
+                : 0;
 
               if (aTemAviso > bTemAviso) return -1;
               if (aTemAviso < bTemAviso) return 1;
