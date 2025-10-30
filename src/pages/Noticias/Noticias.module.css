@@ -8,3 +8,11 @@
   gap: 1vw;
   color: #370963;
 }
+
+.noticiasContainer {
+  margin-top: 2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

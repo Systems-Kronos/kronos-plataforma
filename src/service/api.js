@@ -8,6 +8,10 @@ export const apiNoSQL = axios.create({
   baseURL: 'https://spring-api-nosql.onrender.com/api/',
 });
 
+export const rpaNoticias = axios.create({
+  baseURL: 'https://kronos-rpa.onrender.com/',
+});
+
 const handleAuthError = (error) => {
   const status = error.response ? error.response.status : null;
 
@@ -26,3 +30,4 @@ const handleAuthError = (error) => {
 
 apiSQL.interceptors.response.use((response) => response, handleAuthError);
 apiNoSQL.interceptors.response.use((response) => response, handleAuthError);
+rpaNoticias.interceptors.response.use((response) => response, handleAuthError);
