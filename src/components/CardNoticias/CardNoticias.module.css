@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   transition: 0.3s ease;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
 .cardNoticias:hover {
@@ -46,9 +46,9 @@
 
 .footer {
   margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .autor {
@@ -63,4 +63,15 @@
   height: 30px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .link {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+
+  .imagemPrincipal {
+    width: 100%;
+  }
 }

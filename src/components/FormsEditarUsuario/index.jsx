@@ -1,13 +1,14 @@
 import styles from "./FormsEditarUsuario.module.css";
+import { useState, useEffect } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
-import { useState, useEffect } from "react";
 import { setoresPorEmpresa } from "../../service/setores";
 import { listarCargos } from "../../service/cargos";
 import { atualizarUsuario } from "../../service/usuarios";
 import MuiSingleSelect from "../Selects/singleSelect";
 import Loading from "../../components/Loading";
 import Alert from "../../components/Alert";
+import { validarEmail, validarTelefone } from "../../utils/validacaoRegex";
 
 const OPCOES_GESTAO = [
   { value: "false", label: "Não" },
@@ -16,60 +17,28 @@ const OPCOES_GESTAO = [
 
 export default function FormsEditarMembro({ onClose, membro }) {
   const [step, setStep] = useState(1);
-  const [nome, setNome] = useState(membro?.nomeUsuario);
-  const [email, setEmail] = useState(membro?.emailUsuario);
-  const [telefone, setTelefone] = useState(membro?.telefoneUsuario);
-  const [setor, setSetor] = useState(membro?.idSetor);
-  const [cargo, setCargo] = useState(membro?.idCargo);
-  const [gestao, setGestao] = useState(
-    membro?.possuiCargoGestoria ? "true" : "false"
-  );
-  const [ativo, setAtivo] = useState(membro?.statusUsuario);
+  const [loading, setLoading] = useState(false);
+  const [alerta, setAlerta] = useState({ mensagem: "", tipo: "" });
   const [opcoesSetores, setOpcoesSetores] = useState([]);
   const [opcoesCargos, setOpcoesCargos] = useState([]);
   const [loadingSetores, setLoadingSetores] = useState(true);
   const [loadingCargos, setLoadingCargos] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [alerta, setAlerta] = useState({ mensagem: "", tipo: "" });
 
-  const handleChangeSelect = (event) => {
-    const {
-      target: { value, name },
-    } = event;
-
-    if (name === "setor") setSetor(value);
-    if (name === "cargo") setCargo(value);
-    if (name === "gestao") setGestao(value);
-  };
-
-  const handleTelefoneChange = (evento) => {
-    let value = evento.target.value.replace(/\D/g, "");
-
-    if (value.startsWith("55")) {
-      value = value.slice(2);
-    }
-
-    value = value.slice(0, 11);
-    if (value.length <= 2) {
-      value = `(${value}`;
-    } else if (value.length <= 6) {
-      value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-    } else {
-      value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
-    }
-
-    setTelefone(value);
-  };
+  const [formData, setFormData] = useState({
+    nomeCompleto: membro?.nomeUsuario || "",
+    email: membro?.emailUsuario || "",
+    telefone: membro?.telefoneUsuario || "",
+    setor: membro?.idSetor || "",
+    cargo: membro?.idCargo || "",
+    gestao: membro?.possuiCargoGestoria ? "true" : "false",
+    ativo: membro?.statusUsuario || false,
+  });
 
   useEffect(() => {
     const carregarSetores = async () => {
       try {
         const setores = await setoresPorEmpresa();
-        const mappedSetores = (setores || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesSetores(mappedSetores || []);
+        setOpcoesSetores((setores || []).map((h) => ({ value: h.id, label: h.nome })));
       } catch (error) {
         console.error("Erro ao carregar setores:", error);
       } finally {
@@ -80,11 +49,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
     const carregarCargos = async () => {
       try {
         const cargos = await listarCargos();
-        const mappedCargos = (cargos || []).map((h) => ({
-          value: h.id,
-          label: h.nome,
-        }));
-        setOpcoesCargos(mappedCargos || []);
+        setOpcoesCargos((cargos || []).map((h) => ({ value: h.id, label: h.nome })));
       } catch (error) {
         console.error("Erro ao carregar cargos:", error);
       } finally {
@@ -96,68 +61,63 @@ export default function FormsEditarMembro({ onClose, membro }) {
     carregarCargos();
   }, []);
 
+  const maskTelefone = (value) => {
+    value = value.replace(/\D/g, "").slice(0, 11);
+    if (value.length <= 2) return `(${value}`;
+    if (value.length <= 6) return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let formattedValue = value;
+    if (name === "telefone") formattedValue = maskTelefone(value);
+    setFormData({ ...formData, [name]: formattedValue });
+  };
+
+  const handleChangeSelect = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleNext = () => setStep(2);
+  const handleBack = () => setStep(1);
+
   const handleEditar = async () => {
-    const dadosAtualizados = {};
     setAlerta({ mensagem: "", tipo: "" });
-    setLoading(true);
 
-    if (nome !== membro?.nomeUsuario) {
-      dadosAtualizados.nome = nome;
+    if (!validarEmail(formData.email)) {
+      setAlerta({ mensagem: "E-mail inválido", tipo: "erro" });
+      return;
     }
-
-    if (email !== membro?.emailUsuario) {
-      dadosAtualizados.email = email;
-    }
-
-    if (telefone !== membro?.telefoneUsuario) {
-      dadosAtualizados.telefone = telefone;
-    }
-
-    if (setor !== membro?.idSetor) {
-      dadosAtualizados.setor = setor;
-    }
-
-    if (cargo !== membro?.idCargo) {
-      dadosAtualizados.cargo = cargo;
-    }
-
-    const gestaoBoolean = gestao === "true";
-    if (gestaoBoolean !== membro?.possuiCargoGestoria) {
-      dadosAtualizados.booleanGestor = gestaoBoolean;
-    }
-
-    if (ativo !== membro?.statusUsuario) {
-      dadosAtualizados.ativo = ativo;
-    }
-
-    if (Object.keys(dadosAtualizados).length === 0) {
-      setAlerta({
-        id: Date.now(),
-        mensagem: "Nenhuma alteração foi feita.",
-        tipo: "aviso",
-      });
-      setLoading(false);
+    if (!validarTelefone(formData.telefone)) {
+      setAlerta({ mensagem: "Telefone inválido", tipo: "erro" });
       return;
     }
 
+    const dadosAtualizados = {};
+    if (formData.nomeCompleto !== membro?.nomeUsuario) dadosAtualizados.nome = formData.nomeCompleto;
+    if (formData.email !== membro?.emailUsuario) dadosAtualizados.email = formData.email;
+    if (formData.telefone !== membro?.telefoneUsuario) dadosAtualizados.telefone = formData.telefone;
+    if (formData.setor !== membro?.idSetor) dadosAtualizados.setor = formData.setor;
+    if (formData.cargo !== membro?.idCargo) dadosAtualizados.cargo = formData.cargo;
+    if ((formData.gestao === "true") !== membro?.possuiCargoGestoria)
+      dadosAtualizados.booleanGestor = formData.gestao === "true";
+    if (formData.ativo !== membro?.statusUsuario) dadosAtualizados.ativo = formData.ativo;
+
+    if (Object.keys(dadosAtualizados).length === 0) {
+      setAlerta({ mensagem: "Nenhuma alteração foi feita.", tipo: "aviso" });
+      return;
+    }
+
+    setLoading(true);
     try {
-      await atualizarUsuario({
-        idUsuario: membro.idUsuario,
-        ...dadosAtualizados,
-      });
-      
-      setAlerta({
-        id: Date.now(),
-        mensagem: "Usuário atualizado com sucesso!",
-        tipo: "sucesso",
-      });
-      setTimeout(() => {onClose()}, 1500);
-    } catch {
-      setAlerta({
-        id: Date.now(),
-        mensagem: "Erro ao atualizar o usuário.",
-        tipo: "erro",
-      });
+      await atualizarUsuario({ idUsuario: membro.idUsuario, ...dadosAtualizados });
+      setAlerta({ mensagem: "Usuário atualizado com sucesso!", tipo: "sucesso" });
+      setTimeout(() => onClose(), 1500);
+    } catch (error) {
+      console.error(error);
+      setAlerta({ mensagem: "Erro ao atualizar usuário.", tipo: "erro" });
     } finally {
       setLoading(false);
     }
@@ -166,10 +126,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
   return (
     <div className={styles.formsModal}>
       {loading && <Loading />}
-
-      {alerta.mensagem && (
-        <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />
-      )}
+      {alerta.mensagem && <Alert key={alerta.id} mensagem={alerta.mensagem} tipo={alerta.tipo} />}
 
       <div className={styles.modalBox}>
         <div className={styles.modalHeader}>
@@ -177,10 +134,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
             <h2>Editar membro</h2>
             <p>Atualize as informações do cadastro.</p>
           </div>
-          <CancelIcon
-            style={{ color: "#370963", cursor: "pointer" }}
-            onClick={onClose}
-          />
+          <CancelIcon style={{ color: "#370963", cursor: "pointer" }} onClick={onClose} />
         </div>
 
         <div className={styles.modalBody}>
@@ -194,19 +148,19 @@ export default function FormsEditarMembro({ onClose, membro }) {
                   name="nomeCompleto"
                   className={styles.inputText}
                   placeholder="Digite o nome completo"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
+                  value={formData.nomeCompleto}
+                  onChange={handleChange}
                 />
 
                 <label htmlFor="email">E-mail</label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   name="email"
                   className={styles.inputText}
                   placeholder="Digite o e-mail empresarial"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
 
                 <label htmlFor="telefone">Telefone</label>
@@ -215,9 +169,9 @@ export default function FormsEditarMembro({ onClose, membro }) {
                   id="telefone"
                   name="telefone"
                   className={styles.inputText}
-                  placeholder="+55 (xx) xxxxx-xxxx"
-                  value={`+55 ${telefone}`}
-                  onChange={handleTelefoneChange}
+                  placeholder="(00) 00000-0000"
+                  value={formData.telefone}
+                  onChange={handleChange}
                 />
               </>
             )}
@@ -230,7 +184,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
                     <MuiSingleSelect
                       id="setor"
                       name="setor"
-                      value={setor}
+                      value={formData.setor}
                       onChange={handleChangeSelect}
                       options={opcoesSetores}
                       loading={loadingSetores}
@@ -242,7 +196,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
                     <MuiSingleSelect
                       id="gestao"
                       name="gestao"
-                      value={gestao}
+                      value={formData.gestao}
                       onChange={handleChangeSelect}
                       options={OPCOES_GESTAO}
                     />
@@ -254,7 +208,7 @@ export default function FormsEditarMembro({ onClose, membro }) {
                   <MuiSingleSelect
                     id="cargo"
                     name="cargo"
-                    value={cargo}
+                    value={formData.cargo}
                     onChange={handleChangeSelect}
                     options={opcoesCargos}
                     loading={loadingCargos}
@@ -265,17 +219,15 @@ export default function FormsEditarMembro({ onClose, membro }) {
                   <label>Status</label>
                   <button
                     type="button"
-                    className={`${styles.button} ${
-                      ativo ? styles.Ativo : styles.Desligado
-                    }`}
+                    className={`${styles.button} ${formData.ativo ? styles.Ativo : styles.Desligado}`}
                     style={{
-                      backgroundColor: ativo ? "#EADAF5" : "#fff",
-                      border: ativo ? "3px solid #EADAF5" : "3px solid #c2c2c2",
+                      backgroundColor: formData.ativo ? "#EADAF5" : "#fff",
+                      border: formData.ativo ? "3px solid #EADAF5" : "3px solid #c2c2c2",
                       color: "#370963",
                     }}
-                    onClick={() => setAtivo(!ativo)}
+                    onClick={() => setFormData({ ...formData, ativo: !formData.ativo })}
                   >
-                    {ativo ? "Ativo" : "Desligado"}
+                    {formData.ativo ? "Ativo" : "Desligado"}
                   </button>
                 </div>
               </>
@@ -287,24 +239,12 @@ export default function FormsEditarMembro({ onClose, membro }) {
           {step === 1 ? (
             <>
               <Button texto="Cancelar" variant="secundario" onClick={onClose} />
-              <Button
-                texto="Próximo"
-                variant="primario"
-                onClick={() => setStep(2)}
-              />
+              <Button texto="Próximo" variant="primario" onClick={handleNext} />
             </>
           ) : (
             <>
-              <Button
-                texto="Voltar"
-                variant="secundario"
-                onClick={() => setStep(1)}
-              />
-              <Button
-                texto="Editar"
-                variant="primario"
-                onClick={handleEditar}
-              />
+              <Button texto="Voltar" variant="secundario" onClick={handleBack} />
+              <Button texto="Editar" variant="primario" onClick={handleEditar} />
             </>
           )}
         </div>

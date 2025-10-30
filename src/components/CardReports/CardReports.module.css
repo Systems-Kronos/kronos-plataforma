@@ -1,5 +1,5 @@
 .cardReports {
-  padding: 1%;
+  padding: 1rem;
   width: 65vw;
   border: 3px solid #ccc;
   border-radius: 8px;
@@ -27,13 +27,18 @@
 .descricao {
   text-align: left;
   width: 100%;
-  margin: 2% 0 3%;
+  margin: 1rem;
+}
+
+.buttons {
+  display: flex;
 }
 
 .cardFooter {
   display: flex;
   align-items: center;
   width: 100%;
+  margin-top: 0.5rem;
   gap: 4%;
 }
 
@@ -57,9 +62,44 @@
 .tarefa {
   display: flex;
   align-items: center;
+  font-weight: 600;
   gap: 0.5vw;
 }
 
 .tarefa svg {
   color: #370963;
+}
+
+@media (max-width: 1024px) {
+  .cardReports {
+    width: 80vw;
+    margin-bottom: 2rem;
+  }
+
+  .cardHeader {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .headerTitulo {
+    align-self: flex-start;
+  }
+
+  .buttons {
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  .headerTitulo {
+    font-size: 0.7rem;
+  }
+
+  .responsavel {
+    font-size: 0.9rem;
+  }
+
+  .tarefa {
+    font-size: 0.7rem;
+  }
 }

@@ -32,3 +32,9 @@
   opacity: 0.8;
   transition: all 0.3s;
 }
+
+@media (max-width: 1024px) {
+  .cardsContainer {
+    margin-top: 4vw;
+  }
+}

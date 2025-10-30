@@ -4,15 +4,9 @@
 
 .headerContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1vw;
   color: #370963;
-}
-
-.titulo {
-  display: flex;
-  align-items: center;
 }
 
 .cardsContainer {
@@ -38,4 +32,19 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 4vw;
+}
+
+@media (max-width: 1024px) {
+  .cardsContainer {
+    margin-top: 4vw;
+  }
+
+  .buscaContainer {
+    margin: 6vw 0;
+  }
+
+  .usersContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4vw;
+  }
 }

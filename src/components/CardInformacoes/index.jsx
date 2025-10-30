@@ -1,6 +1,6 @@
 import styles from "./CardInformacoes.module.css";
 
-export default function CardInformacoes({ titulo, icone, numero, descricao }) {
+export default function CardInformacoes({ titulo, icone, numero }) {
   return (
     <div className={styles.cardInformacoes}>
       <div className={styles.headerCardInformacoes}>
@@ -10,7 +10,6 @@ export default function CardInformacoes({ titulo, icone, numero, descricao }) {
 
       <div className={styles.bodyCardInformacoes}>
         <h1>{numero}</h1>
-        <p>{descricao}</p>
       </div>
     </div>
   );
