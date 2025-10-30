@@ -93,26 +93,36 @@
   .tarefasContainer {
     display: flex;
     flex-direction: column;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 1rem;
-    padding-bottom: 1rem;
-  }
-
-  .tarefasContainer::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 4px;
-  }
-
-  .tarefasContainer>* {
-    flex: 0 0 300px;
+    gap: 2rem;
   }
 
   .tarefasPendentesBody,
   .tarefasAndamentoBody,
   .tarefasConcluidasBody {
-    padding: 2rem;
-    width: fit-content;
+    width: 86vw;
     flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .tarefasPendentesBody > *,
+  .tarefasAndamentoBody > *,
+  .tarefasConcluidasBody > * {
+    flex: 0 0 auto;
+  }
+
+  .tarefasPendentesBody::-webkit-scrollbar,
+  .tarefasAndamentoBody::-webkit-scrollbar,
+  .tarefasConcluidasBody::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .tarefasPendentesBody::-webkit-scrollbar-thumb,
+  .tarefasAndamentoBody::-webkit-scrollbar-thumb,
+  .tarefasConcluidasBody::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
   }
 }
