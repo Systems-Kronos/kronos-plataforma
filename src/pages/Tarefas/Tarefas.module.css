@@ -88,3 +88,31 @@
   align-items: center;
   gap: 2rem;
 }
+
+@media (max-width: 1024px) {
+  .tarefasContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .tarefasContainer::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+  .tarefasContainer>* {
+    flex: 0 0 300px;
+  }
+
+  .tarefasPendentesBody,
+  .tarefasAndamentoBody,
+  .tarefasConcluidasBody {
+    padding: 2rem;
+    width: fit-content;
+    flex-direction: row;
+  }
+}
