@@ -1,5 +1,6 @@
 .cardInformacoes {
-  padding: 1%;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
   width: 18vw;
   height: 20vh;
   border: 3px solid #ccc;
@@ -24,24 +25,26 @@
 }
 
 .icone {
-  width: 25px;
-  height: 25px;
+  width: 2rem;
+  height: 2rem;
+  margin-right: -0.5rem;
   border-radius: 50%;
 }
 
 .bodyCardInformacoes {
   display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
+  align-items: flex-end;
   width: 100%;
   height: 50%;
 }
 
 .bodyCardInformacoes h1 {
-  font-size: 300%;
+  font-size: 3.5rem;
 }
 
-.bodyCardInformacoes p {
-  color: gray;
-  margin-top: -0.4vw;
+@media (max-width: 1024px) {
+  .cardInformacoes {
+    width: 35vw;
+    height: 15vh;
+  }
 }
