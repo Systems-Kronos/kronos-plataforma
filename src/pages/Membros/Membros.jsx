@@ -2,7 +2,7 @@ import styles from "./Membros.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "../../components/Button";
-import Buscar from "../../components/Buscar";
+import Busca from "../../components/Busca";
 import FormsAdicionarMembro from "../../components/FormsAdicionarMembro";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardUsuarios from "../../components/CardUsuarios";
@@ -129,7 +129,7 @@ export default function Membros() {
       </div>
 
       <div className={styles.buscaContainer}>
-        <Buscar
+        <Busca
           placeholder="Buscar por nome ou e-mail"
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
