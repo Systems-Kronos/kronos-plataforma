@@ -13,9 +13,9 @@
   width: 50%;
   height: 100vh;
   background: linear-gradient(180deg,
-      rgba(55, 9, 99, 1) 17%,
-      rgba(104, 17, 186, 1) 69%,
-      rgba(112, 18, 201, 1) 100%);
+      #370963 17%,
+      #6811BA 69%,
+      #7012C9 100%);
   color: white;
   text-align: start;
 }
@@ -44,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   width: 50%;
-  background: #ececec;
+  background: #ECECEC;
   padding: 4rem 3rem;
   border-radius: 18px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -73,7 +73,7 @@
   padding: 0.8rem 1rem;
   margin-bottom: 2rem;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #CCCCCC;
   font-size: 1rem;
   transition: all 0.2s;
   cursor: pointer;
@@ -81,8 +81,8 @@
 
 .form input:focus {
   outline: none;
-  border-color: #6811ba;
-  box-shadow: 0 0 5px rgba(104, 17, 186, 0.5);
+  border-color: #6811BA;
+  box-shadow: 0 0 5px #6811BA80;
 }
 
 .passwordContainer {
@@ -100,7 +100,7 @@
   position: absolute;
   right: 1rem;
   transform: translateY(-50%);
-  color: #6811ba;
+  color: #6811BA;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -122,4 +122,41 @@
 
 .loginButton {
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .boxContainer {
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .boxContainerLeft {
+    width: 100%;
+    height: auto;
+    padding: 3rem 2rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .boxContainerLeft h1 {
+    font-size: 2.4em;
+    width: 100%;
+  }
+
+  .boxContainerLeft p {
+    font-size: 1.2em;
+    width: 90%;
+  }
+
+  .boxContainerRight {
+    width: 100%;
+    height: auto;
+    padding: 3rem 0;
+  }
+
+  .formContainer {
+    width: 70%;
+    padding: 3rem 2rem;
+  }
 }

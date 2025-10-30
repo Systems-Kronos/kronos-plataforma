@@ -88,3 +88,49 @@
   align-items: center;
   gap: 2rem;
 }
+
+@media (max-width: 1024px) {
+  .cardsContainer {
+    margin-top: 4vw;
+  }
+
+  .buscaContainer {
+    margin: 6vw 0;
+  }
+
+  .tarefasContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .tarefasPendentesBody,
+  .tarefasAndamentoBody,
+  .tarefasConcluidasBody {
+    width: 86vw;
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .tarefasPendentesBody>*,
+  .tarefasAndamentoBody>*,
+  .tarefasConcluidasBody>* {
+    flex: 0 0 auto;
+  }
+
+  .tarefasPendentesBody::-webkit-scrollbar,
+  .tarefasAndamentoBody::-webkit-scrollbar,
+  .tarefasConcluidasBody::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .tarefasPendentesBody::-webkit-scrollbar-thumb,
+  .tarefasAndamentoBody::-webkit-scrollbar-thumb,
+  .tarefasConcluidasBody::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+}

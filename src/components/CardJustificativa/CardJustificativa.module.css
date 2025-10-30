@@ -1,5 +1,5 @@
 .cardJustificativa {
-  padding: 1%;
+  padding: 1rem;
   width: 22vw;
   border: 3px solid #ccc;
   background-color: white;
@@ -68,4 +68,10 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .cardJustificativa {
+    width: 70vw;
+  }
 }

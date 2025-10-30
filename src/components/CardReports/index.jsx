@@ -45,7 +45,7 @@ export default function CardReports({
           <h2>{titulo}</h2>
         </div>
 
-        <div>
+        <div className={styles.buttons}>
           <Button
             texto={concluido ? "Concluído" : "Pendente"}
             variant={concluido ? "primario" : "secundario"}
@@ -78,7 +78,7 @@ export default function CardReports({
         </div>
         <div className={styles.tarefa}>
           <AssignmentIcon color="grey" />
-          <h4>{tituloTarefa}</h4>
+          <p>{tituloTarefa}</p>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import styles from "./Tarefas.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Buscar from "../../components/Buscar";
+import Busca from "../../components/Busca";
 import CardInformacoes from "../../components/CardInformacoes";
 import CardTarefas from "../../components/CardTarefas";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -82,7 +82,7 @@ export default function Tarefas() {
       </div>
 
       <div className={styles.buscaContainer}>
-        <Buscar
+        <Busca
           placeholder="Buscar por nome do responsável ou título"
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
