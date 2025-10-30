@@ -1,5 +1,4 @@
 .cardJustificativa {
-  margin: 10vw;
   padding: 1%;
   width: 22vw;
   border: 3px solid #ccc;
@@ -20,7 +19,7 @@
   color: #370963;
 }
 
-.descricao {
+.observacao {
   width: 95%;
   margin: 8% 0;
 }
@@ -34,6 +33,7 @@
 }
 
 .data {
+  width: fit-content;
   display: flex;
   align-items: center;
   gap: 0.5vw;
@@ -48,13 +48,10 @@
 }
 
 .anexo {
-  width: 100%;
+  width: fit-content;
   display: flex;
   align-items: center;
-}
-
-.anexo h4 {
-  margin: 0 2% 0 -0.5vw;
+  gap: 0.2vw;
 }
 
 .anexo a {
@@ -63,4 +60,12 @@
 
 .anexo svg {
   color: #e6b648;
+}
+
+.buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

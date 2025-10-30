@@ -1,4 +1,4 @@
-import api from "./api";
+import { apiSQL } from "./api";
 
 export const reportsPorGestor = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
@@ -9,8 +9,13 @@ export const reportsPorGestor = async () => {
     return null;
   }
 
+  if (!ID_GESTOR) {
+    console.warn("Nenhum id do gestor encontrado.");
+    return [];
+  }
+
   try {
-    const response = await api.get(
+    const response = await apiSQL.get(
       `report/selecionarFunction/${ID_GESTOR}`,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );
@@ -42,7 +47,7 @@ export const atualizarStatusReport = async (idReport, status) => {
   }
 
   try {
-    const response = await api.put(
+    const response = await apiSQL.put(
       `report/atualizarStatus/${idReport}`,
       { status },
       {

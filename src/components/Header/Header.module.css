@@ -28,3 +28,34 @@
   justify-content: center;
   margin-right: 2vw;
 }
+
+.avisosButton {
+  position: relative;
+  display: inline-block;
+}
+
+.marcadorNoSelect {
+  position: absolute;
+  top: -0.2rem;
+  right: 0.4rem;
+  background-color: #e6b648;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  min-width: 1rem;
+  text-align: center;
+}
+
+.marcadorSelect {
+  position: absolute;
+  top: -0.2rem;
+  right: 0.4rem;
+  background-color: #370963;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  min-width: 1rem;
+  text-align: center;
+}

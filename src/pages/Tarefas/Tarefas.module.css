@@ -25,10 +25,6 @@
   align-items: center;
 }
 
-.buscar {
-  width: 70%;
-}
-
 .tarefasContainer {
   margin-top: 4vw;
   display: flex;

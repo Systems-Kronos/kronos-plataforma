@@ -170,6 +170,7 @@ export default function Tarefas() {
                 })
                 .map((tarefaEmAndamento) => (
                   <CardTarefas
+                    key={tarefaEmAndamento.id}
                     titulo={tarefaEmAndamento.titulo}
                     descricao={tarefaEmAndamento.descricao}
                     atribuicao={
@@ -226,6 +227,7 @@ export default function Tarefas() {
                 })
                 .map((tarefaConcluida) => (
                   <CardTarefas
+                    key={tarefaConcluida.id}
                     titulo={tarefaConcluida.titulo}
                     descricao={tarefaConcluida.descricao}
                     atribuicao={

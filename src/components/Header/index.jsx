@@ -1,13 +1,28 @@
 import styles from "./Header.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button";
 import FormsCriarTarefa from "../FormsCriarTarefa";
 import { useNavigate, useLocation } from "react-router-dom";
+import { avisosDeHojePorGestor } from "../../service/avisos";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showPopup, setShowPopup] = useState(false);
+  const [avisosPendentes, setAvisosPendentes] = useState(false);
+
+  useEffect(() => {
+    const carregarAvisos = async () => {
+      try {
+        const avisos = await avisosDeHojePorGestor();
+        setAvisosPendentes(avisos && avisos.length > 0);
+      } catch (error) {
+        console.error("Erro ao carregar avisos:", error);
+      }
+    };
+
+    carregarAvisos();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -21,13 +36,22 @@ export default function Header() {
           variant={location.pathname === "/noticias" ? "amarelo" : "secundario"}
           onClick={() => navigate("/noticias")}
         />
-        <Button
-          texto={"Membros"}
-          variant={
-            location.pathname === "/membros-equipe" ? "amarelo" : "secundario"
-          }
-          onClick={() => navigate("/membros-equipe")}
-        />
+        <div className={styles.avisosButton}>
+          <Button
+            texto={"Equipe"}
+            variant={location.pathname === "/equipe" ? "amarelo" : "secundario"}
+            onClick={() => navigate("/equipe")}
+          />
+          {avisosPendentes > 0 && (
+            <span
+              className={
+                location.pathname === "/equipe"
+                  ? styles.marcadorSelect
+                  : styles.marcadorNoSelect
+              }>!</span>
+          )}
+        </div>
+
         <Button
           texto={"Reports"}
           variant={location.pathname === "/reports" ? "amarelo" : "secundario"}
