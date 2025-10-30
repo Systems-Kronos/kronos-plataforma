@@ -91,3 +91,13 @@
 .prioridade p {
   font-size: 0.8rem;
 }
+
+@media (max-width: 1024px) {
+  .cardTarefas {
+    width: 50vw;
+  }
+
+  .detalhes h4 {
+    font-size: 1rem;
+  }
+}
