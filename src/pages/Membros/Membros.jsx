@@ -12,6 +12,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import { usuariosPorGestor } from "../../service/usuarios";
 import { tarefasPorGestor } from "../../service/tarefas";
+import { avisosDeHojePorGestor } from "../../service/avisos";
 
 export default function Membros() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function Membros() {
   const [tarefasConcluidas, setTarefasConcluidas] = useState(0);
   const [tarefas, setTarefas] = useState([]);
   const [produtividade, setProdutividade] = useState(0);
+  const [avisos, setAvisos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const carregarMembros = async () => {
@@ -63,13 +65,26 @@ export default function Membros() {
     }
   };
 
+  const carregarAvisos = async () => {
+    try {
+      const avisos = await avisosDeHojePorGestor();
+      setAvisos(avisos || []);
+    } catch (error) {
+      console.error("Erro ao carregar avisos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     carregarMembros();
     carregarTarefas();
+    carregarAvisos();
   }, []);
 
   const handleClosePopupAndRefresh = async () => {
     setShowPopup(false);
+    await carregarAvisos();
     await carregarMembros();
     await carregarTarefas();
   };
@@ -77,11 +92,18 @@ export default function Membros() {
   return (
     <div className={styles.boxContainer}>
       <div className={styles.headerContainer}>
-        <ArrowBackIosIcon
-          style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
-          onClick={() => navigate("/home")}
+        <div className={styles.titulo}>
+          <ArrowBackIosIcon
+            style={{ color: "#E6B648", fontSize: 30, cursor: "pointer" }}
+            onClick={() => navigate("/home")}
+          />
+          <h1>Gerenciar Equipes</h1>
+        </div>
+        <Button
+          texto={"Histórico de Justificativas"}
+          variant={"lilas"}
+          onClick={() => navigate("/historico")}
         />
-        <h1>Gerenciar Equipes</h1>
       </div>
 
       <div className={styles.cardsContainer}>
@@ -106,7 +128,7 @@ export default function Membros() {
         />
       </div>
 
-      <div className={styles.buscaAdicionarContainer}>
+      <div className={styles.buscaContainer}>
         <Buscar
           placeholder="Buscar por nome ou e-mail"
           value={filtro}
@@ -124,7 +146,15 @@ export default function Membros() {
           <p>Carregando membros...</p>
         ) : membros && membros.length > 0 ? (
           membros
-            .sort((a, b) => a.nome.localeCompare(b.nome))
+            .sort((a, b) => {
+              const aTemAviso = avisos.some((aviso) => aviso.usuario === a.id) ? 1 : 0;
+              const bTemAviso = avisos.some((aviso) => aviso.usuario === b.id) ? 1 : 0;
+
+              if (aTemAviso > bTemAviso) return -1;
+              if (aTemAviso < bTemAviso) return 1;
+
+              return a.nome.localeCompare(b.nome);
+            })
             .filter((membro) => {
               const termo = filtro.toLowerCase();
               return (
@@ -136,6 +166,8 @@ export default function Membros() {
               const concluidasMembro = tarefas.filter(
                 (t) => t.idUsuario === membro.id && t.status === "Concluída"
               ).length;
+
+              const avisosHoje = avisos.filter((a) => a.usuario === membro.id);
 
               return (
                 <CardUsuarios
@@ -152,6 +184,7 @@ export default function Membros() {
                   statusUsuario={membro.ativo}
                   tarefasConcluidas={concluidasMembro}
                   possuiCargoGestoria={membro.booleanGestor}
+                  avisoHoje={avisosHoje}
                 />
               );
             })

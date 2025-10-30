@@ -51,7 +51,7 @@ const prioridades = [
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path d="M0 2L19 2" stroke="#FFC412" stroke-width="3" />
+        <path d="M0 2L19 2" stroke="#FFC412" strokeWidth="3" />
       </svg>
     ),
   },
