@@ -71,7 +71,6 @@ export default function FormsEditarMembro({ onClose, membro }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     let formattedValue = value;
-    if (name === "cpf") formattedValue = maskCpf(value);
     if (name === "telefone") formattedValue = maskTelefone(value);
     setFormData({ ...formData, [name]: formattedValue });
   };
