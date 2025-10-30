@@ -1,5 +1,5 @@
 .cardUsuarios {
-  padding: 1%;
+  padding: 1rem;
   width: 22vw;
   height: fit-content;
   border: 3px solid #ccc;
@@ -118,4 +118,10 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+@media (max-width: 1024px) {
+  .cardUsuarios {
+    width: 60vw;
+  }
 }
