@@ -32,3 +32,13 @@
   gap: 2vw;
   justify-content: center;
 }
+
+@media (max-width: 1024px) {
+  .cardsContainer {
+    margin-top: 4vw;
+  }
+
+  .buscaContainer {
+    margin: 6vw 0;
+  }
+}

@@ -90,6 +90,14 @@
 }
 
 @media (max-width: 1024px) {
+  .cardsContainer {
+    margin-top: 4vw;
+  }
+
+  .buscaContainer {
+    margin: 6vw 0;
+  }
+
   .tarefasContainer {
     display: flex;
     flex-direction: column;
@@ -107,9 +115,9 @@
     padding: 1rem;
   }
 
-  .tarefasPendentesBody > *,
-  .tarefasAndamentoBody > *,
-  .tarefasConcluidasBody > * {
+  .tarefasPendentesBody>*,
+  .tarefasAndamentoBody>*,
+  .tarefasConcluidasBody>* {
     flex: 0 0 auto;
   }
 
