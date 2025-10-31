@@ -121,3 +121,24 @@ export const adicionarUsuario = async ({
     throw error;
   }
 };
+
+export const deletarUsuario = async (idUsuario) => {
+  try {
+    const TOKEN_AUTH = localStorage.getItem("token");
+
+    if (!TOKEN_AUTH) {
+      console.warn("Sem token, não chamando a API.");
+      return null;
+    }
+
+    const response = await apiSQL.delete(
+      `usuario/deletar/${idUsuario}`,
+      { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao deletar usuário:", error);
+    throw error;
+  }
+};
