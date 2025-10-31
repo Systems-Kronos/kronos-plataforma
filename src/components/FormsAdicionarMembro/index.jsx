@@ -196,7 +196,6 @@ export default function FormsAdicionarMembro({ onClose }) {
       } catch {
         console.warn("Erro ao adicionar habilidades. Revertendo usuário...");
         await deletarUsuario(novoUsuario.id);
-        throw erroHabilidade;
       }
     } catch (error) {
       setAlerta({
