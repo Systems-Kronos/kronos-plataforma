@@ -4,7 +4,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
 import { listarCargos } from "../../service/cargos";
 import { setoresPorEmpresa } from "../../service/setores";
-import { adicionarUsuario } from "../../service/usuarios";
+import { adicionarUsuario, deletarUsuario } from "../../service/usuarios";
 import { habilidadesPorEmpresa, adicionarHabilidadeUsuarios } from "../../service/habilidades";
 import MuiMultiSelect from "../Selects/multipleSelect";
 import MuiSingleSelect from "../Selects/singleSelect";
@@ -179,19 +179,25 @@ export default function FormsAdicionarMembro({ onClose }) {
     try {
       const novoUsuario = await adicionarUsuario(payload);
 
-      if (formData.habilidades.length > 0 && novoUsuario.id) {
-        await adicionarHabilidadeUsuarios(
-          novoUsuario.id,
-          formData.habilidades.map((id) => Number(id))
-        );
-      }
+      try {
+        if (formData.habilidades.length > 0 && novoUsuario.id) {
+          await adicionarHabilidadeUsuarios(
+            novoUsuario.id,
+            formData.habilidades.map((id) => Number(id))
+          );
+        }
 
-      setAlerta({
-        id: Date.now(),
-        mensagem: "Usuário adicionado com sucesso!",
-        tipo: "sucesso",
-      });
-      setTimeout(() => onClose(), 1500);
+        setAlerta({
+          id: Date.now(),
+          mensagem: "Usuário adicionado com sucesso!",
+          tipo: "sucesso",
+        });
+        setTimeout(() => onClose(), 1500);
+      } catch (errorHabilidade) {
+        console.warn("Erro ao adicionar habilidades. Revertendo usuário...");
+        await deletarUsuario(novoUsuario.id);
+        throw erroHabilidade;
+      }
     } catch (error) {
       setAlerta({
         id: Date.now(),
