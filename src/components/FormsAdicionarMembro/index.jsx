@@ -193,7 +193,7 @@ export default function FormsAdicionarMembro({ onClose }) {
           tipo: "sucesso",
         });
         setTimeout(() => onClose(), 1500);
-      } catch (errorHabilidade) {
+      } catch {
         console.warn("Erro ao adicionar habilidades. Revertendo usuário...");
         await deletarUsuario(novoUsuario.id);
         throw erroHabilidade;
