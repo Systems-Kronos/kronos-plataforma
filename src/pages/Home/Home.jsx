@@ -7,7 +7,7 @@ export default function Home() {
       <h1>Dashboard do Gestor</h1>
 
       <iframe
-        src="https://app.powerbi.com/groups/me/reports/e2211bc2-9b2d-46d6-8900-601c1f4120c3/926e2c3cb6738de77a06?experience=power-bi"
+        src="https://app.powerbi.com/view?r=eyJrIjoiN2NjMzgxNjEtYTU4NC00NDBlLWE2YTctN2YzNzVlZjIwZjAxIiwidCI6ImIxNDhmMTRjLTIzOTctNDAyYy1hYjZhLTFiNDcxMTE3N2FjMCJ9"
         allowFullScreen
         loading="lazy"
         title="Relatório Power BI"
