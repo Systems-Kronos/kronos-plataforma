@@ -1,112 +1,24 @@
 import styles from "./Home.module.css";
-import { useState, useEffect } from "react";
-import CardInformacoes from "../../components/CardInformacoes";
-import ErrorIcon from "@mui/icons-material/Error";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import GroupsIcon from "@mui/icons-material/Groups";
-import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { usuariosPorGestor } from "../../service/usuarios";
-import { tarefasPorGestor } from "../../service/tarefas";
-import { reportsPorGestor } from "../../service/reports";
 
 export default function Home() {
-  const [quantidadeMembros, setQuantidadeMembros] = useState(0);
-  const [reportsPendentes, setReportsPendentes] = useState(0);
-  const [tarefasAtivas, setTarefasAtivas] = useState(0);
-  const [produtividade, setProdutividade] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const carregarMembros = async () => {
-      try {
-        const dados = await usuariosPorGestor();
-        if (dados) {
-          setQuantidadeMembros(dados.quantidadeMembros);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar membros", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const carregarReports = async () => {
-      try {
-        const dados = await reportsPorGestor();
-        if (dados) {
-          setReportsPendentes(dados.pendentes);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar reports", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    carregarMembros();
-    carregarReports();
-  }, []);
-
-  useEffect(() => {
-    const carregarTarefas = async () => {
-      try {
-        const dados = await tarefasPorGestor("1", "4");
-        if (dados) {
-          let tarefasTotais = dados.tarefas.length;
-          let tarefasConcluidas = dados.tarefas.filter(
-            (t) => t.status === "Concluída"
-          ).length;
-
-          setTarefasAtivas(
-            dados.tarefas.filter((t) => t.status === "Em Andamento").length
-          );
-          setProdutividade(
-            tarefasTotais > 0
-              ? Math.round((tarefasConcluidas / tarefasTotais) * 100)
-              : 0
-          );
-        }
-      } catch (error) {
-        console.error("Erro ao calcular produtividade", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    carregarTarefas();
-  }, []);
-
   return (
     <div className={styles.boxContainer}>
       <h1>Dashboard do Gestor</h1>
 
-      <div className={styles.cardsContainer}>
-        <CardInformacoes
-          titulo={"Membros"}
-          icone={
-            <GroupsIcon
-              style={{ color: "#E6B648", fontSize: 30, marginLeft: "-0.5vw" }}
-            />
-          }
-          numero={loading ? "--" : quantidadeMembros || "00"}
-        />
-        <CardInformacoes
-          titulo={"Tarefas Ativas"}
-          icone={<CheckCircleIcon style={{ color: "#E6B648" }} />}
-          numero={loading ? "--" : tarefasAtivas || "00"}
-        />
-        <CardInformacoes
-          titulo={"Reports Pendentes"}
-          icone={<ErrorIcon style={{ color: "#E6B648" }} />}
-          numero={loading ? "--" : reportsPendentes || "00"}
-        />
-        <CardInformacoes
-          titulo={"Produtividade"}
-          icone={<AutoGraphIcon style={{ color: "#E6B648" }} />}
-          numero={loading ? "--" : produtividade + "%" || "00%"}
-        />
-      </div>
+      <iframe
+        src="https://app.powerbi.com/groups/me/reports/e2211bc2-9b2d-46d6-8900-601c1f4120c3/926e2c3cb6738de77a06?experience=power-bi"
+        allowFullScreen
+        loading="lazy"
+        title="Relatório Power BI"
+        style={{
+          marginTop: "2vw",
+          width: "100%",
+          height: "65vh",
+          border: "none",
+          borderRadius: "inherit",
+        }}
+      ></iframe>
 
       <LogoutIcon
         className={styles.logout}
