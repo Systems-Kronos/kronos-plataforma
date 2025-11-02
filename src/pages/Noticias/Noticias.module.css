@@ -1,5 +1,5 @@
 .boxContainer {
-  margin: 4vw;
+  margin: 3vw;
 }
 
 .headerContainer {
@@ -15,4 +15,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .boxContainer {
+    margin-top: 5vw;
+  }
 }
