@@ -2,24 +2,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4vw;
+  margin: 3vw;
 }
 
 .boxContainer h1 {
   color: #370963;
 }
 
-.cardsContainer {
-  margin-top: 2vw;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2vw;
-  justify-content: center;
-}
-
 .logout {
   position: fixed;
-  bottom: 2rem;
+  bottom: 1rem;
   right: 2rem;
   font-size: 35px !important;
   color: red;
@@ -34,7 +26,15 @@
 }
 
 @media (max-width: 1024px) {
+  .boxContainer {
+    margin-top: 5vw;
+  }
+  
   .cardsContainer {
     margin-top: 4vw;
+  }
+
+  .logout {
+    bottom: 2rem;
   }
 }
