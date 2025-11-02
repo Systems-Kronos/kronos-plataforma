@@ -1,5 +1,5 @@
 .boxContainer {
-  margin: 4vw;
+  margin: 3vw;
 }
 
 .headerContainer {
@@ -90,6 +90,10 @@
 }
 
 @media (max-width: 1024px) {
+  .boxContainer {
+    margin-top: 5vw;
+  }
+
   .cardsContainer {
     margin-top: 4vw;
   }
