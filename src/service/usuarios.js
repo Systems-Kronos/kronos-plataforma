@@ -108,7 +108,7 @@ export const adicionarUsuario = async ({
         cpf: cpf,
         telefone: telefone,
         email: email,
-        senha: "senha123",
+        senha: "Senha@123",
         foto: null,
         ativo: true,
       },
