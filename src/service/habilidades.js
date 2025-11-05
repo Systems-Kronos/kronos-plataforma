@@ -1,22 +1,16 @@
 import { apiSQL } from "./api";
 
-export const habilidadesPorEmpresa = async () => {
+export const listarHabilidades = async () => {
   const TOKEN_AUTH = localStorage.getItem("token");
-  const ID_EMPRESA = localStorage.getItem("empresaId");
 
   if (!TOKEN_AUTH) {
     console.warn("Sem token, não chamando a API.");
     return null;
   }
 
-  if (!ID_EMPRESA) {
-    console.warn("Nenhuma empresa vinculada encontrada.");
-    return [];
-  }
-
   try {
     const response = await apiSQL.get(
-      `habilidade/selecionar/empresa/${ID_EMPRESA}`,
+      `habilidade/listar`,
       { headers: { Authorization: `Bearer ${TOKEN_AUTH}` } }
     );
 

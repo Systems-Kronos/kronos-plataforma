@@ -5,7 +5,7 @@ import Button from "../Button";
 import { listarCargos } from "../../service/cargos";
 import { setoresPorEmpresa } from "../../service/setores";
 import { adicionarUsuario, deletarUsuario } from "../../service/usuarios";
-import { habilidadesPorEmpresa, adicionarHabilidadeUsuarios } from "../../service/habilidades";
+import { listarHabilidades, adicionarHabilidadeUsuarios } from "../../service/habilidades";
 import MuiMultiSelect from "../Selects/multipleSelect";
 import MuiSingleSelect from "../Selects/singleSelect";
 import Loading from "../../components/Loading";
@@ -63,7 +63,7 @@ export default function FormsAdicionarMembro({ onClose }) {
 
     const carregarHabilidades = async () => {
       try {
-        const habilidades = await habilidadesPorEmpresa();
+        const habilidades = await listarHabilidades();
         setOpcoesHabilidades(
           habilidades.map((h) => ({ value: h.id, label: h.nome })) || []
         );
