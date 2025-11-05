@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./FormsCriarTarefa.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Button from "../Button";
-import { habilidadesPorEmpresa } from "../../service/habilidades";
+import { listarHabilidades } from "../../service/habilidades";
 import { usuariosPorGestor } from "../../service/usuarios";
 import { criarTarefa } from "../../service/tarefas";
 import MuiSingleSelect from "../Selects/singleSelect";
@@ -51,7 +51,7 @@ export default function FormsCriarTarefa({ onClose }) {
   useEffect(() => {
     const carregarHabilidades = async () => {
       try {
-        const habilidades = await habilidadesPorEmpresa();
+        const habilidades = await listarHabilidades();
         const mappedHabilidades = (habilidades || []).map((h) => ({
           value: h.id,
           label: h.nome,
